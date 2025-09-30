@@ -1,39 +1,88 @@
 using UnityEngine;
 
+// Orbit follow camera: RMB drag = rotate, wheel = zoom
 public class BallCameraFollow : MonoBehaviour
 {
-    public Transform target; // the ball we follow
+    public Transform target; // ball to follow
 
-    [Header("Offsets")]
-    public Vector3 offset = new Vector3(0f, 6f, -8f); // camera position offset
-    public Vector3 lookOffset = new Vector3(0f, 0.5f, 0f); // where camera looks
+    [Header("Start Offset")]
+    public Vector3 offset = new Vector3(0f, 6f, -8f); // initial camera offset
+
+    [Header("Orbit")]
+    public float yaw;   // horizontal angle (deg)
+    public float pitch = 20f; // vertical angle (deg)
+    public float minPitch = -10f; // clamp down
+    public float maxPitch = 75f;  // clamp up
+    public float xSensitivity = 3f; // mouse X speed
+    public float ySensitivity = 3f; // mouse Y speed
+    public float distance = 8f;     // camera distance
+    public float minDistance = 3f;  // min zoom
+    public float maxDistance = 15f; // max zoom
+    public float zoomSensitivity = 2f; // wheel speed
+
+    [Header("Look")]
+    public Vector3 lookOffset = new Vector3(0f, 0.5f, 0f); // look-at offset
 
     [Header("Smoothing")]
-    public float followLerp = 10f; // move speed
-    public float lookLerp = 12f; // rotate speed
+    public float followLerp = 10f; // move smoothing
+    public float lookLerp = 12f;   // turn smoothing
 
-    private Vector3 vel; // unused, but kept for smoothing options
+    [Header("Collision")]
+    public float collisionPadding = 0.3f; // keep camera off walls
 
-    private void LateUpdate()
+    void Start()
     {
-        if (target == null) return; // if no ball, do nothing
+        // derive orbit from starting offset
+        distance = offset.magnitude; // starting zoom
+        yaw = Mathf.Atan2(offset.x, -offset.z) * Mathf.Rad2Deg; // around Y
+        float horiz = new Vector2(offset.x, offset.z).magnitude; // flat length
+        pitch = Mathf.Atan2(offset.y, horiz) * Mathf.Rad2Deg; // up/down
+    }
 
-        Vector3 desiredPos = target.position + offset; // target camera position
+    void LateUpdate()
+    {
+        if (target == null) return; // no target
 
-        // check if wall blocks view
-        Vector3 dir = (desiredPos - target.position).normalized;
-        float dist = offset.magnitude;
-        if (Physics.Raycast(target.position, dir, out RaycastHit hit, dist))
+        // orbit input (hold right mouse)
+        if (Input.GetMouseButton(1))
         {
-            desiredPos = hit.point - dir * 0.3f; // move camera in front of wall
+            yaw += Input.GetAxis("Mouse X") * 100f * xSensitivity * Time.deltaTime;   // left/right
+            pitch -= Input.GetAxis("Mouse Y") * 100f * ySensitivity * Time.deltaTime; // up/down
+            pitch = Mathf.Clamp(pitch, minPitch, maxPitch); // clamp pitch
         }
 
-        // smoothly move camera
-        transform.position = Vector3.Lerp(transform.position, desiredPos, 1f - Mathf.Exp(-followLerp * Time.deltaTime));
+        // zoom input (wheel)
+        distance -= Input.mouseScrollDelta.y * zoomSensitivity;
+        distance = Mathf.Clamp(distance, minDistance, maxDistance); // clamp zoom
 
-        // smoothly rotate camera
-        Vector3 desiredLook = target.position + lookOffset;
-        Vector3 lookPos = Vector3.Lerp(transform.position + transform.forward, desiredLook, 1f - Mathf.Exp(-lookLerp * Time.deltaTime));
-        transform.rotation = Quaternion.LookRotation((lookPos - transform.position).normalized, Vector3.up);
+        // desired orbital offset
+        Vector3 orbitOffset = Quaternion.Euler(pitch, yaw, 0f) * new Vector3(0f, 0f, -distance);
+
+        // desired camera position
+        Vector3 desiredPos = target.position + orbitOffset;
+
+        // collision push-in
+        Vector3 dir = (desiredPos - target.position).normalized; // ray dir
+        float dist = orbitOffset.magnitude; // ray length
+        if (Physics.Raycast(target.position, dir, out RaycastHit hit, dist))
+        {
+            desiredPos = hit.point - dir * collisionPadding; // pull off wall
+        }
+
+        // smooth move
+        transform.position = Vector3.Lerp(
+            transform.position,
+            desiredPos,
+            1f - Mathf.Exp(-followLerp * Time.deltaTime)
+        );
+
+        // smooth look
+        Vector3 desiredLook = target.position + lookOffset; // look target
+        Vector3 lookPos = Vector3.Lerp(
+            transform.position + transform.forward,
+            desiredLook,
+            1f - Mathf.Exp(-lookLerp * Time.deltaTime)
+        );
+        transform.rotation = Quaternion.LookRotation((lookPos - transform.position).normalized, Vector3.up); // face ball
     }
 }
