@@ -1,37 +1,41 @@
 using UnityEngine;
 
-// Controls ball shooting and aiming
+// Slingshot: pull = power, mouse wheel = arc; 0° arc draws a flat ground line
 [RequireComponent(typeof(Rigidbody))]
 [RequireComponent(typeof(LineRenderer))]
 public class HamsterBallController : MonoBehaviour
 {
     [Header("Shot Gating")]
-    public float stopThreshold = 0.2f; // how slow ball must be to shoot
-    public float stopSettleTime = 0.2f; // how long ball must stay stopped
+    public float stopThreshold = 0.2f; // speed to count as stopped
+    public float stopSettleTime = 0.2f; // time under threshold
 
     [Header("Slingshot")]
     public float power = 12f; // shot strength
-    public float maxDragDistance = 4f; // max pull distance
-    public float maxUpAngleDegrees = 35f; // max aim up angle
-    public float fineAimScale = 0.4f; // slow aim when holding shift
+    public float maxDragDistance = 4f; // max pull
+    public float fineAimScale = 0.4f; // hold shift for fine aim
+
+    [Header("Loft (arc)")]
+    public float loftAngleDeg = 0f; // current arc angle
+    public float loftMin = 0f; // min arc
+    public float loftMax = 35f; // max arc
+    public float loftAdjustPerWheelStep = 3f; // wheel step in degrees
+    public float loftAdjustSpeed = 60f; // Q/E adjust speed
 
     [Header("Trajectory")]
-    public int trajectoryPoints = 25; // how many dots in arc
-    public float timeStep = 0.06f; // gap between dots
+    public int trajectoryPoints = 25; // number of points
+    public float timeStep = 0.06f; // arc timestep
+    public float flatPreviewMaxDistance = 8f; // max flat line length at 0°
 
-    [Header("Audio")]
+    [Header("Audio (optional)")]
     public AudioSource shootSfx; // sound on shoot
 
-    private Rigidbody rb; // ball physics
-    private LineRenderer lr; // draw aim line
-
-    private bool isDragging = false; // are we aiming
-    private Vector3 dragStartWorld; // where drag began
-    private Plane aimPlane; // flat plane for aiming
-
-    private float stoppedTimer = 0f; // time ball stayed still
-    private bool canShoot = false; // if we can shoot
-
+    private Rigidbody rb; // ball rigidbody
+    private LineRenderer lr; // line renderer
+    private bool isDragging = false; // dragging state
+    private Vector3 dragStartWorld; // drag start
+    private Plane aimPlane; // plane at ball height
+    private float stoppedTimer = 0f; // stopped timer
+    private bool canShoot = false; // shoot gate
     private Camera cam; // main camera
 
     private void Awake()
@@ -39,28 +43,22 @@ public class HamsterBallController : MonoBehaviour
         rb = GetComponent<Rigidbody>();
         lr = GetComponent<LineRenderer>();
         cam = Camera.main;
-
-        aimPlane = new Plane(Vector3.up, transform.position); // aim plane at ball height
+        aimPlane = new Plane(Vector3.up, transform.position); // plane at ball
         lr.positionCount = 0; // clear line
     }
 
     private void Update()
     {
-        UpdateStopGate(); // check if ball is still
-        HandleInput(); // check mouse
-
-        if (Input.GetKeyDown(KeyCode.R))
-        {
-            StopBall();       // Dev hotkey: instantly stop the ball (REMOVE LATER... or turn into power-up)
-
-        }
-
-        DrawTrajectoryPreview(); // show arc
+        UpdateStopGate(); // update canShoot
+        HandleLoftAdjust(); // wheel/Q/E adjusts loft
+        HandleInput(); // drag + release
+        DrawTrajectoryPreview(); // draw line
+        if (Input.GetKeyDown(KeyCode.R)) StopBall(); // dev freeze
     }
 
     private void UpdateStopGate()
     {
-        // if ball is slow enough, start timer
+        // ready when speeds are small for a moment
         if (rb.linearVelocity.magnitude <= stopThreshold && rb.angularVelocity.magnitude <= stopThreshold * 2f)
         {
             stoppedTimer += Time.deltaTime;
@@ -73,9 +71,18 @@ public class HamsterBallController : MonoBehaviour
         }
     }
 
+    private void HandleLoftAdjust()
+    {
+        float wheel = Input.mouseScrollDelta.y; // mouse wheel delta
+        if (Mathf.Abs(wheel) > 0f) loftAngleDeg += wheel * loftAdjustPerWheelStep; // wheel adjust
+        if (Input.GetKey(KeyCode.Q)) loftAngleDeg -= loftAdjustSpeed * Time.deltaTime; // Q down
+        if (Input.GetKey(KeyCode.E)) loftAngleDeg += loftAdjustSpeed * Time.deltaTime; // E up
+        loftAngleDeg = Mathf.Clamp(loftAngleDeg, loftMin, loftMax); // clamp
+    }
+
     private void HandleInput()
     {
-        // start drag
+        // begin drag
         if (Input.GetMouseButtonDown(0))
         {
             if (!canShoot) return;
@@ -89,107 +96,116 @@ public class HamsterBallController : MonoBehaviour
         // release drag
         if (Input.GetMouseButtonUp(0))
         {
-            if (isDragging)
-            {
-                isDragging = false;
-                if (!canShoot) { lr.positionCount = 0; return; }
+            if (!isDragging) return;
+            isDragging = false;
+            if (!canShoot) { lr.positionCount = 0; return; }
+            if (!TryGetMouseWorldOnAimPlane(out Vector3 aimWorld)) { lr.positionCount = 0; return; }
 
-                // find end drag point
-                Vector3 aimWorld;
-                if (!TryGetMouseWorldOnAimPlane(out aimWorld)) { lr.positionCount = 0; return; }
+            Vector3 dragVec = dragStartWorld - aimWorld; // pull vector
+            float sensitivity = (Input.GetKey(KeyCode.LeftShift) || Input.GetKey(KeyCode.RightShift)) ? fineAimScale : 1f; // fine aim
+            dragVec *= sensitivity; // apply sensitivity
+            if (dragVec.magnitude > maxDragDistance) dragVec = dragVec.normalized * maxDragDistance; // clamp pull
 
-                // drag vector
-                Vector3 dragVec = dragStartWorld - aimWorld;
-                float sensitivity = Input.GetKey(KeyCode.LeftShift) || Input.GetKey(KeyCode.RightShift) ? fineAimScale : 1f;
-                dragVec *= sensitivity;
+            Vector3 flatDir = new Vector3(dragVec.x, 0f, dragVec.z); // ground direction
+            Vector3 lofted = ApplyLoft(flatDir, loftAngleDeg); // tilt by loft
 
-                // clamp distance
-                if (dragVec.magnitude > maxDragDistance)
-                    dragVec = dragVec.normalized * maxDragDistance;
-
-                // clamp vertical aim
-                Vector3 flat = new Vector3(dragVec.x, 0f, dragVec.z);
-                float upRatio = Mathf.Clamp(Mathf.Tan(maxUpAngleDegrees * Mathf.Deg2Rad), 0f, 3f);
-                float maxY = flat.magnitude * upRatio;
-                dragVec.y = Mathf.Clamp(dragVec.y, -maxY, maxY);
-
-                // make impulse
-                Vector3 impulse = dragVec * power;
-
-                FireShot(impulse); // shoot
-
-                lr.positionCount = 0; // clear line
-            }
+            Vector3 impulse = lofted * power; // force to apply
+            FireShot(impulse); // shoot
+            lr.positionCount = 0; // clear
         }
     }
 
     private void DrawTrajectoryPreview()
     {
-        // no preview unless dragging
         if (!isDragging || !canShoot) { lr.positionCount = 0; return; }
-
         if (!TryGetMouseWorldOnAimPlane(out Vector3 aimWorld)) { lr.positionCount = 0; return; }
 
-        // same drag logic as before
-        Vector3 dragVec = dragStartWorld - aimWorld;
-        float sensitivity = Input.GetKey(KeyCode.LeftShift) || Input.GetKey(KeyCode.RightShift) ? fineAimScale : 1f;
-        dragVec *= sensitivity;
+        Vector3 dragVec = dragStartWorld - aimWorld; // pull vector
+        float sensitivity = (Input.GetKey(KeyCode.LeftShift) || Input.GetKey(KeyCode.RightShift)) ? fineAimScale : 1f; // fine aim
+        dragVec *= sensitivity; // scale
+        if (dragVec.magnitude > maxDragDistance) dragVec = dragVec.normalized * maxDragDistance; // clamp
 
-        if (dragVec.magnitude > maxDragDistance)
-            dragVec = dragVec.normalized * maxDragDistance;
+        Vector3 flatDir = new Vector3(dragVec.x, 0f, dragVec.z); // ground direction
+        float pullFrac = Mathf.Clamp01(dragVec.magnitude / maxDragDistance); // 0..1
 
-        Vector3 flat = new Vector3(dragVec.x, 0f, dragVec.z);
-        float upRatio = Mathf.Clamp(Mathf.Tan(maxUpAngleDegrees * Mathf.Deg2Rad), 0f, 3f);
-        float maxY = flat.magnitude * upRatio;
-        dragVec.y = Mathf.Clamp(dragVec.y, -maxY, maxY);
+        // branch: flat line when loft is 0°, arc otherwise
+        if (loftAngleDeg <= 0.0001f)
+        {
+            DrawFlatPreview(flatDir, pullFrac); // straight ground line
+        }
+        else
+        {
+            DrawArcPreview(flatDir, pullFrac); // ballistic arc
+        }
+    }
 
-        // predict arc
-        Vector3 startPos = transform.position;
-        Vector3 startVel = rb.linearVelocity;
-        Vector3 addedVel = dragVec * power / rb.mass;
-        Vector3 v0 = startVel + addedVel;
+    private void DrawFlatPreview(Vector3 flatDir, float pullFrac)
+    {
+        if (flatDir.sqrMagnitude < 1e-6f) { lr.positionCount = 0; return; } // no direction
+        Vector3 dir = flatDir.normalized; // unit ground dir
+        float dist = Mathf.Lerp(0.5f, flatPreviewMaxDistance, pullFrac); // line length
+        Vector3 startPos = transform.position; // start
+        lr.positionCount = trajectoryPoints; // points count
 
-        lr.positionCount = trajectoryPoints;
-
-        Vector3 g = Physics.gravity;
         for (int i = 0; i < trajectoryPoints; i++)
         {
-            float t = i * timeStep;
-            Vector3 p = startPos + v0 * t + 0.5f * g * t * t;
-            lr.SetPosition(i, p);
+            float t = (trajectoryPoints == 1) ? 1f : (i / (float)(trajectoryPoints - 1)); // 0..1
+            Vector3 p = startPos + dir * (dist * t); // straight line
+            p.y = startPos.y; // stay at ground height
+            lr.SetPosition(i, p); // set
+        }
+    }
+
+    private void DrawArcPreview(Vector3 flatDir, float pullFrac)
+    {
+        Vector3 lofted = ApplyLoft(flatDir, loftAngleDeg); // tilt up
+        Vector3 startPos = transform.position; // start
+        Vector3 startVel = rb.linearVelocity; // current vel
+        Vector3 addedVel = lofted * power / rb.mass; // launch vel
+        Vector3 v0 = startVel + addedVel; // total start vel
+
+        lr.positionCount = trajectoryPoints; // points count
+        Vector3 g = Physics.gravity; // gravity
+
+        for (int i = 0; i < trajectoryPoints; i++)
+        {
+            float t = i * timeStep; // time
+            Vector3 p = startPos + v0 * t + 0.5f * g * t * t; // s = ut + 1/2at^2
+            lr.SetPosition(i, p); // set
         }
     }
 
     private void FireShot(Vector3 impulse)
     {
-        rb.AddForce(impulse, ForceMode.Impulse); // push ball
-        canShoot = false;
-        stoppedTimer = 0f;
-        if (shootSfx != null) shootSfx.Play();
+        rb.AddForce(impulse, ForceMode.Impulse); // apply force
+        canShoot = false; // wait to stop
+        stoppedTimer = 0f; // reset timer
+        if (shootSfx != null) shootSfx.Play(); // sfx
     }
 
     private bool TryGetMouseWorldOnAimPlane(out Vector3 world)
     {
-        // aim plane at ball height
-        aimPlane = new Plane(Vector3.up, new Vector3(0f, transform.position.y, 0f));
+        aimPlane = new Plane(Vector3.up, new Vector3(0f, transform.position.y, 0f)); // refresh plane
+        Ray ray = cam.ScreenPointToRay(Input.mousePosition); // mouse ray
+        if (aimPlane.Raycast(ray, out float enter)) { world = ray.GetPoint(enter); return true; } // hit point
+        world = Vector3.zero; return false; // miss
+    }
 
-        Ray ray = cam.ScreenPointToRay(Input.mousePosition);
-        if (aimPlane.Raycast(ray, out float enter))
-        {
-            world = ray.GetPoint(enter); // mouse point in world
-            return true;
-        }
-
-        world = Vector3.zero;
-        return false;
+    private Vector3 ApplyLoft(Vector3 flatVec, float angleDeg)
+    {
+        if (flatVec.sqrMagnitude < 1e-6f) return flatVec; // no dir
+        Vector3 dir = flatVec.normalized; // unit dir
+        float mag = flatVec.magnitude; // keep strength
+        Vector3 right = Vector3.Cross(dir, Vector3.up); // tilt axis
+        Vector3 tiltedDir = (angleDeg <= 0.0001f) ? dir : Quaternion.AngleAxis(angleDeg, right) * dir; // tilt or not
+        return tiltedDir * mag; // result
     }
 
     private void StopBall()
     {
-        rb.linearVelocity = Vector3.zero; // stop movement
-        rb.angularVelocity = Vector3.zero; // stop spinning
-        stoppedTimer = stopSettleTime; // trick gate into thinking it's stopped
-        canShoot = true; // allow next shot right away
+        rb.linearVelocity = Vector3.zero; // stop move
+        rb.angularVelocity = Vector3.zero; // stop spin
+        stoppedTimer = stopSettleTime; // mark stopped
+        canShoot = true; // ready
     }
-
 }
