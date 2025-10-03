@@ -1,9 +1,11 @@
 using UnityEngine;
 
+using Unity.Netcode;//networking
+
 // Slingshot: pull = power, mouse wheel = arc; 0° arc draws a flat ground line
 [RequireComponent(typeof(Rigidbody))]
 [RequireComponent(typeof(LineRenderer))]
-public class HamsterBallController : MonoBehaviour
+public class HamsterBallController : NetworkBehaviour
 {
     [Header("Shot Gating")]
     public float stopThreshold = 0.2f; // speed to count as stopped
@@ -49,6 +51,8 @@ public class HamsterBallController : MonoBehaviour
 
     private void Update()
     {
+        if (!IsOwner) return; // only owner controls
+
         UpdateStopGate(); // update canShoot
         HandleLoftAdjust(); // wheel/Q/E adjusts loft
         HandleInput(); // drag + release
