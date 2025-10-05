@@ -19,11 +19,10 @@ public class DebugController : MonoBehaviour
     private static DebugCommand CommandInfo;
 
     public static DebugCommand StartHost;
-    public static DebugCommand StartClient;
+    public static DebugCommand<string> StartClient;
     public static DebugCommand Disconnect;
 
     public static DebugCommand ShowNetworkDebug;
-    public static DebugCommand StartRelay;
 
     public static DebugCommand ShowHelp;
 
@@ -34,6 +33,8 @@ public class DebugController : MonoBehaviour
     when creating a command that needs a type not a void return (i.e. int, float, string, bool)
     must use a try and catch to handle invalid input errors 
     */
+
+    //note need to make this into a unity package at some point -strip out project specific stuff first tho
 
     private void Awake()
     {
@@ -46,11 +47,11 @@ public class DebugController : MonoBehaviour
 
         StartHost = new DebugCommand("startHost", "host a session", "startHost", () =>
         {
-            NetworkManager.Singleton.StartHost();
+            Relay.instance.CreateRelay();
         });
-        StartClient = new DebugCommand("startClient", "connect to session", "startClient", () =>
+        StartClient = new DebugCommand<string>("startClient", "connect to session", "startClient <lobby code>", (joinCode) =>
         {
-            NetworkManager.Singleton.StartClient();
+            Relay.instance.JoinRelay(joinCode);
         });
         Disconnect = new DebugCommand("disconnect", "disconnect form session", "disconnect", () =>
         {
@@ -60,10 +61,6 @@ public class DebugController : MonoBehaviour
         ShowNetworkDebug = new DebugCommand("showNetworkDebug", "show network debug info", "showNetworkDebug", () =>
         {
             ShowNetworkStats.instance.ToggleNetworkStats();
-        });
-        StartRelay = new DebugCommand("startRelay", "start a relay server", "startRelay", () =>
-        {
-            Relay.instance.CreateRelay();
         });
 
         ShowHelp = new DebugCommand("showHelp", "show command list", "showHelp", () =>
@@ -79,7 +76,6 @@ public class DebugController : MonoBehaviour
             StartClient,
             Disconnect,
             ShowNetworkDebug,
-            StartRelay,
             ShowHelp
         };
     }
@@ -166,6 +162,7 @@ public class DebugController : MonoBehaviour
         {
             DebugCommandBase commandBase = commandList[i] as DebugCommandBase;//cast to base to access commandId
 
+            //command execution depends on type provided
             if (input.Contains(commandBase.commandId))//check if input contains command id
             {
                 if (commandList[i] as DebugCommand != null)//check if can cast to command
