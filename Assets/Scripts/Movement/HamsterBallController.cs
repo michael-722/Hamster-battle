@@ -40,6 +40,10 @@ public class HamsterBallController : NetworkBehaviour
     private bool canShoot = false; // shoot gate
     private Camera cam; // main camera
 
+    [Header("Powerup")]
+    private float basePower; // original power
+
+
     private void Awake()
     {
         rb = GetComponent<Rigidbody>();
@@ -47,6 +51,13 @@ public class HamsterBallController : NetworkBehaviour
         cam = Camera.main;
         aimPlane = new Plane(Vector3.up, transform.position); // plane at ball
         lr.positionCount = 0; // clear line
+        basePower = Mathf.Max(0.0001f, power); // capture inspector power
+
+    }
+
+    private void Start()
+    {
+        basePower = power; // remember original power
     }
 
     private void Update()
@@ -220,5 +231,12 @@ public class HamsterBallController : NetworkBehaviour
         rb.angularVelocity = Vector3.zero; // stop spin
         stoppedTimer = stopSettleTime; // mark stopped
         canShoot = true; // ready
+    }
+
+    public void ApplyExternalMultipliers(float speedMult, float sizeMult)
+    {
+        if (basePower <= 0.0001f) basePower = Mathf.Max(0.0001f, power); // safety
+        power = basePower * Mathf.Max(0.01f, speedMult); // never zero
+                                                         // size is handled by PowerupManager via transform.localScale
     }
 }
