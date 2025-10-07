@@ -51,13 +51,22 @@ public class HamsterBallController : NetworkBehaviour
 
     private void Update()
     {
-        if (!IsOwner) return; // only owner controls
+        if (GateToOwner()) return; // only gate when netcode is running
 
         UpdateStopGate(); // update canShoot
         HandleLoftAdjust(); // wheel/Q/E adjusts loft
         HandleInput(); // drag + release
         DrawTrajectoryPreview(); // draw line
         if (Input.GetKeyDown(KeyCode.R)) StopBall(); // dev freeze
+    }
+
+    // true only when Netcode is active and this isn't our owned ball
+    private bool GateToOwner()
+    {
+        var nm = NetworkManager.Singleton; // netcode ref
+        if (nm == null || !nm.IsListening) return false; // offline: don't gate
+        if (!IsSpawned) return false; // not spawned: don't gate
+        return !IsOwner; // online and not ours: gate
     }
 
     private void UpdateStopGate()

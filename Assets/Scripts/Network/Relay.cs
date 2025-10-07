@@ -6,9 +6,13 @@ using Unity.Services.Relay.Models;
 using Unity.Netcode;
 using Unity.Netcode.Transports.UTP;
 
+
+
 public class Relay : MonoBehaviour
 {
+
     public static Relay instance;
+    [SerializeField] private string offlineTag = "OfflinePlayer"; // tag for offline ball
 
     private void Awake()
     {
@@ -44,6 +48,9 @@ public class Relay : MonoBehaviour
     {
         try
         {
+            CleanupOfflinePlayers(); // destroy offline player
+
+
             Allocation allocation = await RelayService.Instance.CreateAllocationAsync(3);
 
             string joinCode = await RelayService.Instance.GetJoinCodeAsync(allocation.AllocationId);
@@ -69,6 +76,10 @@ public class Relay : MonoBehaviour
     {
         try
         {
+
+            CleanupOfflinePlayers(); // destroy offline player
+
+
             JoinAllocation allocation = await RelayService.Instance.JoinAllocationAsync(joinCode);
             Debug.Log($"joined relay with allocation id: {allocation.AllocationId}");
 
@@ -86,6 +97,16 @@ public class Relay : MonoBehaviour
         catch (System.Exception e)
         {
             Debug.LogError($"failed to join relay: {e.Message}");
+        }
+    }
+
+    
+    private void CleanupOfflinePlayers()
+    {
+        var offlinePlayers = GameObject.FindGameObjectsWithTag(offlineTag);
+        foreach (var obj in offlinePlayers)
+        {
+            Destroy(obj);
         }
     }
 }
