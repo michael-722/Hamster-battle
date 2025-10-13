@@ -44,6 +44,13 @@ public class HamsterBallController : NetworkBehaviour
     private float basePower; // original power
 
 
+    
+    private bool inputEnabled = true; // input gate
+
+    
+
+
+
     private void Awake()
     {
         rb = GetComponent<Rigidbody>();
@@ -65,10 +72,14 @@ public class HamsterBallController : NetworkBehaviour
         if (GateToOwner()) return; // only gate when netcode is running
 
         UpdateStopGate(); // update canShoot
-        HandleLoftAdjust(); // wheel/Q/E adjusts loft
-        HandleInput(); // drag + release
-        DrawTrajectoryPreview(); // draw line
-        if (Input.GetKeyDown(KeyCode.R)) StopBall(); // dev freeze
+
+        if (inputEnabled) // only when enabled
+        {
+            HandleLoftAdjust(); // wheel/Q/E adjusts loft
+            HandleInput(); // drag + release
+            DrawTrajectoryPreview(); // draw line
+            if (Input.GetKeyDown(KeyCode.R)) StopBall(); // dev freeze
+        }
     }
 
     // true only when Netcode is active and this isn't our owned ball
@@ -138,6 +149,13 @@ public class HamsterBallController : NetworkBehaviour
             lr.positionCount = 0; // clear
         }
     }
+
+    public void SetInputEnabled(bool enabled)
+    {
+        inputEnabled = enabled; // set gate
+        if (!enabled) lr.positionCount = 0; // hide line
+    }
+
 
     private void DrawTrajectoryPreview()
     {
@@ -225,7 +243,7 @@ public class HamsterBallController : NetworkBehaviour
         return tiltedDir * mag; // result
     }
 
-    private void StopBall()
+    public void StopBall()
     {
         rb.linearVelocity = Vector3.zero; // stop move
         rb.angularVelocity = Vector3.zero; // stop spin
