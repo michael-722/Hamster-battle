@@ -21,7 +21,8 @@ public class LeaderboardManagerTest : MonoBehaviour
         await UnityServices.InitializeAsync();
         await Task.Delay(1000);
         await TrySignIn();
-        await LeaderboardsService.Instance.AddPlayerScoreAsync(leaderboardID, 0);
+        //await LeaderboardsService.Instance.AddPlayerScoreAsync(leaderboardID, 0);
+        SubmitScore(75.345, "user");
     }
 
     private async Task TrySignIn()
@@ -64,11 +65,18 @@ public class LeaderboardManagerTest : MonoBehaviour
             { 
                 Transform entryTransform = Instantiate(entryPrefab, scrollviewContent);
                 entryTransform.GetChild(1).GetComponent<TMPro.TextMeshProUGUI>().text = e.Rank.ToString();
-                entryTransform.GetChild(2).GetComponent<TMPro.TextMeshProUGUI>().text = e.PlayerId;
+                entryTransform.GetChild(2).GetComponent<TMPro.TextMeshProUGUI>().text = e.PlayerName;
                 entryTransform.GetChild(3).GetComponent<TMPro.TextMeshProUGUI>().text = e.Score.ToString();
             }
 
             await Task.Delay(500);
         }
+    }
+
+    public async void SubmitScore(double time, string userName)
+    {
+        Debug.Log("submitting score: " + time + " for user: " + userName);
+        await AuthenticationService.Instance.UpdatePlayerNameAsync(userName);
+        await LeaderboardsService.Instance.AddPlayerScoreAsync(leaderboardID, time);
     }
 }
