@@ -1,10 +1,11 @@
-using UnityEngine;
-using Unity.Services.Core;
+using System;
+using System.Collections;
 using System.Threading.Tasks;
+using Unity.Services.Authentication;
+using Unity.Services.Core;
 using Unity.Services.Leaderboards;
 using Unity.Services.Leaderboards.Models;
-using System.Collections;
-using Unity.Services.Authentication;
+using UnityEngine;
 
 public class LeaderboardManagerTest : MonoBehaviour
 {
@@ -21,8 +22,8 @@ public class LeaderboardManagerTest : MonoBehaviour
         await UnityServices.InitializeAsync();
         await Task.Delay(1000);
         await TrySignIn();
-        //await LeaderboardsService.Instance.AddPlayerScoreAsync(leaderboardID, 0);
-        SubmitScore(75.345, "user");
+        //await LeaderboardsService.Instance.AddPlayerScoreAsync(leaderboardID, 105);
+        SubmitScore(75.53, "user");
     }
 
     private async Task TrySignIn()
@@ -36,7 +37,7 @@ public class LeaderboardManagerTest : MonoBehaviour
         }
         catch (AuthenticationException e)
         {
-            Debug.LogError("sign in failed:" + e);
+            Debug.Log("sign in failed:" + e);
         }
         finally
         {
@@ -66,7 +67,14 @@ public class LeaderboardManagerTest : MonoBehaviour
                 Transform entryTransform = Instantiate(entryPrefab, scrollviewContent);
                 entryTransform.GetChild(1).GetComponent<TMPro.TextMeshProUGUI>().text = e.Rank.ToString();
                 entryTransform.GetChild(2).GetComponent<TMPro.TextMeshProUGUI>().text = e.PlayerName;
-                entryTransform.GetChild(3).GetComponent<TMPro.TextMeshProUGUI>().text = e.Score.ToString();
+
+                TimeSpan timeConverted = TimeSpan.FromMilliseconds((int)(e.Score));
+                string formattedTime = timeConverted.ToString(@"mm\:ss\.ff");
+                entryTransform.GetChild(3).GetComponent<TMPro.TextMeshProUGUI>().text = formattedTime;
+
+                //Debug.Log("rank obj:" + entryTransform.GetChild(1).name);
+                //Debug.Log("name obj:" + entryTransform.GetChild(2).name);
+                //Debug.Log("score obj:" + entryTransform.GetChild(3).name);
             }
 
             await Task.Delay(500);
@@ -75,8 +83,9 @@ public class LeaderboardManagerTest : MonoBehaviour
 
     public async void SubmitScore(double time, string userName)
     {
-        Debug.Log("submitting score: " + time + " for user: " + userName);
+        int timeMS = (int)(time * 1000);
+        //Debug.Log("submitting time: " + time + " for user: " + userName);
         await AuthenticationService.Instance.UpdatePlayerNameAsync(userName);
-        await LeaderboardsService.Instance.AddPlayerScoreAsync(leaderboardID, time);
+        await LeaderboardsService.Instance.AddPlayerScoreAsync(leaderboardID, timeMS);
     }
 }
