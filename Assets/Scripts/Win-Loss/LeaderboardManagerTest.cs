@@ -119,5 +119,9 @@ public class LeaderboardManagerTest : MonoBehaviour
         //Debug.Log("submitting time: " + time + " for user: " + userName);
         await AuthenticationService.Instance.UpdatePlayerNameAsync(userName);
         await LeaderboardsService.Instance.AddPlayerScoreAsync(leaderboardID, timeMS, new AddPlayerScoreOptions());
+
+        AuthenticationService.Instance.SignOut();
+        AuthenticationService.Instance.ClearSessionToken();
+        await TrySignIn();
     }
 }
