@@ -18,6 +18,6 @@ MonoBehaviour:
   stacks: 0
   speedMult: 0
   sizeMult: 1
-  scope: 2
+  scope: 1
   centredOnPicker: 1
-  aoeRadius: 900000
+  aoeRadius: 40
