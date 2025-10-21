@@ -38,4 +38,11 @@ public class PlayerRace : NetworkBehaviour
 
         OnResultChanged?.Invoke(Result, Rank); // notify HUD
     }
+    [ClientRpc]
+    public void ApplyPowerUpByIdClientRpc(string powerupId, ClientRpcParams rpcParams = default)
+    {
+        var mgr = GetComponent<PowerupManager>();
+        if (mgr) mgr.GiveById(powerupId);
+    }
+
 }
