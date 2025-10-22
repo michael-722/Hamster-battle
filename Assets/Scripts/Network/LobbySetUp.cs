@@ -1,6 +1,7 @@
 using UnityEngine;
 using TMPro;
 using Unity.Netcode;
+using UnityEngine.UI;
 
 public class LobbySetUp : NetworkBehaviour
 {
@@ -10,6 +11,8 @@ public class LobbySetUp : NetworkBehaviour
 
     [SerializeField] private TMP_InputField lobbyCode;
     [SerializeField] private TMP_Text joinCode;
+
+    [SerializeField] private GameObject startGameBtn;
 
     private void Awake()
     {
@@ -35,6 +38,16 @@ public class LobbySetUp : NetworkBehaviour
     public void onStartGamePressed()
     { 
         canStartGame.Value = true;
+        onStartPressedRpc();
+    }
+
+
+    [Rpc(SendTo.NotServer)]
+    public void onStartPressedRpc()
+    {
+        startGameBtn.SetActive(true);
+        startGameBtn.GetComponent<Button>().onClick.Invoke();
+        startGameBtn.SetActive(false);
     }
 
     public void onJoinGamePressed()
