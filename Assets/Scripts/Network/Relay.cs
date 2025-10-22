@@ -14,6 +14,8 @@ public class Relay : MonoBehaviour
     public static Relay instance;
     [SerializeField] private string offlineTag = "OfflinePlayer"; // tag for offline ball
 
+    private string joinCode;
+
     private void Awake()
     {
         if (instance != null && instance != this)
@@ -36,7 +38,7 @@ public class Relay : MonoBehaviour
             {
                 //Debug.Log("signed in " + AuthenticationService.Instance.PlayerId);
             };
-            await AuthenticationService.Instance.SignInAnonymouslyAsync();
+            if (!AuthenticationService.Instance.IsSignedIn) await AuthenticationService.Instance.SignInAnonymouslyAsync();
         }
         catch (System.Exception e)
         {
@@ -44,7 +46,7 @@ public class Relay : MonoBehaviour
         }
     }
 
-    public async void CreateRelay()
+    public async void StartHost()
     {
         try
         {
@@ -53,8 +55,9 @@ public class Relay : MonoBehaviour
 
             Allocation allocation = await RelayService.Instance.CreateAllocationAsync(3);
 
-            string joinCode = await RelayService.Instance.GetJoinCodeAsync(allocation.AllocationId);
+            joinCode = await RelayService.Instance.GetJoinCodeAsync(allocation.AllocationId);
             Debug.Log($"join code: {joinCode}");
+            if (LobbySetUp.instance != null) LobbySetUp.instance.setJoinCode(joinCode);
 
             NetworkManager.Singleton.GetComponent<UnityTransport>().SetHostRelayData(
                 allocation.RelayServer.IpV4,
@@ -72,7 +75,7 @@ public class Relay : MonoBehaviour
         }
     }
 
-    public async void JoinRelay(string joinCode)
+    public async void JoinGame(string joinCode)
     {
         try
         {
@@ -100,7 +103,11 @@ public class Relay : MonoBehaviour
         }
     }
 
-    
+    public string GetJoinCode()
+    {
+        return joinCode;
+    }
+
     private void CleanupOfflinePlayers()
     {
         var offlinePlayers = GameObject.FindGameObjectsWithTag(offlineTag);

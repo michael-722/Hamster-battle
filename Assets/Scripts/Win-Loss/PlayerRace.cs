@@ -10,7 +10,7 @@ public class PlayerRace : NetworkBehaviour
 
     private HamsterBallController ctrl; // input/ball
 
-    private void Awake()
+    private void Awake()  
     {
         ctrl = GetComponent<HamsterBallController>();
     }
