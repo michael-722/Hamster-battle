@@ -47,11 +47,11 @@ public class DebugController : MonoBehaviour
 
         StartHost = new DebugCommand("startHost", "host a session", "startHost", () =>
         {
-            Relay.instance.CreateRelay();
+            Relay.instance.StartHost();
         });
         StartClient = new DebugCommand<string>("startClient", "connect to session", "startClient <lobby code>", (joinCode) =>
         {
-            Relay.instance.JoinRelay(joinCode);
+            Relay.instance.JoinGame(joinCode);
         });
         Disconnect = new DebugCommand("disconnect", "disconnect form session", "disconnect", () =>
         {
