@@ -36,18 +36,27 @@ public class LobbySetUp : NetworkBehaviour
     }
 
     public void onStartGamePressed()
-    { 
-        canStartGame.Value = true;
-        onStartPressedRpc();
+    {
+        if (IsServer)
+        {
+            syncedCountdown.instance.StartCountdown();
+            onStartPressedRpc();
+        }
     }
 
-
     [Rpc(SendTo.NotServer)]
-    public void onStartPressedRpc()
+    private void onStartPressedRpc()
     {
+        syncedCountdown.instance.StartCountdown();
+
         startGameBtn.SetActive(true);
         startGameBtn.GetComponent<Button>().onClick.Invoke();
         startGameBtn.SetActive(false);
+    }
+
+    public void OnSingleplayerPressed()
+    {
+        syncedCountdown.instance.StartCountdown();
     }
 
     public void onJoinGamePressed()
@@ -58,5 +67,11 @@ public class LobbySetUp : NetworkBehaviour
     public bool canStart() 
     {
         return canStartGame.Value;
+    }
+
+    [Rpc(SendTo.Server)]
+    public void allowStartRpc()
+    {
+        canStartGame.Value = true;
     }
 }

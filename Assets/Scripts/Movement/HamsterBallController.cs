@@ -64,7 +64,9 @@ public class HamsterBallController : NetworkBehaviour
 
     private void Update()
     {
-        if (!canMove) CheckGameStatus();//disable player until game starts
+        if (!canMove) 
+            if (!CheckGameStatus()) return;//disable player until game starts
+
         if (GateToOwner()) return; // only gate when netcode is running
 
         UpdateStopGate(); // update canShoot
@@ -78,14 +80,15 @@ public class HamsterBallController : NetworkBehaviour
         }
     }
     
-    private void CheckGameStatus()
+    private bool CheckGameStatus()
     {
         if (LobbySetUp.instance == null)
         {
             Debug.Log("no lobby set up instance");
-            return;
+            return canMove;
         }
         canMove = LobbySetUp.instance.canStart();
+        return canMove;
     }
 
     // true only when Netcode is active and this isn't our owned ball
