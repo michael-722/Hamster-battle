@@ -18,3 +18,5 @@ MonoBehaviour:
   stacks: 0
   speedMult: 1
   sizeMult: 2
+  scope: 0
+  aoeRadius: 0
