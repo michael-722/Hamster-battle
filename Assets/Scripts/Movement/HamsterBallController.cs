@@ -47,8 +47,6 @@ public class HamsterBallController : NetworkBehaviour
     private float basePower; // original power
 
     private bool canMove = false;
-    private bool spawnedOffset = false;
-    private Vector3 netSpawnPos = Vector3.zero;
 
     private bool inputEnabled = true;
 
@@ -67,14 +65,18 @@ public class HamsterBallController : NetworkBehaviour
         basePower = power; // remember original power
     }
 
-    private void SetPos()
+    public override void OnNetworkSpawn()
     {
-        spawnedOffset = true;
-        Debug.Log("pos set for: " + NetworkManager.LocalClientId);
-        netSpawnPos = new Vector3(transform.position.x + (int)NetworkManager.LocalClientId * 15.0f, 5.0f, 0.0f);
-        rb.isKinematic = true;
-        rb.detectCollisions = true;
-        gameObject.GetComponent<NetworkObject>().transform.position = netSpawnPos;  
+        base.OnNetworkSpawn();
+
+        if (IsOwner)
+        {
+            int id = (int)OwnerClientId;
+            float radius = 10f;
+            float angle = id * 90f;//90 appart - cahnge if more players added
+            Vector3 offset = new Vector3(Mathf.Cos(angle * Mathf.Deg2Rad), 0f, Mathf.Sin(angle * Mathf.Deg2Rad)) * radius;
+            transform.position = new Vector3(offset.x, 5f, offset.z);
+        }
     }
 
     private void Update()
@@ -111,7 +113,6 @@ public class HamsterBallController : NetworkBehaviour
     {
         var nm = NetworkManager.Singleton; // netcode ref
         if (nm == null || !nm.IsListening) return false; // offline: don't gate
-        if (!spawnedOffset) SetPos(); //offset for players spawning  
         if (!IsSpawned) return false; // not spawned: don't gate
         return !IsOwner; // online and not ours: gate
     }
