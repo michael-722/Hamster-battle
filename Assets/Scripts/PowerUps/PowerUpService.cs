@@ -42,6 +42,20 @@ public static class PowerupService
             };
             pr.ApplyPowerUpByIdClientRpc(def.id, to); // client resolves & applies
         }
+
+        if (def.pushBack > 0f)
+        {
+            // apply pushback effect immediately on server
+            foreach (var pr in Object.FindObjectsOfType<PlayerRace>())
+            {
+                if (!pr.IsSpawned) continue;
+                if (!IsTarget(def, picker, pr, center)) continue;
+                var rb = pr.GetComponent<Rigidbody>();
+                if (rb == null) continue;
+                Vector3 dir = (pr.transform.position - center).normalized; // away from center
+                rb.AddForce(dir * def.pushBack, ForceMode.Impulse);
+            }
+        }
     }
 
     // shared targeting rules (Self / OthersInRadius / AllInRadius)
