@@ -4,6 +4,35 @@ using UnityEngine;
 // Manages active powerups on a player
 public class PowerupManager : MonoBehaviour
 {
+    private static System.Collections.Generic.Dictionary<string, PowerupDef> _byId; 
+
+    // register a def at runtime 
+    public static void RegisterDef(PowerupDef def)
+    {
+        if (def == null || string.IsNullOrWhiteSpace(def.id)) return; // guard
+        _byId ??= new System.Collections.Generic.Dictionary<string, PowerupDef>();
+        _byId[def.id] = def; 
+    }
+
+    public static PowerupDef FindById(string id)
+    {
+        if (string.IsNullOrWhiteSpace(id)) return null; // guard
+
+        
+        if (_byId != null && _byId.TryGetValue(id, out var hit)) return hit; // fast path
+
+        // lazy-load from Resources/Powerups as a fallback
+        _byId ??= new System.Collections.Generic.Dictionary<string, PowerupDef>();
+        var all = Resources.LoadAll<PowerupDef>("Powerups"); // put assets under Resources/Powerups
+        foreach (var p in all)
+            if (p != null && !string.IsNullOrWhiteSpace(p.id))
+                _byId[p.id] = p;
+
+        return _byId.TryGetValue(id, out var def) ? def : null; // lookup
+    }
+
+    public void GiveById(string id) { var def = FindById(id); if (def != null) Give(def); } // uniform entry
+
     private class Active // runtime entry
     {
         public PowerupDef def;   // data
@@ -33,7 +62,7 @@ public class PowerupManager : MonoBehaviour
             _actives[i].timeLeft -= Time.deltaTime; // countdown
             if (_actives[i].timeLeft <= 0f) _actives.RemoveAt(i); // expire
         }
-        Reapply(); // rebuild totals each frame (cheap)
+        Reapply(); 
     }
 
     public void Give(PowerupDef def)
@@ -55,14 +84,15 @@ public class PowerupManager : MonoBehaviour
 
         foreach (var a in _actives) // combine as multiply
         {
-            _speedMult *= Mathf.Max(0.01f, a.def.speedMult); // safe
-            _sizeMult *= Mathf.Max(0.01f, a.def.sizeMult);  // safe
+            _speedMult *= Mathf.Max(0.01f, a.def.speedMult); 
+            _sizeMult *= Mathf.Max(0.01f, a.def.sizeMult);  
         }
 
         controller?.ApplyExternalMultipliers(_speedMult, _sizeMult); // push into controller
         transform.localScale = _baseScale * _sizeMult; // scale ball
     }
 
-    
     public (float speedMult, float sizeMult) GetTotals() => (_speedMult, _sizeMult); // totals
 }
+
+//ngl, the ID stuff is Mainly the AI inside of VS as it was not going well (ish)
