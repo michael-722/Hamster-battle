@@ -43,13 +43,9 @@ public class HamsterBallController : NetworkBehaviour
     [Header("Powerup")]
     private float basePower; // original power
 
-
+    private bool canMove = false;
     
-    private bool inputEnabled = true; // input gate
-
-    
-
-
+    private bool inputEnabled = true;
 
     private void Awake()
     {
@@ -59,7 +55,6 @@ public class HamsterBallController : NetworkBehaviour
         aimPlane = new Plane(Vector3.up, transform.position); // plane at ball
         lr.positionCount = 0; // clear line
         basePower = Mathf.Max(0.0001f, power); // capture inspector power
-
     }
 
     private void Start()
@@ -69,6 +64,9 @@ public class HamsterBallController : NetworkBehaviour
 
     private void Update()
     {
+        if (!canMove) 
+            if (!CheckGameStatus()) return;//disable player until game starts
+
         if (GateToOwner()) return; // only gate when netcode is running
 
         UpdateStopGate(); // update canShoot
@@ -80,6 +78,17 @@ public class HamsterBallController : NetworkBehaviour
             DrawTrajectoryPreview(); // draw line
             if (Input.GetKeyDown(KeyCode.R)) StopBall(); // dev freeze
         }
+    }
+    
+    private bool CheckGameStatus()
+    {
+        if (LobbySetUp.instance == null)
+        {
+            Debug.Log("no lobby set up instance");
+            return canMove;
+        }
+        canMove = LobbySetUp.instance.canStart();
+        return canMove;
     }
 
     // true only when Netcode is active and this isn't our owned ball
