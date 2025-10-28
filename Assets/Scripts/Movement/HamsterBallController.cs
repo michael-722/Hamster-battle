@@ -1,6 +1,9 @@
 using UnityEngine;
 
-using Unity.Netcode;//networking
+using Unity.Netcode;
+using UnityEngine.UIElements;
+using Unity.Services.Authentication;
+using Unity.Netcode.Components;//networking
 
 // Slingshot: pull = power, mouse wheel = arc; 0° arc draws a flat ground line
 [RequireComponent(typeof(Rigidbody))]
@@ -44,7 +47,9 @@ public class HamsterBallController : NetworkBehaviour
     private float basePower; // original power
 
     private bool canMove = false;
-    
+    private bool spawnedOffset = false;
+    private Vector3 netSpawnPos = Vector3.zero;
+
     private bool inputEnabled = true;
 
     private void Awake()
@@ -62,12 +67,22 @@ public class HamsterBallController : NetworkBehaviour
         basePower = power; // remember original power
     }
 
+    private void SetPos()
+    {
+        spawnedOffset = true;
+        Debug.Log("pos set for: " + NetworkManager.LocalClientId);
+        netSpawnPos = new Vector3(transform.position.x + (int)NetworkManager.LocalClientId * 15.0f, 5.0f, 0.0f);
+        rb.isKinematic = true;
+        rb.detectCollisions = true;
+        gameObject.GetComponent<NetworkObject>().transform.position = netSpawnPos;  
+    }
+
     private void Update()
     {
-        if (!canMove) 
-            if (!CheckGameStatus()) return;//disable player until game starts
-
         if (GateToOwner()) return; // only gate when netcode is running
+
+        if (!canMove)
+            if (!CheckGameStatus()) return;//disable player until game starts
 
         UpdateStopGate(); // update canShoot
 
@@ -96,6 +111,7 @@ public class HamsterBallController : NetworkBehaviour
     {
         var nm = NetworkManager.Singleton; // netcode ref
         if (nm == null || !nm.IsListening) return false; // offline: don't gate
+        if (!spawnedOffset) SetPos(); //offset for players spawning  
         if (!IsSpawned) return false; // not spawned: don't gate
         return !IsOwner; // online and not ours: gate
     }
