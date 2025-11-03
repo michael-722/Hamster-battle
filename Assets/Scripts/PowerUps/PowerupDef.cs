@@ -1,3 +1,4 @@
+using UnityEditor.Sprites;
 using UnityEngine;
 
 // Data-only powerup definition
@@ -14,9 +15,11 @@ public class PowerupDef : ScriptableObject
     [Header("Effects (multipliers)")]
     public float speedMult = 1f;     // 1 = no change
     public float sizeMult = 1f;      // 1 = no change
+    public float pushBack = 0f;      // 0= no change
 
     [Header("Targeting")]
     public PowerupScope scope = PowerupScope.Self; // Self by default
     public bool centredOnPicker = true; // for radius effects
     public float aoeRadius = 10f;    // for radius effects
 }
+
