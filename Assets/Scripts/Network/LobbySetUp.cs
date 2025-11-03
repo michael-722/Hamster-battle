@@ -8,9 +8,13 @@ public class LobbySetUp : NetworkBehaviour
     public static LobbySetUp instance;
 
     private NetworkVariable<bool> canStartGame = new(false, NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Server);
+    private bool gameStarted = false;
 
     [SerializeField] private TMP_InputField lobbyCode;
     [SerializeField] private TMP_Text joinCode;
+
+    [SerializeField] private GameObject hostStartedGameUI;
+    [SerializeField] private GameObject LobbyUI;
 
     [SerializeField] private GameObject startGameBtn;
 
@@ -23,6 +27,25 @@ public class LobbySetUp : NetworkBehaviour
         }
 
         instance = this;
+    }
+
+    private void Start()
+    {
+        NetworkManager.Singleton.ConnectionApprovalCallback += ConnectionApprovalCheck;
+    }
+
+    private void ConnectionApprovalCheck(NetworkManager.ConnectionApprovalRequest request, NetworkManager.ConnectionApprovalResponse response)
+    {
+        if (gameStarted)
+        {
+            response.Approved = false;
+            response.CreatePlayerObject = false;
+        }
+        else
+        {
+            response.Approved = true;
+            response.CreatePlayerObject = true;
+        }
     }
 
     public void onHostGamePressed()
@@ -39,6 +62,8 @@ public class LobbySetUp : NetworkBehaviour
     {
         if (IsServer)
         {
+            gameStarted = true;
+
             syncedCountdown.instance.StartCountdown();
             onStartPressedRpc();
         }
@@ -57,6 +82,7 @@ public class LobbySetUp : NetworkBehaviour
     public void OnSingleplayerPressed()
     {
         syncedCountdown.instance.StartCountdown();
+        canStartGame.Value = true;
     }
 
     public void onJoinGamePressed()
@@ -64,7 +90,7 @@ public class LobbySetUp : NetworkBehaviour
         Relay.instance.JoinGame(lobbyCode.text);
     }
 
-    public bool canStart() 
+    public bool canStart()
     {
         return canStartGame.Value;
     }
@@ -73,5 +99,11 @@ public class LobbySetUp : NetworkBehaviour
     public void allowStartRpc()
     {
         canStartGame.Value = true;
+    }
+
+    public void gameAlreadyStated()
+    { 
+        LobbyUI.SetActive(false);
+        hostStartedGameUI.SetActive(true);
     }
 }
