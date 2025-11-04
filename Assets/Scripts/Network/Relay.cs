@@ -5,6 +5,7 @@ using Unity.Services.Relay;
 using Unity.Services.Relay.Models;
 using Unity.Netcode;
 using Unity.Netcode.Transports.UTP;
+using System.Threading.Tasks;
 
 public class Relay : MonoBehaviour
 {
@@ -90,8 +91,7 @@ public class Relay : MonoBehaviour
                 allocation.HostConnectionData
                 );
 
-            if (!NetworkManager.Singleton.IsApproved) LobbySetUp.instance.gameAlreadyStated();
-            else NetworkManager.Singleton.StartClient();
+            NetworkManager.Singleton.StartClient();
         }
         catch (System.Exception e)
         {
