@@ -10,6 +10,10 @@ public class PlayerRace : NetworkBehaviour
 
     private HamsterBallController ctrl; // input/ball
 
+    private double startTime;
+    private double endTime;
+    private double completeTime;
+
     private void Awake()  
     {
         ctrl = GetComponent<HamsterBallController>();
@@ -17,11 +21,25 @@ public class PlayerRace : NetworkBehaviour
 
     public void HitGoal() // called by GoalTrigger
     {
+        endRaceTimer();//stops timer
         var nm = NetworkManager.Singleton;
         if (nm != null && nm.IsListening && IsSpawned)
             RaceManager.Instance.RegisterFinishServerRpc(OwnerClientId);
         else
             RaceManager.Instance.RegisterFinishOffline(this);
+    }
+
+    public void startRaceTimer()
+    {
+        startTime = Time.time;
+    }
+
+    public void endRaceTimer()
+    {
+        endTime = Time.time;
+        completeTime = endTime - startTime;
+        //Debug.Log("complete time was: " + completeTime);
+        LeaderboardManager.instance.setTime(completeTime);
     }
 
     public void SetResultLocal(RaceResult r, int rank)
@@ -44,5 +62,4 @@ public class PlayerRace : NetworkBehaviour
         var mgr = GetComponent<PowerupManager>();
         if (mgr) mgr.GiveById(powerupId);
     }
-
 }

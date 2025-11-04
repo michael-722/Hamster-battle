@@ -2,6 +2,7 @@ using UnityEngine;
 using TMPro;
 using Unity.Netcode;
 using UnityEngine.UI;
+using System.Threading.Tasks;
 
 public class LobbySetUp : NetworkBehaviour
 {
@@ -21,6 +22,7 @@ public class LobbySetUp : NetworkBehaviour
     [SerializeField] private TMP_Text connectedPlayersTxt;
 
     private int connectedPlayers = -1;
+    private bool singlePlayer = false;
 
     private void Awake()
     {
@@ -116,7 +118,6 @@ public class LobbySetUp : NetworkBehaviour
     public void OnSingleplayerPressed()
     {
         syncedCountdown.instance.StartCountdown();
-        canStartGame.Value = true;
     }
 
     public void onJoinGamePressed()
@@ -126,12 +127,16 @@ public class LobbySetUp : NetworkBehaviour
 
     public bool canStart()
     {
-        return canStartGame.Value;
+        if (singlePlayer) return true;
+        else return canStartGame.Value;
     }
 
     [Rpc(SendTo.Server)]
     public void allowStartRpc()
     {
         canStartGame.Value = true;
+        Debug.Log("no net debug");
     }
+
+    public void setSinglePlayer(bool state) { singlePlayer = state; }
 }
