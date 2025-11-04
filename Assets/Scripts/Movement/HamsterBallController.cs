@@ -50,6 +50,9 @@ public class HamsterBallController : NetworkBehaviour
 
     private bool inputEnabled = true;
 
+
+    [SerializeField] private float SpawnRadius = 7.5f;
+
     private void Awake()
     {
         rb = GetComponent<Rigidbody>();
@@ -72,7 +75,7 @@ public class HamsterBallController : NetworkBehaviour
         if (IsOwner)
         {
             int id = (int)OwnerClientId;
-            float radius = 10f;
+            SpawnRadius = 10f;
             float angle = id * 90f;//90 appart - cahnge if more players added
             Vector3 offset = new Vector3(Mathf.Cos(angle * Mathf.Deg2Rad), 0f, Mathf.Sin(angle * Mathf.Deg2Rad)) * radius;
             transform.position = new Vector3(offset.x, 5f, offset.z);
