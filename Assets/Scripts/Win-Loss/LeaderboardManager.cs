@@ -7,13 +7,16 @@ using Unity.Services.Leaderboards.Models;
 using UnityEngine;
 using TMPro;
 
-public class LeaderboardManagerTest : MonoBehaviour
+public class LeaderboardManager : MonoBehaviour
 {
+    public static LeaderboardManager instance;
+
     [SerializeField] private GameObject leaderboardUI;
     [SerializeField] private GameObject submitUI;
     [SerializeField] private Transform scrollviewContent;
     [SerializeField] private Transform entryPrefab;
 
+    [SerializeField] private TMP_Text completeTimeTxt;
     [SerializeField] private TMP_InputField userEnteredName;
 
     private string leaderboardID = "FastestTimes";
@@ -21,6 +24,19 @@ public class LeaderboardManagerTest : MonoBehaviour
     private bool isSigningIn = false;
     private bool hasSubmittedTime = false;
     private bool refresh = true;
+
+    private double completedTime;
+
+    private void Awake()
+    {
+        if (instance != null && instance != this)
+        {
+            Destroy(gameObject);
+            return;
+        }
+
+        instance = this;
+    }
 
     private async void Start()
     {
@@ -32,7 +48,6 @@ public class LeaderboardManagerTest : MonoBehaviour
         await TrySignIn();
 
         //await LeaderboardsService.Instance.AddPlayerScoreAsync(leaderboardID, 105);
-        //SubmitScore(75.53, "user");
     }
 
     private async Task TrySignIn()
@@ -56,6 +71,7 @@ public class LeaderboardManagerTest : MonoBehaviour
 
     void Update()
     {
+        /* //testing input for the leaderboard
         if (Input.GetKeyDown(KeyCode.L) && !hasSubmittedTime)
         {
             submitUI.SetActive(true);
@@ -66,6 +82,7 @@ public class LeaderboardManagerTest : MonoBehaviour
             submitUI.SetActive(false);
             leaderboardUI.SetActive(false);
         }
+        */
 
         if (Input.GetKeyDown(KeyCode.Return) && submitUI.activeSelf) OnSubmitBtn();
 
@@ -105,23 +122,34 @@ public class LeaderboardManagerTest : MonoBehaviour
     public void OnSubmitBtn()
     {
         //add check if username has spaces - not valid
-
-        SubmitScore(75.53, userEnteredName.text);
+        SubmitScore();
         hasSubmittedTime = true;
 
         submitUI.SetActive(false);
         leaderboardUI.SetActive(true);
     }
 
-    public async void SubmitScore(double time, string userName)
+    public async void SubmitScore()
     {
-        int timeMS = (int)(time * 1000);
-        //Debug.Log("submitting time: " + time + " for user: " + userName);
-        await AuthenticationService.Instance.UpdatePlayerNameAsync(userName);
-        await LeaderboardsService.Instance.AddPlayerScoreAsync(leaderboardID, timeMS, new AddPlayerScoreOptions());
+        Debug.Log("testsss");
+        int timeMS = (int)(completedTime * 1000);
+        Debug.Log("submitting time: " + timeMS + " for user: " + userEnteredName.text);
+        await AuthenticationService.Instance.UpdatePlayerNameAsync(userEnteredName.text);
+        await LeaderboardsService.Instance.AddPlayerScoreAsync(leaderboardID, timeMS);
 
         AuthenticationService.Instance.SignOut();
         AuthenticationService.Instance.ClearSessionToken();
         await TrySignIn();
+    }
+
+    public void setTime(double time)
+    {
+        completedTime = time;
+        int timeMS = (int)(time * 1000);
+        TimeSpan timeConverted = TimeSpan.FromMilliseconds((int)(timeMS));
+        submitUI.SetActive(true);
+        completeTimeTxt.GetComponent<TMPro.TextMeshProUGUI>().text = "Your time was: " + timeConverted.ToString(@"mm\:ss\.ff");
+
+        Debug.Log("Your time was: " + timeConverted.ToString(@"mm\:ss\.ff"));
     }
 }

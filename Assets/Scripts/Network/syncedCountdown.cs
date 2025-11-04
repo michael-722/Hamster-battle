@@ -41,7 +41,9 @@ public class syncedCountdown : NetworkBehaviour
             remainingTime -= 1f;
         }
 
-        LobbySetUp.instance.allowStartRpc();
+        if (NetworkManager.Singleton.IsConnectedClient) LobbySetUp.instance.allowStartRpc();
+        else LobbySetUp.instance.setSinglePlayer(true);
+
         countdownText.text = "GO!";
         yield return new WaitForSeconds(1f);
         countdownText.gameObject.SetActive(false);
