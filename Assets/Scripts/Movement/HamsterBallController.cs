@@ -33,6 +33,8 @@ public class HamsterBallController : NetworkBehaviour
 
     [Header("Audio (optional)")]
     public AudioSource shootSfx; // sound on shoot
+    
+    public float spawnRadius = 7.5f;
 
     private Rigidbody rb; // ball rigidbody
     private LineRenderer lr; // line renderer
@@ -49,9 +51,6 @@ public class HamsterBallController : NetworkBehaviour
     private bool canMove = false;
 
     private bool inputEnabled = true;
-
-
-    [SerializeField] private float SpawnRadius = 7.5f;
 
     private void Awake()
     {
@@ -75,9 +74,9 @@ public class HamsterBallController : NetworkBehaviour
         if (IsOwner)
         {
             int id = (int)OwnerClientId;
-            SpawnRadius = 10f;
+            spawnRadius = 10f;
             float angle = id * 90f;//90 appart - cahnge if more players added
-            Vector3 offset = new Vector3(Mathf.Cos(angle * Mathf.Deg2Rad), 0f, Mathf.Sin(angle * Mathf.Deg2Rad)) * radius;
+            Vector3 offset = new Vector3(Mathf.Cos(angle * Mathf.Deg2Rad), 0f, Mathf.Sin(angle * Mathf.Deg2Rad)) * spawnRadius;
             transform.position = new Vector3(offset.x, 5f, offset.z);
         }
     }
