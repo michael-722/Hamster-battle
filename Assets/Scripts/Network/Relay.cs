@@ -5,8 +5,7 @@ using Unity.Services.Relay;
 using Unity.Services.Relay.Models;
 using Unity.Netcode;
 using Unity.Netcode.Transports.UTP;
-
-
+using System.Threading.Tasks;
 
 public class Relay : MonoBehaviour
 {
@@ -52,7 +51,6 @@ public class Relay : MonoBehaviour
         {
             CleanupOfflinePlayers(); // destroy offline player
 
-
             Allocation allocation = await RelayService.Instance.CreateAllocationAsync(3);
 
             joinCode = await RelayService.Instance.GetJoinCodeAsync(allocation.AllocationId);
@@ -79,9 +77,7 @@ public class Relay : MonoBehaviour
     {
         try
         {
-
             CleanupOfflinePlayers(); // destroy offline player
-
 
             JoinAllocation allocation = await RelayService.Instance.JoinAllocationAsync(joinCode);
             Debug.Log($"joined relay with allocation id: {allocation.AllocationId}");

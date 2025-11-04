@@ -8,11 +8,19 @@ public class LobbySetUp : NetworkBehaviour
     public static LobbySetUp instance;
 
     private NetworkVariable<bool> canStartGame = new(false, NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Server);
+    private NetworkVariable<bool> gameStarted = new(false);
 
     [SerializeField] private TMP_InputField lobbyCode;
     [SerializeField] private TMP_Text joinCode;
 
+    [SerializeField] private GameObject hostStartedGameUI;
+    [SerializeField] private GameObject LobbyUI;
+
     [SerializeField] private GameObject startGameBtn;
+
+    [SerializeField] private TMP_Text connectedPlayersTxt;
+
+    private int connectedPlayers = -1;
 
     private void Awake()
     {
@@ -23,6 +31,55 @@ public class LobbySetUp : NetworkBehaviour
         }
 
         instance = this;
+    }
+
+    private void Start()
+    {
+        NetworkManager.Singleton.ConnectionApprovalCallback += ConnectionApprovalCheck;
+        NetworkManager.Singleton.OnClientDisconnectCallback += OnClientDisconnected;
+    }
+
+    private void ConnectionApprovalCheck(NetworkManager.ConnectionApprovalRequest request, NetworkManager.ConnectionApprovalResponse response)
+    {
+        if (gameStarted.Value)
+        {
+            response.Approved = false;
+            response.CreatePlayerObject = false;
+            response.Reason = "Game already started";
+
+            //Debug.Log("Connection denied: Game already started.");
+        }
+        else
+        {
+            response.Approved = true;
+            response.CreatePlayerObject = true;
+            //Debug.Log("Connection approved.");
+
+            connectedPlayers++;
+            connectedPlayersTxt.text = "Players Connected: " + connectedPlayers;
+        }
+    }
+
+    private void OnClientDisconnected(ulong clientId)
+    {
+        if (IsServer)
+        {
+            connectedPlayers--;
+            connectedPlayersTxt.text = "Players Connected: " + connectedPlayers;
+            return;
+        }
+
+        if (clientId == NetworkManager.Singleton.LocalClientId)
+        {
+            var reason = NetworkManager.Singleton.DisconnectReason;
+            Debug.Log("Disconnected: " + reason);
+
+            if (reason.Contains("Game already started"))
+            {
+                LobbyUI.SetActive(false);
+                hostStartedGameUI.SetActive(true);
+            }
+        }
     }
 
     public void onHostGamePressed()
@@ -39,6 +96,8 @@ public class LobbySetUp : NetworkBehaviour
     {
         if (IsServer)
         {
+            gameStarted.Value = true;
+
             syncedCountdown.instance.StartCountdown();
             onStartPressedRpc();
         }
@@ -57,6 +116,7 @@ public class LobbySetUp : NetworkBehaviour
     public void OnSingleplayerPressed()
     {
         syncedCountdown.instance.StartCountdown();
+        canStartGame.Value = true;
     }
 
     public void onJoinGamePressed()
@@ -64,7 +124,7 @@ public class LobbySetUp : NetworkBehaviour
         Relay.instance.JoinGame(lobbyCode.text);
     }
 
-    public bool canStart() 
+    public bool canStart()
     {
         return canStartGame.Value;
     }

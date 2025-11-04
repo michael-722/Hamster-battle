@@ -15,6 +15,10 @@ MonoBehaviour:
   id: size_up
   icon: {fileID: 0}
   duration: 5
-  stacks: 0
+  stacks: 1
   speedMult: 1
   sizeMult: 2
+  pushBack: 0
+  scope: 1
+  centredOnPicker: 0
+  aoeRadius: 10000

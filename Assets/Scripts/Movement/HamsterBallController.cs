@@ -1,6 +1,9 @@
 using UnityEngine;
 
-using Unity.Netcode;//networking
+using Unity.Netcode;
+using UnityEngine.UIElements;
+using Unity.Services.Authentication;
+using Unity.Netcode.Components;//networking
 
 // Slingshot: pull = power, mouse wheel = arc; 0° arc draws a flat ground line
 [RequireComponent(typeof(Rigidbody))]
@@ -44,7 +47,7 @@ public class HamsterBallController : NetworkBehaviour
     private float basePower; // original power
 
     private bool canMove = false;
-    
+
     private bool inputEnabled = true;
 
     private void Awake()
@@ -62,12 +65,26 @@ public class HamsterBallController : NetworkBehaviour
         basePower = power; // remember original power
     }
 
+    public override void OnNetworkSpawn()
+    {
+        base.OnNetworkSpawn();
+
+        if (IsOwner)
+        {
+            int id = (int)OwnerClientId;
+            float radius = 10f;
+            float angle = id * 90f;//90 appart - cahnge if more players added
+            Vector3 offset = new Vector3(Mathf.Cos(angle * Mathf.Deg2Rad), 0f, Mathf.Sin(angle * Mathf.Deg2Rad)) * radius;
+            transform.position = new Vector3(offset.x, 5f, offset.z);
+        }
+    }
+
     private void Update()
     {
-        if (!canMove) 
-            if (!CheckGameStatus()) return;//disable player until game starts
-
         if (GateToOwner()) return; // only gate when netcode is running
+
+        if (!canMove)
+            if (!CheckGameStatus()) return;//disable player until game starts
 
         UpdateStopGate(); // update canShoot
 
