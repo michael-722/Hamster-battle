@@ -14,9 +14,11 @@ public class LobbySetUp : NetworkBehaviour
     [SerializeField] private TMP_InputField lobbyCode;
     [SerializeField] private TMP_Text joinCode;
 
-    [SerializeField] private GameObject failedJoinCodeUI;
     [SerializeField] private GameObject hostStartedGameUI;
     [SerializeField] private GameObject LobbyUI;
+
+    [SerializeField] private GameObject hostLeftGameUI;
+    [SerializeField] private GameObject failedJoinCodeUI;
 
     [SerializeField] private GameObject startGameBtn;
 
@@ -52,13 +54,6 @@ public class LobbySetUp : NetworkBehaviour
 
             //Debug.Log("Connection denied: Game already started.");
         }
-        else if (NetworkManager.Singleton.ConnectedClients.Count >= 4)
-        {
-            response.Approved = false;
-            response.CreatePlayerObject = false;
-            response.Reason = "Lobby full";
-            //Debug.Log("Connection denied: Lobby full.");
-        }
         else
         {
             response.Approved = true;
@@ -74,22 +69,30 @@ public class LobbySetUp : NetworkBehaviour
     {
         if (IsServer)
         {
+            if (clientId == 0) return;//host dc
+
+            //Debug.Log("Client disconnected: " + clientId);
             connectedPlayers--;
             connectedPlayersTxt.text = "Players Connected: " + connectedPlayers;
             return;
+        }
+        else if (LobbyUI.activeInHierarchy)//server dc
+        {
+            LobbyUI.SetActive(false);
+            hostLeftGameUI.SetActive(true);
         }
 
         if (clientId == NetworkManager.Singleton.LocalClientId)
         {
             var reason = NetworkManager.Singleton.DisconnectReason;
-            Debug.Log("Disconnected: " + reason);
+            //Debug.Log("Disconnected: " + reason);
 
             if (reason.Contains("Game already started"))
             {
                 LobbyUI.SetActive(false);
                 hostStartedGameUI.SetActive(true);
             }
-            //add check for if host disconnected
+            //add check for if host disconnecte
         }
     }
 
