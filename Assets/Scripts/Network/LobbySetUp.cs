@@ -76,11 +76,6 @@ public class LobbySetUp : NetworkBehaviour
             connectedPlayersTxt.text = "Players Connected: " + connectedPlayers;
             return;
         }
-        else if (LobbyUI.activeInHierarchy)//server dc
-        {
-            LobbyUI.SetActive(false);
-            hostLeftGameUI.SetActive(true);
-        }
 
         if (clientId == NetworkManager.Singleton.LocalClientId)
         {
@@ -92,7 +87,11 @@ public class LobbySetUp : NetworkBehaviour
                 LobbyUI.SetActive(false);
                 hostStartedGameUI.SetActive(true);
             }
-            //add check for if host disconnecte
+            else if (LobbyUI.activeInHierarchy)//server dc
+            {
+                LobbyUI.SetActive(false);
+                hostLeftGameUI.SetActive(true);
+            }
         }
     }
 
