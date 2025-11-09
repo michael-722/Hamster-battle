@@ -14,6 +14,7 @@ public class LobbySetUp : NetworkBehaviour
     [SerializeField] private TMP_InputField lobbyCode;
     [SerializeField] private TMP_Text joinCode;
 
+    [SerializeField] private GameObject failedJoinCodeUI;
     [SerializeField] private GameObject hostStartedGameUI;
     [SerializeField] private GameObject LobbyUI;
 
@@ -51,6 +52,13 @@ public class LobbySetUp : NetworkBehaviour
 
             //Debug.Log("Connection denied: Game already started.");
         }
+        else if (NetworkManager.Singleton.ConnectedClients.Count >= 4)
+        {
+            response.Approved = false;
+            response.CreatePlayerObject = false;
+            response.Reason = "Lobby full";
+            //Debug.Log("Connection denied: Lobby full.");
+        }
         else
         {
             response.Approved = true;
@@ -81,6 +89,7 @@ public class LobbySetUp : NetworkBehaviour
                 LobbyUI.SetActive(false);
                 hostStartedGameUI.SetActive(true);
             }
+            //add check for if host disconnected
         }
     }
 
@@ -103,6 +112,12 @@ public class LobbySetUp : NetworkBehaviour
             syncedCountdown.instance.StartCountdown();
             onStartPressedRpc();
         }
+    }
+
+    public void failedToJoinGame()
+    {
+        failedJoinCodeUI.SetActive(true);
+        LobbyUI.SetActive(false);
     }
 
     [Rpc(SendTo.NotServer)]
@@ -136,6 +151,11 @@ public class LobbySetUp : NetworkBehaviour
     {
         canStartGame.Value = true;
         Debug.Log("no net debug");
+    }
+
+    public void dissconnect()
+    {
+        NetworkManager.Singleton.Shutdown();
     }
 
     public void setSinglePlayer(bool state) { singlePlayer = state; }

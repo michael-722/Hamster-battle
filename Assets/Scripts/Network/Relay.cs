@@ -95,6 +95,7 @@ public class Relay : MonoBehaviour
         }
         catch (System.Exception e)
         {
+            LobbySetUp.instance.failedToJoinGame();
             Debug.LogError($"failed to join relay: {e.Message}");
         }
     }
