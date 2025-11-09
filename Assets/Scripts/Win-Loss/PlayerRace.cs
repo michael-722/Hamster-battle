@@ -21,7 +21,7 @@ public class PlayerRace : NetworkBehaviour
 
     public void HitGoal() // called by GoalTrigger
     {
-        endRaceTimer();//stops timer
+        endRaceTimerRpc();//stops timer
         var nm = NetworkManager.Singleton;
         if (nm != null && nm.IsListening && IsSpawned)
             RaceManager.Instance.RegisterFinishServerRpc(OwnerClientId);
@@ -29,12 +29,14 @@ public class PlayerRace : NetworkBehaviour
             RaceManager.Instance.RegisterFinishOffline(this);
     }
 
-    public void startRaceTimer()
+    [Rpc(SendTo.Owner)]
+    public void startRaceTimerRpc()
     {
         startTime = Time.time;
     }
 
-    public void endRaceTimer()
+    [Rpc(SendTo.Owner)]
+    public void endRaceTimerRpc()
     {
         endTime = Time.time;
         completeTime = endTime - startTime;

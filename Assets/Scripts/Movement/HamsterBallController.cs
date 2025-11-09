@@ -87,7 +87,7 @@ public class HamsterBallController : NetworkBehaviour
 
         if (!canMove)
             if (!CheckGameStatus()) return;//disable player until game starts
-            else gameObject.GetComponent<PlayerRace>().startRaceTimer();//starts timer
+            else gameObject.GetComponent<PlayerRace>().startRaceTimerRpc();//starts timer
 
                 UpdateStopGate(); // update canShoot
 

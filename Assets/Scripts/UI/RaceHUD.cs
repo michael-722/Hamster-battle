@@ -46,7 +46,7 @@ public class RaceHUD : MonoBehaviour
         resultText.text = r switch
         {
             RaceResult.Win => "WIN",
-            RaceResult.LoseEscaped => "LOSE (Escaped)",
+            RaceResult.LoseEscaped => "Escaped",
             RaceResult.LoseStuck => "DNF",
             _ => ""
         };

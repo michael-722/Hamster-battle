@@ -153,7 +153,6 @@ public class LobbySetUp : NetworkBehaviour
     public void allowStartRpc()
     {
         canStartGame.Value = true;
-        Debug.Log("no net debug");
     }
 
     public void dissconnect()
