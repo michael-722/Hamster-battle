@@ -14,6 +14,9 @@ public class LobbySetUp : NetworkBehaviour
     [SerializeField] private TMP_InputField lobbyCode;
     [SerializeField] private TMP_Text joinCode;
 
+    [SerializeField] private GameObject UIRootObj;
+    [SerializeField] private GameObject startUI;
+
     [SerializeField] private GameObject hostStartedGameUI;
     [SerializeField] private GameObject LobbyUI;
 
@@ -160,4 +163,10 @@ public class LobbySetUp : NetworkBehaviour
     }
 
     public void setSinglePlayer(bool state) { singlePlayer = state; }
+
+    public void showStartUI()
+    {
+        UIRootObj.SetActive(true);
+        startUI.SetActive(true);
+    }
 }
