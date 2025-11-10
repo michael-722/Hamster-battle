@@ -65,6 +65,7 @@ public class HamsterBallController : NetworkBehaviour
     private void Start()
     {
         basePower = power; // remember original power
+        canMove = false;
     }
 
     public override void OnNetworkSpawn()
@@ -84,12 +85,14 @@ public class HamsterBallController : NetworkBehaviour
     private void Update()
     {
         if (GateToOwner()) return; // only gate when netcode is running
-
         if (!canMove)
-            if (!CheckGameStatus()) return;//disable player until game starts
-            else gameObject.GetComponent<PlayerRace>().startRaceTimer();//starts timer
+        {
+            canMove = LobbySetUp.instance.canStart();
+            return;
+        }
 
-                UpdateStopGate(); // update canShoot
+
+        UpdateStopGate(); // update canShoot
 
         if (inputEnabled) // only when enabled
         {
@@ -99,16 +102,19 @@ public class HamsterBallController : NetworkBehaviour
             if (Input.GetKeyDown(KeyCode.R)) StopBall(); // dev freeze
         }
     }
-    
-    private bool CheckGameStatus()
+
+    public void SetCanMove(bool value)
     {
-        if (LobbySetUp.instance == null)
+        canMove = value;
+        if (!value)
         {
-            Debug.Log("no lobby set up instance");
-            return canMove;
+            rb.linearVelocity = Vector3.zero;
+            rb.angularVelocity = Vector3.zero;
         }
-        canMove = LobbySetUp.instance.canStart();
-        return canMove;
+        else
+        { 
+            gameObject.GetComponent<PlayerRace>().startRaceTimerRpc(); 
+        }
     }
 
     // true only when Netcode is active and this isn't our owned ball
