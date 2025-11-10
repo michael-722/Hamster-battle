@@ -90,14 +90,13 @@ public class LobbySetUp : NetworkBehaviour
         if (clientId == NetworkManager.Singleton.LocalClientId)
         {
             var reason = NetworkManager.Singleton.DisconnectReason;
-            //Debug.Log("Disconnected: " + reason);
 
             if (reason.Contains("Game already started"))
             {
                 LobbyUI.SetActive(false);
                 hostStartedGameUI.SetActive(true);
             }
-            else if (LobbyUI.activeInHierarchy)//server dc
+            else if (reason.Contains("host shutting down"))//server dc
             {
                 LobbyUI.SetActive(false);
                 hostLeftGameUI.SetActive(true);
@@ -187,6 +186,8 @@ public class LobbySetUp : NetworkBehaviour
     {
         UIRootObj.SetActive(true);
         startUI.SetActive(true);
+
+        LobbyUI.SetActive(false);
     }
 
     public void showClientPlayAgainUI()
