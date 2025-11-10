@@ -168,12 +168,12 @@ public class LeaderboardManager : MonoBehaviour
     {
         if (NetworkManager.Singleton.LocalClientId == 0)
         {
-            Debug.Log("Host pressed play again");
+            //Debug.Log("host pressed play again");
             LobbySetUp.instance.showHostPlayAgainUI();
         }
         else
         {   
-            Debug.Log("Client pressed play again");
+            //Debug.Log("client pressed play again");
             LobbySetUp.instance.showClientPlayAgainUI();
         }
     }

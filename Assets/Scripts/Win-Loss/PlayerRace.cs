@@ -33,6 +33,7 @@ public class PlayerRace : NetworkBehaviour
     public void startRaceTimerRpc()
     {
         startTime = Time.time;
+        //Debug.Log("timer started " + startTime);
     }
 
     [Rpc(SendTo.Owner)]
@@ -42,6 +43,8 @@ public class PlayerRace : NetworkBehaviour
         completeTime = endTime - startTime;
         //Debug.Log("complete time was: " + completeTime);
         LeaderboardManager.instance.setTime(completeTime);
+        ctrl.SetCanMove(false);
+        //Debug.Log("timer ended " + endTime);
     }
 
     public void SetResultLocal(RaceResult r, int rank)
@@ -63,5 +66,20 @@ public class PlayerRace : NetworkBehaviour
     {
         var mgr = GetComponent<PowerupManager>();
         if (mgr) mgr.GiveById(powerupId);
+    }
+
+    public void ResetPlayer()
+    {
+        Result = RaceResult.None;
+        Rank = 0;
+        startTime = 0;
+        endTime = 0;
+        completeTime = 0;
+
+        if (ctrl != null)
+        {
+            ctrl.StopBall();
+            ctrl.SetInputEnabled(true);
+        }
     }
 }

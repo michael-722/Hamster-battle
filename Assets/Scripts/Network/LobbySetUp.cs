@@ -180,9 +180,14 @@ public class LobbySetUp : NetworkBehaviour
 
     public void showHostPlayAgainUI()
     {
-        resetPlayers();
         UIRootObj.SetActive(true);
         hostingUI.SetActive(true);
+
+        canStartGame.Value = false;
+        gameStarted.Value = false;
+
+        resetPlayers();
+        RaceManager.Instance?.ResetRace();
     }
 
     private void resetPlayers()
@@ -208,6 +213,7 @@ public class LobbySetUp : NetworkBehaviour
         }
     }
 
+    //spawn pos func is from the hamsterball controller need to put into manager script septrately=====================
     private Vector3 GetSpawnPosition(ulong clientId)
     {
         int id = (int)OwnerClientId;
