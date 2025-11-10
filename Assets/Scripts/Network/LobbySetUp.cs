@@ -150,7 +150,8 @@ public class LobbySetUp : NetworkBehaviour
 
     public void OnSingleplayerPressed()
     {
-        syncedCountdown.instance.StartCountdown();
+        canStartGame.Value = true;
+        //syncedCountdown.instance.StartCountdown();
     }
 
     public void onJoinGamePressed()
@@ -162,6 +163,11 @@ public class LobbySetUp : NetworkBehaviour
     {
         if (singlePlayer) return true;
         else return canStartGame.Value;
+    }
+
+    public void setCanStart(bool val)
+    {
+        canStartGame.Value = val;
     }
 
     [Rpc(SendTo.Server)]

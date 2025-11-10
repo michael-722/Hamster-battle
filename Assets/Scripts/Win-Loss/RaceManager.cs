@@ -108,6 +108,7 @@ public class RaceManager : NetworkBehaviour
 
     public void RegisterFinishOffline(PlayerRace pr)
     {
+        LeaderboardManager.instance.OnShowSinglePlayerLeave();
         // first finisher
         if (!windowOpen.Value)
         {

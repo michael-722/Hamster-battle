@@ -19,6 +19,8 @@ public class LeaderboardManager : MonoBehaviour
     [SerializeField] private Transform scrollviewContent;
     [SerializeField] private Transform entryPrefab;
 
+    [SerializeField] private GameObject LeaveGameSinglePlayer;
+
     [SerializeField] private TMP_Text completeTimeTxt;
     [SerializeField] private TMP_InputField userEnteredName;
 
@@ -164,6 +166,26 @@ public class LeaderboardManager : MonoBehaviour
         LobbySetUp.instance.showStartUI();
     }
 
+    public void OnLeaveSinglePlayerPressed() 
+    {
+        Vector3 pos = new Vector3(0f, 2f, 0f);
+
+        GameObject hs = FindAnyObjectByType<HamsterBallController>().gameObject;
+        hs.GetComponent<Rigidbody>().isKinematic = true;
+
+        hs.GetComponent<HamsterBallController>().SetCanMove(false);
+        LobbySetUp.instance.setCanStart(false);
+
+        hs.transform.position = pos;
+        if (hs.transform.position != pos) hs.transform.position = pos;
+
+        hs.GetComponent<Rigidbody>().isKinematic = false;
+
+        RaceManager.Instance.ResetRace();
+        LobbySetUp.instance.showStartUI();
+        LeaveGameSinglePlayer.SetActive(false);
+    }
+
     public void OnPlayAgainPressed()
     {
         if (NetworkManager.Singleton.LocalClientId == 0)
@@ -176,5 +198,10 @@ public class LeaderboardManager : MonoBehaviour
             //Debug.Log("client pressed play again");
             LobbySetUp.instance.showClientPlayAgainUI();
         }
+    }
+
+    public void OnShowSinglePlayerLeave()
+    {
+        LeaveGameSinglePlayer.SetActive(true);
     }
 }
