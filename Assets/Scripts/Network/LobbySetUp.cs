@@ -47,6 +47,7 @@ public class LobbySetUp : NetworkBehaviour
     {
         NetworkManager.Singleton.ConnectionApprovalCallback += ConnectionApprovalCheck;
         NetworkManager.Singleton.OnClientDisconnectCallback += OnClientDisconnected;
+        NetworkManager.Singleton.OnClientConnectedCallback += OnHostCOnnected;
     }
 
     private void ConnectionApprovalCheck(NetworkManager.ConnectionApprovalRequest request, NetworkManager.ConnectionApprovalResponse response)
@@ -74,7 +75,11 @@ public class LobbySetUp : NetworkBehaviour
     {
         if (IsServer)
         {
-            if (clientId == 0) return;//host dc
+            if (clientId == 0)
+            {
+                startGameBtn.SetActive(false);
+                return;//host dc
+            }
 
             //Debug.Log("Client disconnected: " + clientId);
             connectedPlayers--;
@@ -98,6 +103,12 @@ public class LobbySetUp : NetworkBehaviour
                 hostLeftGameUI.SetActive(true);
             }
         }
+    }
+
+    private void OnHostCOnnected(ulong clientId)
+    {
+        if (!IsServer) return;
+        startGameBtn.SetActive(true);
     }
 
     public void onHostGamePressed()
