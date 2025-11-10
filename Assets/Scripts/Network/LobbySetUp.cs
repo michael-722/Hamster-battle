@@ -217,7 +217,7 @@ public class LobbySetUp : NetworkBehaviour
     private Vector3 GetSpawnPosition(ulong clientId)
     {
         int id = (int)OwnerClientId;
-        float spawnRadius = 10f;
+        float spawnRadius = 7.5f;
         float angle = id * 90f;
         Vector3 offset = new Vector3(Mathf.Cos(angle * Mathf.Deg2Rad), 0f, Mathf.Sin(angle * Mathf.Deg2Rad)) * spawnRadius;
         

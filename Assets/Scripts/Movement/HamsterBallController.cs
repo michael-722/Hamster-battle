@@ -85,7 +85,11 @@ public class HamsterBallController : NetworkBehaviour
     private void Update()
     {
         if (GateToOwner()) return; // only gate when netcode is running
-        if (!canMove) return;
+        if (!canMove)
+        {
+            canMove = LobbySetUp.instance.canStart();
+            return;
+        }
 
 
         UpdateStopGate(); // update canShoot
