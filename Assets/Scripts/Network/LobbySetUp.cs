@@ -193,6 +193,8 @@ public class LobbySetUp : NetworkBehaviour
     {
         UIRootObj.SetActive(true);
         LobbyUI.SetActive(true);
+
+        resetHUD();
     }
 
     public void showHostPlayAgainUI()
@@ -205,6 +207,13 @@ public class LobbySetUp : NetworkBehaviour
 
         resetPlayers();
         RaceManager.Instance?.ResetRace();
+        resetHUD();
+    }
+
+    private void resetHUD()
+    {
+        RaceHUD.Instance.ResetHUD();
+        RaceHUD.Instance.SetFinished(false);
     }
 
     private void resetPlayers()

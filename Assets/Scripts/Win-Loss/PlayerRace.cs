@@ -19,6 +19,11 @@ public class PlayerRace : NetworkBehaviour
         ctrl = GetComponent<HamsterBallController>();
     }
 
+    public double GetCompleteTime()
+    {
+        return completeTime;
+    }
+
     public void HitGoal() // called by GoalTrigger
     {
         endRaceTimerRpc();//stops timer
@@ -27,6 +32,15 @@ public class PlayerRace : NetworkBehaviour
             RaceManager.Instance.RegisterFinishServerRpc(OwnerClientId);
         else
             RaceManager.Instance.RegisterFinishOffline(this);
+
+        HideRaceCountDownRpc();
+    }
+
+    [Rpc(SendTo.Owner)]
+    private void HideRaceCountDownRpc()
+    {
+        //Debug.Log("Hiding");
+        RaceHUD.Instance.SetFinished(true);
     }
 
     [Rpc(SendTo.Owner)]
@@ -43,6 +57,7 @@ public class PlayerRace : NetworkBehaviour
         completeTime = endTime - startTime;
         //Debug.Log("complete time was: " + completeTime);
         LeaderboardManager.instance.setTime(completeTime);
+
         ctrl.SetCanMove(false);
         //Debug.Log("timer ended " + endTime);
     }
@@ -81,5 +96,19 @@ public class PlayerRace : NetworkBehaviour
             ctrl.StopBall();
             ctrl.SetInputEnabled(true);
         }
+    }
+
+    public override void OnNetworkSpawn()
+    {
+        base.OnNetworkSpawn();
+
+        if (IsOwner) StartCoroutine(BindHUDNextFrame());
+    }
+
+    private System.Collections.IEnumerator BindHUDNextFrame()
+    {
+        yield return null;
+
+        if (RaceHUD.Instance != null) RaceHUD.Instance.BindLocalPlayer(this);
     }
 }
