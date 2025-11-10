@@ -1,6 +1,7 @@
 using System;
 using System.Threading.Tasks;
 using TMPro;
+using Unity.Netcode;
 using Unity.Services.Authentication;
 using Unity.Services.Core;
 using Unity.Services.Leaderboards;
@@ -154,20 +155,26 @@ public class LeaderboardManager : MonoBehaviour
         submitUI.SetActive(true);
         completeTimeTxt.GetComponent<TMPro.TextMeshProUGUI>().text = "Your time was: " + timeConverted.ToString(@"mm\:ss\.ff");
 
-        Debug.Log("Your time was: " + timeConverted.ToString(@"mm\:ss\.ff"));
+        //Debug.Log("Your time was: " + timeConverted.ToString(@"mm\:ss\.ff"));
     }
 
     public void OnLeaveGameBtnPressed()
     {
-        leaderboardUI.SetActive(false);
-        //show menu bg
-
         LobbySetUp.instance.dissconnect();
         LobbySetUp.instance.showStartUI();
     }
 
     public void OnPlayAgainPressed()
     {
-    
+        if (NetworkManager.Singleton.LocalClientId == 0)
+        {
+            Debug.Log("Host pressed play again");
+            LobbySetUp.instance.showHostPlayAgainUI();
+        }
+        else
+        {   
+            Debug.Log("Client pressed play again");
+            LobbySetUp.instance.showClientPlayAgainUI();
+        }
     }
 }

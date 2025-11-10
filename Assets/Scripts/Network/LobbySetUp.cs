@@ -14,6 +14,8 @@ public class LobbySetUp : NetworkBehaviour
     [SerializeField] private TMP_InputField lobbyCode;
     [SerializeField] private TMP_Text joinCode;
 
+    [SerializeField] private GameObject hostingUI;
+
     [SerializeField] private GameObject UIRootObj;
     [SerializeField] private GameObject startUI;
 
@@ -168,5 +170,51 @@ public class LobbySetUp : NetworkBehaviour
     {
         UIRootObj.SetActive(true);
         startUI.SetActive(true);
+    }
+
+    public void showClientPlayAgainUI()
+    {
+        UIRootObj.SetActive(true);
+        LobbyUI.SetActive(true);
+    }
+
+    public void showHostPlayAgainUI()
+    {
+        resetPlayers();
+        UIRootObj.SetActive(true);
+        hostingUI.SetActive(true);
+    }
+
+    private void resetPlayers()
+    {
+        if (!IsServer) return;
+
+        foreach (var client in NetworkManager.Singleton.ConnectedClientsList)
+        {
+            var playerObject = client.PlayerObject;
+
+            if (playerObject != null)
+            {
+                playerObject.Despawn(true);
+                Destroy(playerObject.gameObject);
+
+                Vector3 spawnPos = GetSpawnPosition(client.ClientId);
+                Quaternion spawnRot = Quaternion.identity;
+
+                GameObject newPlayer = Instantiate(NetworkManager.Singleton.NetworkConfig.PlayerPrefab, spawnPos, spawnRot);
+                var newNetObj = newPlayer.GetComponent<NetworkObject>();
+                newNetObj.SpawnAsPlayerObject(client.ClientId);
+            }
+        }
+    }
+
+    private Vector3 GetSpawnPosition(ulong clientId)
+    {
+        int id = (int)OwnerClientId;
+        float spawnRadius = 10f;
+        float angle = id * 90f;
+        Vector3 offset = new Vector3(Mathf.Cos(angle * Mathf.Deg2Rad), 0f, Mathf.Sin(angle * Mathf.Deg2Rad)) * spawnRadius;
+        
+        return new Vector3(offset.x, 5f, offset.z);
     }
 }

@@ -7415,6 +7415,7 @@ MonoBehaviour:
   ShowTopMostFoldoutHeaderGroup: 1
   lobbyCode: {fileID: 3493434840255935015}
   joinCode: {fileID: 1581894493136425204}
+  hostingUI: {fileID: 5877768301761087818}
   UIRootObj: {fileID: 1255956773331346063}
   startUI: {fileID: 1545057603746398279}
   hostStartedGameUI: {fileID: 7050655225350819102}

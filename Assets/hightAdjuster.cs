@@ -9,11 +9,12 @@ public class hightAdjuster : MonoBehaviour
 
     private void Start()
     {
-        rectTransform = GetComponent<RectTransform>();
+        rectTransform = this.gameObject.GetComponent<RectTransform>();
     }
 
     private void OnEnable()
     {
+        rectTransform = this.gameObject.GetComponent<RectTransform>();
         rectTransform.sizeDelta = new Vector2(0, (transform.childCount * 70) + 50);
     }
 
