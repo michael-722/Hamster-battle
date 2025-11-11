@@ -487,7 +487,15 @@ PrefabInstance:
       propertyPath: m_LocalPosition.x
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 1975199498219524323, guid: eb9be9a7536ba994386e83e0a138f9f4, type: 3}
+    - target: {fileID: 5205388365997288040, guid: f3bcc7c3103373e44835056998947089, type: 3}
+      propertyPath: 'spawnPoints.Array.data[0]'
+      value: 
+      objectReference: {fileID: 1802483744}
+    - target: {fileID: 5362293811683539759, guid: f3bcc7c3103373e44835056998947089, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: -19.977276
+      objectReference: {fileID: 0}
+    - target: {fileID: 5362293811683539759, guid: f3bcc7c3103373e44835056998947089, type: 3}
       propertyPath: m_LocalPosition.y
       value: 0
       objectReference: {fileID: 0}
