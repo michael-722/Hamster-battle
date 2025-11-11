@@ -95,6 +95,7 @@ public class RaceManager : NetworkBehaviour
 
         var pr = FindLocalPlayerRace();
         if (pr != null) pr.SetResultLocal(result, rank);
+        pr.HideRaceCountDownRpc();
     }
 
     private PlayerRace FindLocalPlayerRace()
@@ -108,6 +109,8 @@ public class RaceManager : NetworkBehaviour
 
     public void RegisterFinishOffline(PlayerRace pr)
     {
+        LeaderboardManager.instance.OnShowSinglePlayerLeave();
+
         // first finisher
         if (!windowOpen.Value)
         {
@@ -148,4 +151,23 @@ public class RaceManager : NetworkBehaviour
             }
         }
     }
+
+    public void ResetRace()
+    {
+        StopAllCoroutines();
+
+        closed = false;
+        finishOrder.Clear();
+        offlineFinishOrder.Clear();
+
+        windowOpen.Value = false;
+        windowEndServerTime.Value = 0f;
+        offlineWindowEnd = 0f;
+
+        foreach (var pr in FindObjectsByType<PlayerRace>(FindObjectsSortMode.None))
+        {
+            pr.ResetPlayer();
+        }
+    }
+
 }

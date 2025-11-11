@@ -45,6 +45,16 @@ public class syncedCountdown : NetworkBehaviour
         else LobbySetUp.instance.setSinglePlayer(true);
 
         countdownText.text = "GO!";
+
+        foreach (var ctrl in FindObjectsByType<HamsterBallController>(sortMode:FindObjectsSortMode.None))
+        {
+            if (ctrl.IsOwner)
+            {
+                ctrl.SetCanMove(true);
+                ctrl.GetComponent<PlayerRace>().startRaceTimerRpc();
+            }
+        }
+
         yield return new WaitForSeconds(1f);
         countdownText.gameObject.SetActive(false);
     }
