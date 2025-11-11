@@ -1,19 +1,27 @@
 using System;
 using System.Threading.Tasks;
+using TMPro;
+using Unity.Netcode;
 using Unity.Services.Authentication;
 using Unity.Services.Core;
 using Unity.Services.Leaderboards;
 using Unity.Services.Leaderboards.Models;
+using UnityEditor;
 using UnityEngine;
-using TMPro;
+using UnityEngine.SocialPlatforms.Impl;
 
-public class LeaderboardManagerTest : MonoBehaviour
+public class LeaderboardManager : MonoBehaviour
 {
+    public static LeaderboardManager instance;
+
     [SerializeField] private GameObject leaderboardUI;
     [SerializeField] private GameObject submitUI;
     [SerializeField] private Transform scrollviewContent;
     [SerializeField] private Transform entryPrefab;
 
+    [SerializeField] private GameObject LeaveGameSinglePlayer;
+
+    [SerializeField] private TMP_Text completeTimeTxt;
     [SerializeField] private TMP_InputField userEnteredName;
 
     private string leaderboardID = "FastestTimes";
@@ -21,6 +29,19 @@ public class LeaderboardManagerTest : MonoBehaviour
     private bool isSigningIn = false;
     private bool hasSubmittedTime = false;
     private bool refresh = true;
+
+    private double completedTime;
+
+    private void Awake()
+    {
+        if (instance != null && instance != this)
+        {
+            Destroy(gameObject);
+            return;
+        }
+
+        instance = this;
+    }
 
     private async void Start()
     {
@@ -32,7 +53,6 @@ public class LeaderboardManagerTest : MonoBehaviour
         await TrySignIn();
 
         //await LeaderboardsService.Instance.AddPlayerScoreAsync(leaderboardID, 105);
-        //SubmitScore(75.53, "user");
     }
 
     private async Task TrySignIn()
@@ -56,6 +76,7 @@ public class LeaderboardManagerTest : MonoBehaviour
 
     void Update()
     {
+        /* //testing input for the leaderboard
         if (Input.GetKeyDown(KeyCode.L) && !hasSubmittedTime)
         {
             submitUI.SetActive(true);
@@ -66,11 +87,13 @@ public class LeaderboardManagerTest : MonoBehaviour
             submitUI.SetActive(false);
             leaderboardUI.SetActive(false);
         }
+        */
 
         if (Input.GetKeyDown(KeyCode.Return) && submitUI.activeSelf) OnSubmitBtn();
 
         if (leaderboardUI.activeSelf && refresh)
         {
+            if (!AuthenticationService.Instance.IsSignedIn) return;
             refresh = false;
             refreshLeaderboard();
         }
@@ -78,10 +101,7 @@ public class LeaderboardManagerTest : MonoBehaviour
 
     private async void refreshLeaderboard()
     {
-        //Debug.Log("refreshing leaderboard");
-        await Task.Delay(1000);
-
-        LeaderboardScoresPage leaderboardScorePage = await LeaderboardsService.Instance.GetScoresAsync(leaderboardID);
+        LeaderboardScoresPage leaderboardScorePage = await LeaderboardsService.Instance.GetScoresAsync(leaderboardID, new GetScoresOptions() { Limit = 100 });
 
         foreach (Transform t in scrollviewContent) Destroy(t.gameObject);
 
@@ -99,29 +119,89 @@ public class LeaderboardManagerTest : MonoBehaviour
             //Debug.Log("name obj:" + entryTransform.GetChild(2).name);
             //Debug.Log("score obj:" + entryTransform.GetChild(3).name);
         }
+        //Debug.Log("refreshing leaderboard");
+        await Task.Delay(1000);
+
         refresh = true;
     }
 
     public void OnSubmitBtn()
     {
         //add check if username has spaces - not valid
-
-        SubmitScore(75.53, userEnteredName.text);
+        SubmitScore();
         hasSubmittedTime = true;
 
         submitUI.SetActive(false);
         leaderboardUI.SetActive(true);
     }
 
-    public async void SubmitScore(double time, string userName)
+    public async void SubmitScore()
     {
-        int timeMS = (int)(time * 1000);
-        //Debug.Log("submitting time: " + time + " for user: " + userName);
-        await AuthenticationService.Instance.UpdatePlayerNameAsync(userName);
-        await LeaderboardsService.Instance.AddPlayerScoreAsync(leaderboardID, timeMS, new AddPlayerScoreOptions());
+        int timeMS = (int)(completedTime * 1000);
+        //Debug.Log("submitting time: " + timeMS + " for user: " + userEnteredName.text);
+        await AuthenticationService.Instance.UpdatePlayerNameAsync(userEnteredName.text);
+        await LeaderboardsService.Instance.AddPlayerScoreAsync(leaderboardID, timeMS);
+
+        await Task.Delay(250);
 
         AuthenticationService.Instance.SignOut();
         AuthenticationService.Instance.ClearSessionToken();
         await TrySignIn();
+    }
+
+    public void setTime(double time)
+    {
+        completedTime = time;
+        int timeMS = (int)(time * 1000);
+        TimeSpan timeConverted = TimeSpan.FromMilliseconds((int)(timeMS));
+        submitUI.SetActive(true);
+        completeTimeTxt.GetComponent<TMPro.TextMeshProUGUI>().text = "Your time was: " + timeConverted.ToString(@"mm\:ss\.ff");
+
+        //Debug.Log("Your time was: " + timeConverted.ToString(@"mm\:ss\.ff"));
+    }
+
+    public void OnLeaveGameBtnPressed()
+    {
+        LobbySetUp.instance.dissconnect();
+        LobbySetUp.instance.showStartUI();
+    }
+
+    public void OnLeaveSinglePlayerPressed() 
+    {
+        Vector3 pos = new Vector3(0f, 2f, 0f);
+
+        GameObject hs = FindAnyObjectByType<HamsterBallController>().gameObject;
+        hs.GetComponent<Rigidbody>().isKinematic = true;
+
+        hs.GetComponent<HamsterBallController>().SetCanMove(false);
+        LobbySetUp.instance.setCanStart(false);
+
+        hs.transform.position = pos;
+        if (hs.transform.position != pos) hs.transform.position = pos;
+
+        hs.GetComponent<Rigidbody>().isKinematic = false;
+
+        RaceManager.Instance.ResetRace();
+        LobbySetUp.instance.showStartUI();
+        LeaveGameSinglePlayer.SetActive(false);
+    }
+
+    public void OnPlayAgainPressed()
+    {
+        if (NetworkManager.Singleton.LocalClientId == 0)
+        {
+            //Debug.Log("host pressed play again");
+            LobbySetUp.instance.showHostPlayAgainUI();
+        }
+        else
+        {   
+            //Debug.Log("client pressed play again");
+            LobbySetUp.instance.showClientPlayAgainUI();
+        }
+    }
+
+    public void OnShowSinglePlayerLeave()
+    {
+        LeaveGameSinglePlayer.SetActive(true);
     }
 }
