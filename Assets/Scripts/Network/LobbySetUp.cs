@@ -82,7 +82,7 @@ public class LobbySetUp : NetworkBehaviour
             }
 
             //Debug.Log("Client disconnected: " + clientId);
-            connectedPlayers--;
+            connectedPlayers = -1;
             connectedPlayersTxt.text = "Players Connected: " + connectedPlayers;
             return;
         }
