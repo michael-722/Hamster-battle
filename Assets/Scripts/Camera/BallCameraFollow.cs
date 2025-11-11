@@ -41,7 +41,11 @@ public class BallCameraFollow : MonoBehaviour
 
     void LateUpdate()
     {
-        if (target == null) return; // no target
+        if (target == null)
+        {
+            try { target = FindAnyObjectByType<HamsterBallController>().transform; }
+            catch { return; }// no target
+        }
 
         // orbit input (hold right mouse)
         if (Input.GetMouseButton(1))
