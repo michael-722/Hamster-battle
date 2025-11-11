@@ -4045,7 +4045,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 2018367045}
+      - m_Target: {fileID: 543138938}
         m_TargetAssemblyTypeName: SettingsMenu, Assembly-CSharp
         m_MethodName: ResumeGame
         m_Mode: 1
@@ -5118,7 +5118,6 @@ GameObject:
   - component: {fileID: 2018367042}
   - component: {fileID: 2018367044}
   - component: {fileID: 2018367043}
-  - component: {fileID: 2018367045}
   m_Layer: 5
   m_Name: Settings Panel
   m_TagString: Untagged
@@ -5184,20 +5183,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2018367041}
   m_CullTransparentMesh: 1
---- !u!114 &2018367045
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2018367041}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 86aa907087e6b7b4f8612efc2e7f4c6a, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  pauseMenu: {fileID: 2018367041}
-  isPaused: 0
 --- !u!1001 &2084956088
 PrefabInstance:
   m_ObjectHideFlags: 0
