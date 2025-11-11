@@ -16,7 +16,7 @@ MonoBehaviour:
   icon: {fileID: 0}
   duration: 15
   stacks: 0
-  speedMult: 20
+  speedMult: 1.5
   sizeMult: 1
   pushBack: 0
   scope: 0
