@@ -21,4 +21,4 @@ MonoBehaviour:
   pushBack: 60
   scope: 1
   centredOnPicker: 1
-  aoeRadius: 40
+  aoeRadius: 15
