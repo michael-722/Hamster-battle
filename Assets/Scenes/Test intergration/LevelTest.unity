@@ -2190,7 +2190,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 967268332101201373, guid: 3fb56519096392646abd8378296bc602, type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8899603381240829720, guid: 3fb56519096392646abd8378296bc602, type: 3}
       propertyPath: m_LocalPosition.x
@@ -3042,6 +3042,7 @@ MonoBehaviour:
   submitUI: {fileID: 1753227734}
   scrollviewContent: {fileID: 1425992067}
   entryPrefab: {fileID: 6837058189125872301, guid: faee1f7c59568f5418490386ece5a2e6, type: 3}
+  LeaveGameSinglePlayer: {fileID: 0}
   completeTimeTxt: {fileID: 0}
   userEnteredName: {fileID: 1928863402}
 --- !u!1001 &1738307077
@@ -3058,7 +3059,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 413645149251144281, guid: 259c5f0869674ce4db17dfa57452d543, type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 4647501879011114783, guid: 259c5f0869674ce4db17dfa57452d543, type: 3}
       propertyPath: m_LocalPosition.x
@@ -4025,7 +4026,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 5626487332820138756, guid: 486789c4b9b50db43a0d54f03898be7a, type: 3}
       propertyPath: GlobalObjectIdHash
-      value: 2996399029
+      value: 1758935410
       objectReference: {fileID: 0}
     - target: {fileID: 5676784670361202095, guid: 486789c4b9b50db43a0d54f03898be7a, type: 3}
       propertyPath: m_Name
