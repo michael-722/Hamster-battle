@@ -202,15 +202,15 @@ PrefabInstance:
     - target: {fileID: 5205388365997288040, guid: f3bcc7c3103373e44835056998947089, type: 3}
       propertyPath: 'pickupPrefabs.Array.data[1]'
       value: 
-      objectReference: {fileID: 9206048007770735692, guid: 15f241d79bca2f54a863e12cd9799467, type: 3}
+      objectReference: {fileID: 9206048007770735692, guid: 9098e9d87f16dac42958a28506d4a43d, type: 3}
     - target: {fileID: 5205388365997288040, guid: f3bcc7c3103373e44835056998947089, type: 3}
       propertyPath: 'pickupPrefabs.Array.data[2]'
       value: 
-      objectReference: {fileID: 9206048007770735692, guid: 15f241d79bca2f54a863e12cd9799467, type: 3}
+      objectReference: {fileID: 9206048007770735692, guid: bf3cc806b354da1458d0053201a3142a, type: 3}
     - target: {fileID: 5205388365997288040, guid: f3bcc7c3103373e44835056998947089, type: 3}
       propertyPath: 'pickupPrefabs.Array.data[3]'
       value: 
-      objectReference: {fileID: 9206048007770735692, guid: 15f241d79bca2f54a863e12cd9799467, type: 3}
+      objectReference: {fileID: 9206048007770735692, guid: 2f1e3bfa41e498e489f3518588730e97, type: 3}
     - target: {fileID: 5362293811683539759, guid: f3bcc7c3103373e44835056998947089, type: 3}
       propertyPath: m_LocalPosition.x
       value: -19.977276
