@@ -1,11 +1,14 @@
 using System;
 using System.Threading.Tasks;
+using TMPro;
+using Unity.Netcode;
 using Unity.Services.Authentication;
 using Unity.Services.Core;
 using Unity.Services.Leaderboards;
 using Unity.Services.Leaderboards.Models;
+using UnityEditor;
 using UnityEngine;
-using TMPro;
+using UnityEngine.SocialPlatforms.Impl;
 
 public class LeaderboardManager : MonoBehaviour
 {
@@ -15,6 +18,8 @@ public class LeaderboardManager : MonoBehaviour
     [SerializeField] private GameObject submitUI;
     [SerializeField] private Transform scrollviewContent;
     [SerializeField] private Transform entryPrefab;
+
+    [SerializeField] private GameObject LeaveGameSinglePlayer;
 
     [SerializeField] private TMP_Text completeTimeTxt;
     [SerializeField] private TMP_InputField userEnteredName;
@@ -88,6 +93,7 @@ public class LeaderboardManager : MonoBehaviour
 
         if (leaderboardUI.activeSelf && refresh)
         {
+            if (!AuthenticationService.Instance.IsSignedIn) return;
             refresh = false;
             refreshLeaderboard();
         }
@@ -95,10 +101,7 @@ public class LeaderboardManager : MonoBehaviour
 
     private async void refreshLeaderboard()
     {
-        //Debug.Log("refreshing leaderboard");
-        await Task.Delay(1000);
-
-        LeaderboardScoresPage leaderboardScorePage = await LeaderboardsService.Instance.GetScoresAsync(leaderboardID);
+        LeaderboardScoresPage leaderboardScorePage = await LeaderboardsService.Instance.GetScoresAsync(leaderboardID, new GetScoresOptions() { Limit = 100 });
 
         foreach (Transform t in scrollviewContent) Destroy(t.gameObject);
 
@@ -116,6 +119,9 @@ public class LeaderboardManager : MonoBehaviour
             //Debug.Log("name obj:" + entryTransform.GetChild(2).name);
             //Debug.Log("score obj:" + entryTransform.GetChild(3).name);
         }
+        //Debug.Log("refreshing leaderboard");
+        await Task.Delay(1000);
+
         refresh = true;
     }
 
@@ -131,11 +137,12 @@ public class LeaderboardManager : MonoBehaviour
 
     public async void SubmitScore()
     {
-        Debug.Log("testsss");
         int timeMS = (int)(completedTime * 1000);
-        Debug.Log("submitting time: " + timeMS + " for user: " + userEnteredName.text);
+        //Debug.Log("submitting time: " + timeMS + " for user: " + userEnteredName.text);
         await AuthenticationService.Instance.UpdatePlayerNameAsync(userEnteredName.text);
         await LeaderboardsService.Instance.AddPlayerScoreAsync(leaderboardID, timeMS);
+
+        await Task.Delay(250);
 
         AuthenticationService.Instance.SignOut();
         AuthenticationService.Instance.ClearSessionToken();
@@ -150,6 +157,38 @@ public class LeaderboardManager : MonoBehaviour
         submitUI.SetActive(true);
         completeTimeTxt.GetComponent<TMPro.TextMeshProUGUI>().text = "Your time was: " + timeConverted.ToString(@"mm\:ss\.ff");
 
-        Debug.Log("Your time was: " + timeConverted.ToString(@"mm\:ss\.ff"));
+        //Debug.Log("Your time was: " + timeConverted.ToString(@"mm\:ss\.ff"));
+    }
+
+    public void OnLeaveGameBtnPressed()
+    {
+        LobbySetUp.instance.dissconnect();
+        LobbySetUp.instance.showStartUI();
+    }
+
+    public void OnLeaveSinglePlayerPressed() 
+    {
+        RaceManager.Instance.ResetRace();
+        LobbySetUp.instance.showStartUI();
+        LeaveGameSinglePlayer.SetActive(false);
+    }
+
+    public void OnPlayAgainPressed()
+    {
+        if (NetworkManager.Singleton.LocalClientId == 0)
+        {
+            //Debug.Log("host pressed play again");
+            LobbySetUp.instance.showHostPlayAgainUI();
+        }
+        else
+        {   
+            //Debug.Log("client pressed play again");
+            LobbySetUp.instance.showClientPlayAgainUI();
+        }
+    }
+
+    public void OnShowSinglePlayerLeave()
+    {
+        LeaveGameSinglePlayer.SetActive(true);
     }
 }

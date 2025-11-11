@@ -5,7 +5,7 @@ using UnityEngine.UIElements;
 using Unity.Services.Authentication;
 using Unity.Netcode.Components;//networking
 
-// Slingshot: pull = power, mouse wheel = arc; 0° arc draws a flat ground line
+// Slingshot: pull = power, mouse wheel = arc; 0Â° arc draws a flat ground line
 [RequireComponent(typeof(Rigidbody))]
 [RequireComponent(typeof(LineRenderer))]
 public class HamsterBallController : NetworkBehaviour
@@ -29,7 +29,7 @@ public class HamsterBallController : NetworkBehaviour
     [Header("Trajectory")]
     public int trajectoryPoints = 25; // number of points
     public float timeStep = 0.06f; // arc timestep
-    public float flatPreviewMaxDistance = 8f; // max flat line length at 0°
+    public float flatPreviewMaxDistance = 8f; // max flat line length at 0Â°
 
     [Header("Audio (optional)")]
     public AudioSource shootSfx; // sound on shoot
@@ -65,6 +65,7 @@ public class HamsterBallController : NetworkBehaviour
     private void Start()
     {
         basePower = power; // remember original power
+        canMove = false;
     }
 
     public override void OnNetworkSpawn()
@@ -84,12 +85,14 @@ public class HamsterBallController : NetworkBehaviour
     private void Update()
     {
         if (GateToOwner()) return; // only gate when netcode is running
-
         if (!canMove)
-            if (!CheckGameStatus()) return;//disable player until game starts
-            else gameObject.GetComponent<PlayerRace>().startRaceTimer();//starts timer
+        {
+            canMove = LobbySetUp.instance.canStart();
+            return;
+        }
 
-                UpdateStopGate(); // update canShoot
+
+        UpdateStopGate(); // update canShoot
 
         if (inputEnabled) // only when enabled
         {
@@ -99,16 +102,19 @@ public class HamsterBallController : NetworkBehaviour
             if (Input.GetKeyDown(KeyCode.R)) StopBall(); // dev freeze
         }
     }
-    
-    private bool CheckGameStatus()
+
+    public void SetCanMove(bool value)
     {
-        if (LobbySetUp.instance == null)
+        canMove = value;
+        if (!value)
         {
-            Debug.Log("no lobby set up instance");
-            return canMove;
+            rb.linearVelocity = Vector3.zero;
+            rb.angularVelocity = Vector3.zero;
         }
-        canMove = LobbySetUp.instance.canStart();
-        return canMove;
+        else
+        { 
+            gameObject.GetComponent<PlayerRace>().startRaceTimerRpc(); 
+        }
     }
 
     // true only when Netcode is active and this isn't our owned ball
@@ -199,7 +205,7 @@ public class HamsterBallController : NetworkBehaviour
         Vector3 flatDir = new Vector3(dragVec.x, 0f, dragVec.z); // ground direction
         float pullFrac = Mathf.Clamp01(dragVec.magnitude / maxDragDistance); // 0..1
 
-        // branch: flat line when loft is 0°, arc otherwise
+        // branch: flat line when loft is 0Â°, arc otherwise
         if (loftAngleDeg <= 0.0001f)
         {
             DrawFlatPreview(flatDir, pullFrac); // straight ground line
