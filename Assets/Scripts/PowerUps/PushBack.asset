@@ -14,11 +14,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   id: push_others
   icon: {fileID: 0}
-  duration: 120
+  duration: 30
   stacks: 0
   speedMult: 1
   sizeMult: 1
   pushBack: 60
   scope: 1
   centredOnPicker: 1
-  aoeRadius: 15
+  aoeRadius: 7
