@@ -28,8 +28,7 @@ public class RaceHUD : MonoBehaviour
 
     private void OnDestroy()
     {
-        if (local != null)
-            local.OnResultChanged -= OnResultChanged;
+        if (local != null) local.OnResultChanged -= OnResultChanged;
     }
 
     public void ResetHUD()

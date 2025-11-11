@@ -32,12 +32,10 @@ public class PlayerRace : NetworkBehaviour
             RaceManager.Instance.RegisterFinishServerRpc(OwnerClientId);
         else
             RaceManager.Instance.RegisterFinishOffline(this);
-
-        HideRaceCountDownRpc();
     }
 
-    [Rpc(SendTo.Owner)]
-    private void HideRaceCountDownRpc()
+    
+    public void HideRaceCountDownRpc()
     {
         //Debug.Log("Hiding");
         RaceHUD.Instance.SetFinished(true);

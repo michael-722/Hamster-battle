@@ -95,6 +95,7 @@ public class RaceManager : NetworkBehaviour
 
         var pr = FindLocalPlayerRace();
         if (pr != null) pr.SetResultLocal(result, rank);
+        pr.HideRaceCountDownRpc();
     }
 
     private PlayerRace FindLocalPlayerRace()
