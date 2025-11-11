@@ -1,8 +1,9 @@
-using UnityEngine;
+using System.Threading.Tasks;
 using TMPro;
 using Unity.Netcode;
+using UnityEditor.PackageManager;
+using UnityEngine;
 using UnityEngine.UI;
-using System.Threading.Tasks;
 
 public class LobbySetUp : NetworkBehaviour
 {
@@ -82,7 +83,7 @@ public class LobbySetUp : NetworkBehaviour
             }
 
             //Debug.Log("Client disconnected: " + clientId);
-            connectedPlayers--;
+            connectedPlayers = -1;
             connectedPlayersTxt.text = "Players Connected: " + connectedPlayers;
             return;
         }
@@ -150,7 +151,13 @@ public class LobbySetUp : NetworkBehaviour
     public void OnSingleplayerPressed()
     {
         canStartGame.Value = true;
+
+        Vector3 spawnPos = GetSpawnPosition(NetworkManager.Singleton.LocalClientId);
+        Quaternion spawnRot = Quaternion.identity;
+
+        GameObject player = Instantiate(NetworkManager.Singleton.NetworkConfig.PlayerPrefab, spawnPos, spawnRot);
         //syncedCountdown.instance.StartCountdown();
+        
     }
 
     public void onJoinGamePressed()
