@@ -180,6 +180,11 @@ public class LeaderboardManager : MonoBehaviour
         dnfUI.SetActive(true);
     }
 
+    public void OnSinglePlayerPlayAgain()
+    {
+        LobbySetUp.instance.OnSingleplayerPressed();
+    }
+
     public void OnPlayAgainPressed()
     {
         if (NetworkManager.Singleton.LocalClientId == 0)

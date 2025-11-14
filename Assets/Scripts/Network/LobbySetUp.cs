@@ -79,11 +79,12 @@ public class LobbySetUp : NetworkBehaviour
             if (clientId == 0)
             {
                 startGameBtn.SetActive(false);
+                connectedPlayers = -1;
                 return;//host dc
             }
 
-            //Debug.Log("Client disconnected: " + clientId);
-            connectedPlayers = -1;
+            Debug.Log("Client disconnected: " + clientId);
+            connectedPlayers--;
             connectedPlayersTxt.text = "Players Connected: " + connectedPlayers;
             return;
         }
@@ -204,9 +205,6 @@ public class LobbySetUp : NetworkBehaviour
     {
         UIRootObj.SetActive(true);
         LobbyUI.SetActive(true);
-
-        canStartGame.Value = false;
-        gameStarted.Value = false;
 
         resetHUD();
     }
