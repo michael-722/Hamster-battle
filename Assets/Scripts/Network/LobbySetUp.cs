@@ -1,7 +1,6 @@
 using System.Threading.Tasks;
 using TMPro;
 using Unity.Netcode;
-using UnityEditor.PackageManager;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -32,6 +31,8 @@ public class LobbySetUp : NetworkBehaviour
 
     private int connectedPlayers = -1;
     private bool singlePlayer = false;
+
+    private bool hasHostDC = false;
 
     private void Awake()
     {
@@ -76,14 +77,14 @@ public class LobbySetUp : NetworkBehaviour
     {
         if (IsServer)
         {
-            if (clientId == 0)
+            if (clientId == 0)//host dc
             {
                 startGameBtn.SetActive(false);
                 connectedPlayers = -1;
-                return;//host dc
+                return;
             }
 
-            Debug.Log("Client disconnected: " + clientId);
+            //Debug.Log("Client disconnected: " + clientId);
             connectedPlayers--;
             connectedPlayersTxt.text = "Players Connected: " + connectedPlayers;
             return;
@@ -100,7 +101,11 @@ public class LobbySetUp : NetworkBehaviour
             }
             else if (reason.Contains("host shutting down"))//server dc
             {
+                startUI.SetActive(false);
                 LobbyUI.SetActive(false);
+                
+
+                hasHostDC = true;
                 hostLeftGameUI.SetActive(true);
             }
         }
@@ -201,16 +206,15 @@ public class LobbySetUp : NetworkBehaviour
         LobbyUI.SetActive(false);
     }
 
-    public void showClientPlayAgainUI()
-    {
-        UIRootObj.SetActive(true);
-        LobbyUI.SetActive(true);
-
-        resetHUD();
-    }
-
     public void showHostPlayAgainUI()
     {
+        if (hasHostDC)
+        {
+            showClientPlayAgainUI();
+            hasHostDC = false;
+            return;
+        }
+
         UIRootObj.SetActive(true);
         hostingUI.SetActive(true);
 
@@ -219,6 +223,18 @@ public class LobbySetUp : NetworkBehaviour
 
         resetPlayers();
         RaceManager.Instance?.ResetRace();
+        resetHUD();
+    }
+
+    public void showClientPlayAgainUI()
+    {
+        hostingUI.SetActive(false);
+        UIRootObj.SetActive(true);
+
+        if (hostLeftGameUI.activeInHierarchy) return;
+        
+        LobbyUI.SetActive(true);
+
         resetHUD();
     }
 
