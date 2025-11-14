@@ -194,6 +194,9 @@ public class LobbySetUp : NetworkBehaviour
         UIRootObj.SetActive(true);
         startUI.SetActive(true);
 
+        canStartGame.Value = false;
+        gameStarted.Value = false;
+
         LobbyUI.SetActive(false);
     }
 
@@ -201,6 +204,9 @@ public class LobbySetUp : NetworkBehaviour
     {
         UIRootObj.SetActive(true);
         LobbyUI.SetActive(true);
+
+        canStartGame.Value = false;
+        gameStarted.Value = false;
 
         resetHUD();
     }
