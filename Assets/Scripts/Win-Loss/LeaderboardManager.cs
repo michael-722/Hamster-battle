@@ -24,6 +24,8 @@ public class LeaderboardManager : MonoBehaviour
     [SerializeField] private TMP_Text completeTimeTxt;
     [SerializeField] private TMP_InputField userEnteredName;
 
+    [SerializeField] private GameObject dnfUI;
+
     private string leaderboardID = "FastestTimes";
 
     private bool isSigningIn = false;
@@ -171,6 +173,11 @@ public class LeaderboardManager : MonoBehaviour
         RaceManager.Instance.ResetRace();
         LobbySetUp.instance.showStartUI();
         LeaveGameSinglePlayer.SetActive(false);
+    }
+
+    public void OnShowDNFUI()
+    {
+        dnfUI.SetActive(true);
     }
 
     public void OnPlayAgainPressed()
