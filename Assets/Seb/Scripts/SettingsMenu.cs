@@ -29,14 +29,25 @@ public class SettingsMenu : MonoBehaviour
     public void PauseGame()
     {
         pauseMenu.SetActive(true);
-        Time.timeScale = 0f;
+        //Time.timeScale = 0f;
         isPaused = true;
     }
 
     public void ResumeGame()
     {
         pauseMenu.SetActive(false);
-        Time.timeScale = 1f;
+        //Time.timeScale = 1f;
         isPaused = false;
+    }
+
+    public void MainMenu()
+    {
+        pauseMenu.SetActive(false);
+
+        HamsterBallController hamsterBall = FindFirstObjectByType<HamsterBallController>();
+        Destroy(hamsterBall.gameObject);
+
+        LobbySetUp.instance.dissconnect();
+        LobbySetUp.instance.showStartUI();
     }
 }

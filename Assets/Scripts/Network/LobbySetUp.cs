@@ -92,6 +92,7 @@ public class LobbySetUp : NetworkBehaviour
 
         if (clientId == NetworkManager.Singleton.LocalClientId)
         {
+            Debug.Log("Client disconnected from server. Reason: " + NetworkManager.Singleton.DisconnectReason);
             var reason = NetworkManager.Singleton.DisconnectReason;
 
             if (reason.Contains("Game already started"))
@@ -103,10 +104,10 @@ public class LobbySetUp : NetworkBehaviour
             {
                 startUI.SetActive(false);
                 LobbyUI.SetActive(false);
-                
 
                 hasHostDC = true;
                 hostLeftGameUI.SetActive(true);
+                UIRootObj.SetActive(true);
             }
         }
     }
@@ -162,13 +163,13 @@ public class LobbySetUp : NetworkBehaviour
         Quaternion spawnRot = Quaternion.identity;
 
         GameObject player = Instantiate(NetworkManager.Singleton.NetworkConfig.PlayerPrefab, spawnPos, spawnRot);
-        //syncedCountdown.instance.StartCountdown();
-        
+        //syncedCountdown.instance.StartCountdown(); 
     }
 
     public void onJoinGamePressed()
     {
         Relay.instance.JoinGame(lobbyCode.text);
+        lobbyCode.text = "";
     }
 
     public bool canStart()

@@ -59,8 +59,8 @@ public class SoundManager : MonoBehaviour
         {
             //SetMasterVolume(PlayerPrefs.GetFloat("SetMasterVolume"));
             
-            Debug.Log("loaded music vol: " + PlayerPrefs.GetFloat("MusicVolume"));
-            Debug.Log("loaded SFX vol: " + PlayerPrefs.GetFloat("SFXVolume"));
+            //Debug.Log("loaded music vol: " + PlayerPrefs.GetFloat("MusicVolume"));
+            //Debug.Log("loaded SFX vol: " + PlayerPrefs.GetFloat("SFXVolume"));
 
             SetMusicVolume(PlayerPrefs.GetFloat("MusicVolume"));
             SetSFXVolume(PlayerPrefs.GetFloat("SFXVolume"));

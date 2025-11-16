@@ -525,7 +525,6 @@ GameObject:
   - component: {fileID: 2785937549813320653}
   - component: {fileID: 3468854068898518862}
   - component: {fileID: 8179897389804059976}
-  - component: {fileID: 7252031869950339181}
   m_Layer: 5
   m_Name: Settings Panel
   m_TagString: Untagged
@@ -545,12 +544,12 @@ RectTransform:
   m_LocalScale: {x: 0.6, y: 2, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
-  - {fileID: 2131394400204200181}
   - {fileID: 6095134319803701432}
   - {fileID: 2225721992131585733}
   - {fileID: 4183941198106944671}
   - {fileID: 3418242882460463598}
   - {fileID: 148276897895697649}
+  - {fileID: 2131394400204200181}
   - {fileID: 4883195377322456144}
   - {fileID: 4671613319966276956}
   m_Father: {fileID: 6470399590056476223}
@@ -598,20 +597,6 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
---- !u!114 &7252031869950339181
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1457047491718401394}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 86aa907087e6b7b4f8612efc2e7f4c6a, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  pauseMenu: {fileID: 1457047491718401394}
-  isPaused: 0
 --- !u!1 &1561145382931843294
 GameObject:
   m_ObjectHideFlags: 0
@@ -1237,7 +1222,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 1, y: 1}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: -110, y: -284.8895}
+  m_AnchoredPosition: {x: -381, y: -291}
   m_SizeDelta: {x: 152, y: 244}
   m_Pivot: {x: 1, y: 1}
 --- !u!222 &17310168828673718
@@ -1322,7 +1307,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 7252031869950339181}
+      - m_Target: {fileID: 8584046247988066087}
         m_TargetAssemblyTypeName: SettingsMenu, Assembly-CSharp
         m_MethodName: ResumeGame
         m_Mode: 1
@@ -2601,7 +2586,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 249303132703344426}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 8584046247988066087}
+        m_TargetAssemblyTypeName: SettingsMenu, Assembly-CSharp
+        m_MethodName: MainMenu
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!1 &7834664841328982309
 GameObject:
   m_ObjectHideFlags: 0
