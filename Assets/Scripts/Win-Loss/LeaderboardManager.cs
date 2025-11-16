@@ -193,7 +193,7 @@ public class LeaderboardManager : MonoBehaviour
             LobbySetUp.instance.showHostPlayAgainUI();
         }
         else
-        {   
+        {
             //Debug.Log("client pressed play again");
             LobbySetUp.instance.showClientPlayAgainUI();
         }
