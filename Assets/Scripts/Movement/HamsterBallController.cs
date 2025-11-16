@@ -111,6 +111,7 @@ public class HamsterBallController : NetworkBehaviour
             canMove = LobbySetUp.instance.canStart();
             return;
         }
+        if (SettingsMenu.instance.isPaused) return;
 
 
         UpdateStopGate(); // update canShoot

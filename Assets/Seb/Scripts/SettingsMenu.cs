@@ -3,11 +3,21 @@ using Input = UnityEngine.Input;
 
 public class SettingsMenu : MonoBehaviour
 {
+    public static SettingsMenu instance;
+
     public GameObject pauseMenu;
     public bool isPaused;
 
     private void Start()
     {
+        if (instance != null)
+        {
+            Debug.LogWarning("more than one settingsMenu instance - destroying duplicate");
+            Destroy(gameObject);
+            return;
+        }
+
+        instance = this;
         pauseMenu.SetActive(false);
     }
 
@@ -29,6 +39,7 @@ public class SettingsMenu : MonoBehaviour
     public void PauseGame()
     {
         pauseMenu.SetActive(true);
+
         //Time.timeScale = 0f;
         isPaused = true;
     }
@@ -36,6 +47,7 @@ public class SettingsMenu : MonoBehaviour
     public void ResumeGame()
     {
         pauseMenu.SetActive(false);
+        
         //Time.timeScale = 1f;
         isPaused = false;
     }
