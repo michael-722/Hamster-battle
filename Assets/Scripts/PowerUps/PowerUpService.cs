@@ -52,8 +52,6 @@ public static class PowerupService
         }
 
         BeginPushbackRepeater(def, picker, center);
-        picker.ShowPowerupActivatedClientRpc(def.id, def.duration, picker.OwnerClientId);
-
     }
 
     // shared targeting rules (Self / OthersInRadius / AllInRadius)
@@ -84,7 +82,6 @@ public static class PowerupService
 
         var repeater = repeaterObject.AddComponent<PowerupPushbackRepeater>();
         repeater.Initialise(def, picker, center);
-
     }
 
     private static void ApplyPushbackImpulse(PowerupDef def, PlayerRace picker, PlayerRace target, Vector3 center)
