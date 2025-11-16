@@ -92,7 +92,7 @@ public class LobbySetUp : NetworkBehaviour
 
         if (clientId == NetworkManager.Singleton.LocalClientId)
         {
-            Debug.Log("Client disconnected from server. Reason: " + NetworkManager.Singleton.DisconnectReason);
+            //Debug.Log("Client disconnected from server. Reason: " + NetworkManager.Singleton.DisconnectReason);
             var reason = NetworkManager.Singleton.DisconnectReason;
 
             if (reason.Contains("Game already started"))

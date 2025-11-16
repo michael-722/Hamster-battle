@@ -1,9 +1,12 @@
 using UnityEngine;
 using Input = UnityEngine.Input;
+using UnityEngine.UI;
 
 public class SettingsMenu : MonoBehaviour
 {
     public static SettingsMenu instance;
+
+    [SerializeField] private Slider sensitivitySlider;
 
     public GameObject pauseMenu;
     public bool isPaused;
@@ -19,6 +22,15 @@ public class SettingsMenu : MonoBehaviour
 
         instance = this;
         pauseMenu.SetActive(false);
+
+        try
+        {
+            SetSenVal(PlayerPrefs.GetFloat("sensitivity"));
+        }
+        catch
+        {
+            SetSenVal(0.5f);
+        }
     }
 
     private void Update()
@@ -61,5 +73,19 @@ public class SettingsMenu : MonoBehaviour
 
         LobbySetUp.instance.dissconnect();
         LobbySetUp.instance.showStartUI();
+    }
+
+    public void SetSenVal(float val)
+    {
+        //Debug.Log("SFX vol: " + vol);
+        sensitivitySlider.value = val;
+
+        PlayerPrefs.SetFloat("sensitivity", val);
+        PlayerPrefs.Save();
+    }
+
+    public float GetSenVal()
+    {
+        return sensitivitySlider.value;
     }
 }
