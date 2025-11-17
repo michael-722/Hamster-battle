@@ -66,6 +66,7 @@ public class PlayerRace : NetworkBehaviour
     public void SetResultLocal(RaceResult r, int rank)
     {
         if (Result != RaceResult.None) return; // only once
+        if (r == RaceResult.LoseStuck) LeaderboardManager.instance.OnShowDNFUI();//call dnf ui
         Result = r;
         Rank = rank;
 
@@ -77,6 +78,7 @@ public class PlayerRace : NetworkBehaviour
 
         OnResultChanged?.Invoke(Result, Rank); // notify HUD
     }
+
     [ClientRpc]
     public void ApplyPowerUpByIdClientRpc(string powerupId, ClientRpcParams rpcParams = default)
     {

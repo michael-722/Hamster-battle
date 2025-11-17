@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   id: size_up
   icon: {fileID: 0}
-  duration: 5
+  duration: 10
   stacks: 1
   speedMult: 1
   sizeMult: 2
