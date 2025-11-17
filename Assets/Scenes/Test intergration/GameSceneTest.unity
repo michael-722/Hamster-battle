@@ -905,6 +905,10 @@ PrefabInstance:
       propertyPath: m_AnchorMax.y
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 8584046247988066087, guid: 88913def2829d2d4abf482297f738c6e, type: 3}
+      propertyPath: sensitivitySlider
+      value: 
+      objectReference: {fileID: 1636453853}
     - target: {fileID: 8971106920201798524, guid: 88913def2829d2d4abf482297f738c6e, type: 3}
       propertyPath: m_RaycastTarget
       value: 1
@@ -1685,6 +1689,17 @@ Transform:
   m_Children: []
   m_Father: {fileID: 1557809555}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1636453853 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 1604249231761964388, guid: 88913def2829d2d4abf482297f738c6e, type: 3}
+  m_PrefabInstance: {fileID: 507932340}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 67db9e8f0e2ae9c40bc1e2b64352a6b4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1666171560 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 5179428176708180596, guid: 259c5f0869674ce4db17dfa57452d543, type: 3}
