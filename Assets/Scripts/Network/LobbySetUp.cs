@@ -1,7 +1,6 @@
 using System.Threading.Tasks;
 using TMPro;
 using Unity.Netcode;
-using UnityEditor.PackageManager;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -32,6 +31,8 @@ public class LobbySetUp : NetworkBehaviour
 
     private int connectedPlayers = -1;
     private bool singlePlayer = false;
+
+    private bool hasHostDC = false;
 
     private void Awake()
     {
@@ -76,20 +77,22 @@ public class LobbySetUp : NetworkBehaviour
     {
         if (IsServer)
         {
-            if (clientId == 0)
+            if (clientId == 0)//host dc
             {
                 startGameBtn.SetActive(false);
-                return;//host dc
+                connectedPlayers = -1;
+                return;
             }
 
             //Debug.Log("Client disconnected: " + clientId);
-            connectedPlayers = -1;
+            connectedPlayers--;
             connectedPlayersTxt.text = "Players Connected: " + connectedPlayers;
             return;
         }
 
         if (clientId == NetworkManager.Singleton.LocalClientId)
         {
+            //Debug.Log("Client disconnected from server. Reason: " + NetworkManager.Singleton.DisconnectReason);
             var reason = NetworkManager.Singleton.DisconnectReason;
 
             if (reason.Contains("Game already started"))
@@ -99,8 +102,12 @@ public class LobbySetUp : NetworkBehaviour
             }
             else if (reason.Contains("host shutting down"))//server dc
             {
+                startUI.SetActive(false);
                 LobbyUI.SetActive(false);
+
+                hasHostDC = true;
                 hostLeftGameUI.SetActive(true);
+                UIRootObj.SetActive(true);
             }
         }
     }
@@ -156,13 +163,13 @@ public class LobbySetUp : NetworkBehaviour
         Quaternion spawnRot = Quaternion.identity;
 
         GameObject player = Instantiate(NetworkManager.Singleton.NetworkConfig.PlayerPrefab, spawnPos, spawnRot);
-        //syncedCountdown.instance.StartCountdown();
-        
+        //syncedCountdown.instance.StartCountdown(); 
     }
 
     public void onJoinGamePressed()
     {
         Relay.instance.JoinGame(lobbyCode.text);
+        lobbyCode.text = "";
     }
 
     public bool canStart()
@@ -194,19 +201,21 @@ public class LobbySetUp : NetworkBehaviour
         UIRootObj.SetActive(true);
         startUI.SetActive(true);
 
+        canStartGame.Value = false;
+        gameStarted.Value = false;
+
         LobbyUI.SetActive(false);
-    }
-
-    public void showClientPlayAgainUI()
-    {
-        UIRootObj.SetActive(true);
-        LobbyUI.SetActive(true);
-
-        resetHUD();
     }
 
     public void showHostPlayAgainUI()
     {
+        if (hasHostDC)
+        {
+            showClientPlayAgainUI();
+            hasHostDC = false;
+            return;
+        }
+
         UIRootObj.SetActive(true);
         hostingUI.SetActive(true);
 
@@ -215,6 +224,18 @@ public class LobbySetUp : NetworkBehaviour
 
         resetPlayers();
         RaceManager.Instance?.ResetRace();
+        resetHUD();
+    }
+
+    public void showClientPlayAgainUI()
+    {
+        hostingUI.SetActive(false);
+        UIRootObj.SetActive(true);
+
+        if (hostLeftGameUI.activeInHierarchy) return;
+        
+        LobbyUI.SetActive(true);
+
         resetHUD();
     }
 

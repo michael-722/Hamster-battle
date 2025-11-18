@@ -66,6 +66,7 @@ public class PlayerRace : NetworkBehaviour
     public void SetResultLocal(RaceResult r, int rank)
     {
         if (Result != RaceResult.None) return; // only once
+        if (r == RaceResult.LoseStuck) LeaderboardManager.instance.OnShowDNFUI();//call dnf ui
         Result = r;
         Rank = rank;
 
@@ -77,11 +78,20 @@ public class PlayerRace : NetworkBehaviour
 
         OnResultChanged?.Invoke(Result, Rank); // notify HUD
     }
+
     [ClientRpc]
     public void ApplyPowerUpByIdClientRpc(string powerupId, ClientRpcParams rpcParams = default)
     {
         var mgr = GetComponent<PowerupManager>();
         if (mgr) mgr.GiveById(powerupId);
+    }
+
+    [ClientRpc]
+    public void ShowPowerupActivatedClientRpc(string powerupId, float duration, ulong pickerId)
+    {
+        string who = $"Player {pickerId}";
+        string msg = $"{who} has activated {powerupId} for {duration:0.#} seconds";
+        NotificationUI.Instance?.Show(msg, duration);
     }
 
     public void ResetPlayer()

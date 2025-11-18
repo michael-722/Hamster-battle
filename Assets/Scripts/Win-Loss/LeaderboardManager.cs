@@ -24,6 +24,8 @@ public class LeaderboardManager : MonoBehaviour
     [SerializeField] private TMP_Text completeTimeTxt;
     [SerializeField] private TMP_InputField userEnteredName;
 
+    [SerializeField] private GameObject dnfUI;
+
     private string leaderboardID = "FastestTimes";
 
     private bool isSigningIn = false;
@@ -173,6 +175,16 @@ public class LeaderboardManager : MonoBehaviour
         LeaveGameSinglePlayer.SetActive(false);
     }
 
+    public void OnShowDNFUI()
+    {
+        dnfUI.SetActive(true);
+    }
+
+    public void OnSinglePlayerPlayAgain()
+    {
+        LobbySetUp.instance.OnSingleplayerPressed();
+    }
+
     public void OnPlayAgainPressed()
     {
         if (NetworkManager.Singleton.LocalClientId == 0)
@@ -181,7 +193,7 @@ public class LeaderboardManager : MonoBehaviour
             LobbySetUp.instance.showHostPlayAgainUI();
         }
         else
-        {   
+        {
             //Debug.Log("client pressed play again");
             LobbySetUp.instance.showClientPlayAgainUI();
         }
