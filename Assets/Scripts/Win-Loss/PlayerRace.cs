@@ -90,6 +90,14 @@ public class PlayerRace : NetworkBehaviour
         if (mgr) mgr.GiveById(powerupId);
     }
 
+    [ClientRpc]
+    public void ShowPowerupActivatedClientRpc(string powerupId, float duration, ulong pickerId)
+    {
+        string who = $"Player {pickerId}";
+        string msg = $"{who} has activated {powerupId} for {duration:0.#} seconds";
+        NotificationUI.Instance?.Show(msg, duration);
+    }
+
     public void ResetPlayer()
     {
         Result = RaceResult.None;
