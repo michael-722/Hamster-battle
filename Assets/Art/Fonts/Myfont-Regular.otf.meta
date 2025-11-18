@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: c54aad48d1c14d84692940147428a28a
+guid: d4d7bf4ce5bdaaf40976e7ab5ccede6d
 TrueTypeFontImporter:
   externalObjects: {}
   serializedVersion: 4
@@ -9,7 +9,7 @@ TrueTypeFontImporter:
   characterPadding: 1
   includeFontData: 1
   fontNames:
-  - Clashfont
+  - Myfont
   fallbackFontReferences: []
   customCharacters: 
   fontRenderingMode: 0

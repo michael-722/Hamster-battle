@@ -41,13 +41,20 @@ public class BallCameraFollow : MonoBehaviour
 
     void LateUpdate()
     {
-        if (target == null) return; // no target
+        if (target == null)
+        {
+            try { target = FindAnyObjectByType<HamsterBallController>().transform; }
+            catch { return; }// no target
+        }
 
         // orbit input (hold right mouse)
         if (Input.GetMouseButton(1))
         {
-            yaw += Input.GetAxis("Mouse X") * 100f * xSensitivity * Time.deltaTime;   // left/right
-            pitch -= Input.GetAxis("Mouse Y") * 100f * ySensitivity * Time.deltaTime; // up/down
+            if (SettingsMenu.instance.isPaused) return;
+            float senMult = Mathf.Lerp(0.5f, 2f, Mathf.Clamp01(SettingsMenu.instance.GetSenVal()));
+
+            yaw += Input.GetAxis("Mouse X") * 100f * xSensitivity * senMult * Time.deltaTime;   // left/right
+            pitch -= Input.GetAxis("Mouse Y") * 100f * ySensitivity * senMult * Time.deltaTime; // up/down
             pitch = Mathf.Clamp(pitch, minPitch, maxPitch); // clamp pitch
         }
 

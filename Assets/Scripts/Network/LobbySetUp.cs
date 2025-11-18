@@ -1,14 +1,14 @@
-using UnityEngine;
+using System.Threading.Tasks;
 using TMPro;
 using Unity.Netcode;
+using UnityEngine;
 using UnityEngine.UI;
-using System.Threading.Tasks;
 
 public class LobbySetUp : NetworkBehaviour
 {
     public static LobbySetUp instance;
 
-    private NetworkVariable<bool> canStartGame = new(false, NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Server);
+    private NetworkVariable<bool> canStartGame = new(false);
     private NetworkVariable<bool> gameStarted = new(false);
 
     [SerializeField] private TMP_InputField lobbyCode;
@@ -31,6 +31,8 @@ public class LobbySetUp : NetworkBehaviour
 
     private int connectedPlayers = -1;
     private bool singlePlayer = false;
+
+    private bool hasHostDC = false;
 
     private void Awake()
     {
@@ -68,19 +70,22 @@ public class LobbySetUp : NetworkBehaviour
 
             connectedPlayers++;
             connectedPlayersTxt.text = "Players Connected: " + connectedPlayers;
+
+            response.Position = GetSpawnPosition((ulong)connectedPlayers);
         }
     }
 
     private void OnClientDisconnected(ulong clientId)
     {
+        if (clientId == 0)//host dc
+        {
+            startGameBtn.SetActive(false);
+            connectedPlayers = -1;
+            return;
+        }
+
         if (IsServer)
         {
-            if (clientId == 0)
-            {
-                startGameBtn.SetActive(false);
-                return;//host dc
-            }
-
             //Debug.Log("Client disconnected: " + clientId);
             connectedPlayers--;
             connectedPlayersTxt.text = "Players Connected: " + connectedPlayers;
@@ -89,6 +94,7 @@ public class LobbySetUp : NetworkBehaviour
 
         if (clientId == NetworkManager.Singleton.LocalClientId)
         {
+            //Debug.Log("Client disconnected from server. Reason: " + NetworkManager.Singleton.DisconnectReason);
             var reason = NetworkManager.Singleton.DisconnectReason;
 
             if (reason.Contains("Game already started"))
@@ -98,8 +104,14 @@ public class LobbySetUp : NetworkBehaviour
             }
             else if (reason.Contains("host shutting down"))//server dc
             {
+                startUI.SetActive(false);
                 LobbyUI.SetActive(false);
+
+                hasHostDC = true;
                 hostLeftGameUI.SetActive(true);
+                UIRootObj.SetActive(true);
+
+                syncedCountdown.instance.StopCountdown();
             }
         }
     }
@@ -150,12 +162,18 @@ public class LobbySetUp : NetworkBehaviour
     public void OnSingleplayerPressed()
     {
         canStartGame.Value = true;
-        //syncedCountdown.instance.StartCountdown();
+
+        Vector3 spawnPos = GetSpawnPosition(NetworkManager.Singleton.LocalClientId);
+        Quaternion spawnRot = Quaternion.identity;
+
+        GameObject player = Instantiate(NetworkManager.Singleton.NetworkConfig.PlayerPrefab, spawnPos, spawnRot);
+        //syncedCountdown.instance.StartCountdown(); 
     }
 
     public void onJoinGamePressed()
     {
         Relay.instance.JoinGame(lobbyCode.text);
+        lobbyCode.text = "";
     }
 
     public bool canStart()
@@ -178,6 +196,7 @@ public class LobbySetUp : NetworkBehaviour
     public void dissconnect()
     {
         NetworkManager.Singleton.Shutdown();
+        connectedPlayers = -1;
     }
 
     public void setSinglePlayer(bool state) { singlePlayer = state; }
@@ -188,23 +207,43 @@ public class LobbySetUp : NetworkBehaviour
         startUI.SetActive(true);
 
         LobbyUI.SetActive(false);
+
+        resetValuesRpc();
     }
 
-    public void showClientPlayAgainUI()
+    private void resetValuesRpc()
     {
-        UIRootObj.SetActive(true);
-        LobbyUI.SetActive(true);
-
-        resetHUD();
+        canStartGame = new(false);
+        gameStarted = new(false);
     }
 
     public void showHostPlayAgainUI()
     {
+        if (hasHostDC)
+        {
+            showClientPlayAgainUI();
+            hasHostDC = false;
+            return;
+        }
+
         UIRootObj.SetActive(true);
         hostingUI.SetActive(true);
 
-        canStartGame.Value = false;
-        gameStarted.Value = false;
+        resetValuesRpc();
+
+        resetPlayers();
+        RaceManager.Instance?.ResetRace();
+        resetHUD();
+    }
+
+    public void showClientPlayAgainUI()
+    {
+        hostingUI.SetActive(false);
+        UIRootObj.SetActive(true);
+
+        if (hostLeftGameUI.activeInHierarchy) return;
+        
+        LobbyUI.SetActive(true);
 
         resetPlayers();
         RaceManager.Instance?.ResetRace();
@@ -243,7 +282,7 @@ public class LobbySetUp : NetworkBehaviour
     //spawn pos func is from the hamsterball controller need to put into manager script septrately=====================
     private Vector3 GetSpawnPosition(ulong clientId)
     {
-        int id = (int)OwnerClientId;
+        int id = (int)clientId;
         float spawnRadius = 7.5f;
         float angle = id * 90f;
         Vector3 offset = new Vector3(Mathf.Cos(angle * Mathf.Deg2Rad), 0f, Mathf.Sin(angle * Mathf.Deg2Rad)) * spawnRadius;

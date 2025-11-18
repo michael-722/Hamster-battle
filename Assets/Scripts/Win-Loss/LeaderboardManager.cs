@@ -24,6 +24,8 @@ public class LeaderboardManager : MonoBehaviour
     [SerializeField] private TMP_Text completeTimeTxt;
     [SerializeField] private TMP_InputField userEnteredName;
 
+    [SerializeField] private GameObject dnfUI;
+
     private string leaderboardID = "FastestTimes";
 
     private bool isSigningIn = false;
@@ -168,22 +170,19 @@ public class LeaderboardManager : MonoBehaviour
 
     public void OnLeaveSinglePlayerPressed() 
     {
-        Vector3 pos = new Vector3(0f, 2f, 0f);
-
-        GameObject hs = FindAnyObjectByType<HamsterBallController>().gameObject;
-        hs.GetComponent<Rigidbody>().isKinematic = true;
-
-        hs.GetComponent<HamsterBallController>().SetCanMove(false);
-        LobbySetUp.instance.setCanStart(false);
-
-        hs.transform.position = pos;
-        if (hs.transform.position != pos) hs.transform.position = pos;
-
-        hs.GetComponent<Rigidbody>().isKinematic = false;
-
         RaceManager.Instance.ResetRace();
         LobbySetUp.instance.showStartUI();
         LeaveGameSinglePlayer.SetActive(false);
+    }
+
+    public void OnShowDNFUI()
+    {
+        dnfUI.SetActive(true);
+    }
+
+    public void OnSinglePlayerPlayAgain()
+    {
+        LobbySetUp.instance.OnSingleplayerPressed();
     }
 
     public void OnPlayAgainPressed()
@@ -194,7 +193,7 @@ public class LeaderboardManager : MonoBehaviour
             LobbySetUp.instance.showHostPlayAgainUI();
         }
         else
-        {   
+        {
             //Debug.Log("client pressed play again");
             LobbySetUp.instance.showClientPlayAgainUI();
         }

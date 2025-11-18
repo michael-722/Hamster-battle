@@ -1,10 +1,11 @@
+using System.Collections.Generic;
 using Unity.Netcode;
 using UnityEngine;
 using static PowerupDef;
 
 public static class PowerupService
 {
-   
+
     public static void Apply(PowerupDef def, PlayerRace picker, Vector3 center)
     {
         if (def == null || picker == null) return; // safety
@@ -23,7 +24,10 @@ public static class PowerupService
         {
             if (!IsTarget(def, picker, pr, center)) continue;
             pr.GetComponent<PowerupManager>()?.Give(def); // local apply
+            ApplyPushbackImpulse(def, picker, pr, center);
         }
+
+        BeginPushbackRepeater(def, picker, center);
     }
 
     // ---------- server authoritative ----------
@@ -31,35 +35,29 @@ public static class PowerupService
     {
         Debug.Log($"[PowerupService] SERVER applying '{def.id}' scope={def.scope} center={center}");
 
+        var targets = new List<PlayerRace>();
         foreach (var pr in Object.FindObjectsOfType<PlayerRace>())
         {
             if (!pr.IsSpawned) continue;
             if (!IsTarget(def, picker, pr, center)) continue;
+            targets.Add(pr);
 
             var to = new ClientRpcParams
             {
                 Send = new ClientRpcSendParams { TargetClientIds = new[] { pr.OwnerClientId } }
             };
             pr.ApplyPowerUpByIdClientRpc(def.id, to); // client resolves & applies
+
+            ApplyPushbackImpulse(def, picker, pr, center);
         }
 
-        if (def.pushBack > 0f)
-        {
-            // apply pushback effect immediately on server
-            foreach (var pr in Object.FindObjectsOfType<PlayerRace>())
-            {
-                if (!pr.IsSpawned) continue;
-                if (!IsTarget(def, picker, pr, center)) continue;
-                var rb = pr.GetComponent<Rigidbody>();
-                if (rb == null) continue;
-                Vector3 dir = (pr.transform.position - center).normalized; // away from center
-                rb.AddForce(dir * def.pushBack, ForceMode.Impulse);
-            }
-        }
+        BeginPushbackRepeater(def, picker, center);
+        picker.ShowPowerupActivatedClientRpc(def.id, def.duration, picker.OwnerClientId);
+
     }
 
     // shared targeting rules (Self / OthersInRadius / AllInRadius)
-    private static bool IsTarget(PowerupDef def, PlayerRace picker, PlayerRace candidate, Vector3 center)
+    internal static bool IsTarget(PowerupDef def, PlayerRace picker, PlayerRace candidate, Vector3 center)
     {
         switch (def.scope)
         {
@@ -74,5 +72,33 @@ public static class PowerupService
                 return Vector3.Distance(candidate.transform.position, center) <= def.aoeRadius;
         }
         return false;
+    }
+
+    private static void BeginPushbackRepeater(PowerupDef def, PlayerRace picker, Vector3 center)
+    {
+        if (def.pushBack <= 0f || def.duration <= 0f) return;
+
+        var repeaterObject = new GameObject($"{def.id}_PushbackRepeater");
+        repeaterObject.hideFlags = HideFlags.DontSave;
+        repeaterObject.transform.position = center;
+
+        var repeater = repeaterObject.AddComponent<PowerupPushbackRepeater>();
+        repeater.Initialise(def, picker, center);
+
+    }
+
+    private static void ApplyPushbackImpulse(PowerupDef def, PlayerRace picker, PlayerRace target, Vector3 center)
+    {
+        if (def == null || target == null) return;
+        if (def.pushBack <= 0f) return;
+
+        var rb = target.GetComponent<Rigidbody>();
+        if (rb == null) return;
+
+        var origin = def.centredOnPicker && picker != null ? picker.transform.position : center;
+        var dir = target.transform.position - origin;
+        if (dir.sqrMagnitude < 0.0001f) return;
+
+        rb.AddForce(dir.normalized * def.pushBack, ForceMode.Impulse);
     }
 }

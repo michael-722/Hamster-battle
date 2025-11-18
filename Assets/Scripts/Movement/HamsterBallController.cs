@@ -3,7 +3,8 @@ using UnityEngine;
 using Unity.Netcode;
 using UnityEngine.UIElements;
 using Unity.Services.Authentication;
-using Unity.Netcode.Components;//networking
+using Unity.Netcode.Components;
+using System.Collections.Generic;//networking
 
 // Slingshot: pull = power, mouse wheel = arc; 0° arc draws a flat ground line
 [RequireComponent(typeof(Rigidbody))]
@@ -52,6 +53,16 @@ public class HamsterBallController : NetworkBehaviour
 
     private bool inputEnabled = true;
 
+    //rgb yellow
+    private List<Color> playerColors;
+
+
+    [SerializeField] private float aplha = 0.65f;
+    [SerializeField] private Color player1Color;
+    [SerializeField] private Color player2Color;
+    [SerializeField] private Color player3Color;
+    [SerializeField] private Color player4Color;
+
     private void Awake()
     {
         rb = GetComponent<Rigidbody>();
@@ -66,20 +77,16 @@ public class HamsterBallController : NetworkBehaviour
     {
         basePower = power; // remember original power
         canMove = false;
-    }
 
-    public override void OnNetworkSpawn()
-    {
-        base.OnNetworkSpawn();
-
-        if (IsOwner)
+        playerColors = new List<Color>()
         {
-            int id = (int)OwnerClientId;
-            spawnRadius = 10f;
-            float angle = id * 90f;//90 appart - cahnge if more players added
-            Vector3 offset = new Vector3(Mathf.Cos(angle * Mathf.Deg2Rad), 0f, Mathf.Sin(angle * Mathf.Deg2Rad)) * spawnRadius;
-            transform.position = new Vector3(offset.x, 5f, offset.z);
-        }
+            new Color(player1Color.r, player1Color.g, player1Color.b, aplha),
+            new Color(player2Color.r, player2Color.g, player2Color.b, aplha),
+            new Color(player3Color.r, player3Color.g, player3Color.b, aplha),
+            new Color(player4Color.r, player4Color.g, player4Color.b, aplha)
+        };
+
+        gameObject.GetComponent<MeshRenderer>().material.color = playerColors[(int)OwnerClientId];
     }
 
     private void Update()
@@ -90,6 +97,7 @@ public class HamsterBallController : NetworkBehaviour
             canMove = LobbySetUp.instance.canStart();
             return;
         }
+        if (SettingsMenu.instance.isPaused) return;
 
 
         UpdateStopGate(); // update canShoot

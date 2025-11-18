@@ -4,6 +4,8 @@ using UnityEngine;
 // Per-player race state + input freeze
 public class PlayerRace : NetworkBehaviour
 {
+    public static PlayerRace instance;
+
     public RaceResult Result { get; private set; } = RaceResult.None; // outcome
     public int Rank { get; private set; } = 0; // 1=first, 2=second, 0=unknown
     public System.Action<RaceResult, int> OnResultChanged; // HUD hook
@@ -16,6 +18,8 @@ public class PlayerRace : NetworkBehaviour
 
     private void Awake()  
     {
+        instance = this;
+
         ctrl = GetComponent<HamsterBallController>();
     }
 
@@ -31,7 +35,10 @@ public class PlayerRace : NetworkBehaviour
         if (nm != null && nm.IsListening && IsSpawned)
             RaceManager.Instance.RegisterFinishServerRpc(OwnerClientId);
         else
+        {
+            Destroy(this.gameObject);
             RaceManager.Instance.RegisterFinishOffline(this);
+        }
     }
 
     
@@ -63,6 +70,7 @@ public class PlayerRace : NetworkBehaviour
     public void SetResultLocal(RaceResult r, int rank)
     {
         if (Result != RaceResult.None) return; // only once
+        if (r == RaceResult.LoseStuck) LeaderboardManager.instance.OnShowDNFUI();//call dnf ui
         Result = r;
         Rank = rank;
 
@@ -74,11 +82,20 @@ public class PlayerRace : NetworkBehaviour
 
         OnResultChanged?.Invoke(Result, Rank); // notify HUD
     }
+
     [ClientRpc]
     public void ApplyPowerUpByIdClientRpc(string powerupId, ClientRpcParams rpcParams = default)
     {
         var mgr = GetComponent<PowerupManager>();
         if (mgr) mgr.GiveById(powerupId);
+    }
+
+    [ClientRpc]
+    public void ShowPowerupActivatedClientRpc(string powerupId, float duration, ulong pickerId)
+    {
+        string who = $"Player {pickerId}";
+        string msg = $"{who} has activated {powerupId} for {duration:0.#} seconds";
+        NotificationUI.Instance?.Show(msg, duration);
     }
 
     public void ResetPlayer()

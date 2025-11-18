@@ -1,14 +1,36 @@
 using UnityEngine;
 using Input = UnityEngine.Input;
+using UnityEngine.UI;
 
 public class SettingsMenu : MonoBehaviour
 {
+    public static SettingsMenu instance;
+
+    [SerializeField] private Slider sensitivitySlider;
+
     public GameObject pauseMenu;
     public bool isPaused;
 
     private void Start()
     {
+        if (instance != null)
+        {
+            Debug.LogWarning("more than one settingsMenu instance - destroying duplicate");
+            Destroy(gameObject);
+            return;
+        }
+
+        instance = this;
         pauseMenu.SetActive(false);
+
+        try
+        {
+            SetSenVal(PlayerPrefs.GetFloat("sensitivity"));
+        }
+        catch
+        {
+            SetSenVal(0.5f);
+        }
     }
 
     private void Update()
@@ -29,6 +51,7 @@ public class SettingsMenu : MonoBehaviour
     public void PauseGame()
     {
         pauseMenu.SetActive(true);
+
         //Time.timeScale = 0f;
         isPaused = true;
     }
@@ -36,7 +59,46 @@ public class SettingsMenu : MonoBehaviour
     public void ResumeGame()
     {
         pauseMenu.SetActive(false);
+        
         //Time.timeScale = 1f;
         isPaused = false;
+    }
+
+    public void MainMenu()
+    {
+        pauseMenu.SetActive(false);
+
+        LobbySetUp.instance.dissconnect();
+        LobbySetUp.instance.showStartUI();
+
+        syncedCountdown.instance.StopCountdown();
+
+        //PlayerRace.instance.ResetPlayer();
+        //RaceHUD.Instance.ResetHUD();
+
+        try
+        {
+            HamsterBallController hamsterBall = FindFirstObjectByType<HamsterBallController>();
+            Destroy(hamsterBall.gameObject);
+        }
+        catch { Debug.LogWarning("no player instance found - leave game"); }
+    }
+
+    public void SetSenVal(float val)
+    {
+        //Debug.Log("SFX vol: " + vol);
+        sensitivitySlider.value = val;
+
+        PlayerPrefs.SetFloat("sensitivity", val);
+        PlayerPrefs.Save();
+    }
+
+    public float GetSenVal()
+    {
+        try
+        {
+            return sensitivitySlider.value;
+        }
+        catch { return 0.0f; }
     }
 }

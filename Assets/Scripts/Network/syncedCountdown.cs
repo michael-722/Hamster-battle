@@ -10,6 +10,8 @@ public class syncedCountdown : NetworkBehaviour
     [SerializeField] private NetworkVariable<float> countdownTime = new(5f, NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Server);
     [SerializeField] private TMP_Text countdownText;
 
+    private Coroutine countdownCoroutine;
+
     private void Awake()
     {
         if (instance != null && instance != this)
@@ -28,7 +30,13 @@ public class syncedCountdown : NetworkBehaviour
     public void StartCountdown()
     {
         countdownText.gameObject.SetActive(true);
-        StartCoroutine(CountdownCoroutine());
+        countdownCoroutine = StartCoroutine(CountdownCoroutine());
+    }
+
+    public void StopCountdown()
+    {
+        StopCoroutine(countdownCoroutine);
+        countdownText.gameObject.SetActive(false);
     }
 
     private IEnumerator CountdownCoroutine()
