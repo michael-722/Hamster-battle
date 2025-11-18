@@ -406,7 +406,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   direction: {x: -1.09, y: 0, z: 0}
-  force: 20
+  force: 30
   range: 62.1
   useFalloff: 1
   visualize: 1
