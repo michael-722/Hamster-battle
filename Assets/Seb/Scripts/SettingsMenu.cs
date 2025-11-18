@@ -68,11 +68,20 @@ public class SettingsMenu : MonoBehaviour
     {
         pauseMenu.SetActive(false);
 
-        HamsterBallController hamsterBall = FindFirstObjectByType<HamsterBallController>();
-        Destroy(hamsterBall.gameObject);
-
         LobbySetUp.instance.dissconnect();
         LobbySetUp.instance.showStartUI();
+
+        syncedCountdown.instance.StopCountdown();
+
+        //PlayerRace.instance.ResetPlayer();
+        //RaceHUD.Instance.ResetHUD();
+
+        try
+        {
+            HamsterBallController hamsterBall = FindFirstObjectByType<HamsterBallController>();
+            Destroy(hamsterBall.gameObject);
+        }
+        catch { Debug.LogWarning("no player instance found - leave game"); }
     }
 
     public void SetSenVal(float val)
@@ -86,6 +95,10 @@ public class SettingsMenu : MonoBehaviour
 
     public float GetSenVal()
     {
-        return sensitivitySlider.value;
+        try
+        {
+            return sensitivitySlider.value;
+        }
+        catch { return 0.0f; }
     }
 }

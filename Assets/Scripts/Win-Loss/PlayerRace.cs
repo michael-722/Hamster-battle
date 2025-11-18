@@ -4,6 +4,8 @@ using UnityEngine;
 // Per-player race state + input freeze
 public class PlayerRace : NetworkBehaviour
 {
+    public static PlayerRace instance;
+
     public RaceResult Result { get; private set; } = RaceResult.None; // outcome
     public int Rank { get; private set; } = 0; // 1=first, 2=second, 0=unknown
     public System.Action<RaceResult, int> OnResultChanged; // HUD hook
@@ -16,6 +18,8 @@ public class PlayerRace : NetworkBehaviour
 
     private void Awake()  
     {
+        instance = this;
+
         ctrl = GetComponent<HamsterBallController>();
     }
 
