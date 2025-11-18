@@ -43,6 +43,9 @@ public class Relay : MonoBehaviour
         {
             Debug.LogError($"failed to initialize unity services: {e.Message}");
         }
+
+        NetworkManager.Singleton.NetworkConfig.RecycleNetworkIds = true;
+        NetworkManager.Singleton.NetworkConfig.NetworkIdRecycleDelay = 0.1f;//as soon as dc can reuse networkId
     }
 
     public async void StartHost()

@@ -89,20 +89,6 @@ public class HamsterBallController : NetworkBehaviour
         gameObject.GetComponent<MeshRenderer>().material.color = playerColors[(int)OwnerClientId];
     }
 
-    public override void OnNetworkSpawn()
-    {
-        base.OnNetworkSpawn();
-
-        if (IsOwner)
-        {
-            int id = (int)OwnerClientId;
-            spawnRadius = 10f;
-            float angle = id * 90f;//90 appart - cahnge if more players added
-            Vector3 offset = new Vector3(Mathf.Cos(angle * Mathf.Deg2Rad), 0f, Mathf.Sin(angle * Mathf.Deg2Rad)) * spawnRadius;
-            transform.position = new Vector3(offset.x, 5f, offset.z);
-        }
-    }
-
     private void Update()
     {
         if (GateToOwner()) return; // only gate when netcode is running
