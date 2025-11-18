@@ -920,11 +920,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 1557809555}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!224 &852467096 stripped
-RectTransform:
-  m_CorrespondingSourceObject: {fileID: 2520454262876615483, guid: b57f5d9378cad84409dcec41945fc376, type: 3}
-  m_PrefabInstance: {fileID: 4468071513333063694}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1040908266
 GameObject:
   m_ObjectHideFlags: 0
@@ -1448,6 +1443,10 @@ PrefabInstance:
       propertyPath: m_IsActive
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 3193396104028376778, guid: 259c5f0869674ce4db17dfa57452d543, type: 3}
+      propertyPath: 'm_Materials.Array.data[0]'
+      value: 
+      objectReference: {fileID: 2100000, guid: cf3048d201bc51d45bf698dec2bbbbbc, type: 2}
     - target: {fileID: 4647501879011114783, guid: 259c5f0869674ce4db17dfa57452d543, type: 3}
       propertyPath: m_LocalPosition.x
       value: -35.5
@@ -1488,6 +1487,14 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 6477296435740066797, guid: 259c5f0869674ce4db17dfa57452d543, type: 3}
+      propertyPath: 'm_Materials.Array.data[0]'
+      value: 
+      objectReference: {fileID: 2100000, guid: cf3048d201bc51d45bf698dec2bbbbbc, type: 2}
+    - target: {fileID: 8351525775107490142, guid: 259c5f0869674ce4db17dfa57452d543, type: 3}
+      propertyPath: 'm_Materials.Array.data[0]'
+      value: 
+      objectReference: {fileID: 2100000, guid: cf3048d201bc51d45bf698dec2bbbbbc, type: 2}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -2852,7 +2859,7 @@ PrefabInstance:
     m_RemovedGameObjects:
     - {fileID: 6658481401845096813, guid: b57f5d9378cad84409dcec41945fc376, type: 3}
     m_AddedGameObjects:
-    - targetCorrespondingSourceObject: {fileID: 2520454262876615483, guid: b57f5d9378cad84409dcec41945fc376, type: 3}
+    - targetCorrespondingSourceObject: {fileID: 3517352223635642069, guid: b57f5d9378cad84409dcec41945fc376, type: 3}
       insertIndex: -1
       addedObject: {fileID: 8680687231541042126}
     m_AddedComponents: []
@@ -3341,7 +3348,7 @@ Transform:
   m_LocalScale: {x: 2.2508793, y: 2.2508793, z: 2.2508793}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 852467096}
+  m_Father: {fileID: 2998961249296646457}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
