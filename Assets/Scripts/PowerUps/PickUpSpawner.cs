@@ -18,7 +18,7 @@ public class PickupSpawner : NetworkBehaviour
         foreach (var point in spawnPoints)
         {
             var prefab = pickupPrefabs[Random.Range(0, pickupPrefabs.Length)];
-            var go = Instantiate(prefab, point.position, point.rotation);
+            var go = Instantiate(prefab, point.position, prefab.transform.rotation);
             go.GetComponent<NetworkObject>().Spawn(true);
         }
     }
@@ -34,7 +34,7 @@ public class PickupSpawner : NetworkBehaviour
         if (!IsServer) yield break;
 
         var prefab = pickupPrefabs[Random.Range(0, pickupPrefabs.Length)];
-        var go = Instantiate(prefab, pos, Quaternion.identity);
+        var go = Instantiate(prefab, pos, prefab.transform.rotation);
         go.GetComponent<NetworkObject>().Spawn(true);
     }
 }
