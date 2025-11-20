@@ -704,7 +704,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 92c3ded4ea422fb4a90ba2f80a4e3bd5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  fpsText: {fileID: 0}
   refreshRate: 0.5
 --- !u!1 &335932658 stripped
 GameObject:
@@ -1381,15 +1380,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: b68755ce1a64d644690e88a0a3d6a956, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 29.43
+      value: 41.96
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: b68755ce1a64d644690e88a0a3d6a956, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 6.45
+      value: 40.39
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: b68755ce1a64d644690e88a0a3d6a956, type: 3}
       propertyPath: m_LocalPosition.z
-      value: -47.2
+      value: -36.85
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: b68755ce1a64d644690e88a0a3d6a956, type: 3}
       propertyPath: m_LocalRotation.w
@@ -2100,7 +2099,7 @@ PrefabInstance:
     m_RemovedGameObjects: []
     m_AddedGameObjects:
     - targetCorrespondingSourceObject: {fileID: 4647501879011114783, guid: 259c5f0869674ce4db17dfa57452d543, type: 3}
-      insertIndex: 64
+      insertIndex: -1
       addedObject: {fileID: 1581713993}
     m_AddedComponents:
     - targetCorrespondingSourceObject: {fileID: 5179428176708180596, guid: 259c5f0869674ce4db17dfa57452d543, type: 3}
