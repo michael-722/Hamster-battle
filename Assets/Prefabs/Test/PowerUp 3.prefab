@@ -163,5 +163,5 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Xspeed: 0
-  Yspeed: 0
-  Zspeed: 90
+  Yspeed: 90
+  Zspeed: 0
