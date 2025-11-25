@@ -238,7 +238,7 @@ MonoBehaviour:
 
     Leave to join new game'
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: a85375d7a1bc6bd48af4544ae7c0d43a, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: 2399407fae9a09d4eb88fac43306913c, type: 2}
   m_sharedMaterial: {fileID: -7613155648396029141, guid: a85375d7a1bc6bd48af4544ae7c0d43a, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
@@ -304,7 +304,7 @@ MonoBehaviour:
   m_margin: {x: 0, y: 0, z: 0, w: 0}
   m_isUsingLegacyAnimationComponent: 0
   m_isVolumetricText: 0
-  m_hasFontAssetChanged: 0
+  m_hasFontAssetChanged: 1
   m_baseMaterial: {fileID: 0}
   m_maskOffset: {x: 0, y: 0, z: 0, w: 0}
 --- !u!1 &283242732719288209
@@ -1790,8 +1790,8 @@ MonoBehaviour:
       m_Calls: []
   m_text: unable to connect
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: a85375d7a1bc6bd48af4544ae7c0d43a, type: 2}
-  m_sharedMaterial: {fileID: -7613155648396029141, guid: a85375d7a1bc6bd48af4544ae7c0d43a, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: 2399407fae9a09d4eb88fac43306913c, type: 2}
+  m_sharedMaterial: {fileID: -6414730339928134731, guid: 2399407fae9a09d4eb88fac43306913c, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -1856,7 +1856,7 @@ MonoBehaviour:
   m_margin: {x: 0, y: 0, z: 0, w: 0}
   m_isUsingLegacyAnimationComponent: 0
   m_isVolumetricText: 0
-  m_hasFontAssetChanged: 0
+  m_hasFontAssetChanged: 1
   m_baseMaterial: {fileID: 0}
   m_maskOffset: {x: 0, y: 0, z: 0, w: 0}
 --- !u!1 &2928292686456832057
@@ -1926,7 +1926,7 @@ MonoBehaviour:
       m_Calls: []
   m_text: Unable to Connect
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: a85375d7a1bc6bd48af4544ae7c0d43a, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: 2399407fae9a09d4eb88fac43306913c, type: 2}
   m_sharedMaterial: {fileID: -7613155648396029141, guid: a85375d7a1bc6bd48af4544ae7c0d43a, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
@@ -1992,7 +1992,7 @@ MonoBehaviour:
   m_margin: {x: 0, y: 0, z: 0, w: 0}
   m_isUsingLegacyAnimationComponent: 0
   m_isVolumetricText: 0
-  m_hasFontAssetChanged: 0
+  m_hasFontAssetChanged: 1
   m_baseMaterial: {fileID: 0}
   m_maskOffset: {x: 0, y: 0, z: 0, w: 0}
 --- !u!1 &3338559611692322573
@@ -2242,8 +2242,8 @@ MonoBehaviour:
       m_Calls: []
   m_text: Invalid join code
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: a85375d7a1bc6bd48af4544ae7c0d43a, type: 2}
-  m_sharedMaterial: {fileID: -7613155648396029141, guid: a85375d7a1bc6bd48af4544ae7c0d43a, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: 2399407fae9a09d4eb88fac43306913c, type: 2}
+  m_sharedMaterial: {fileID: -6414730339928134731, guid: 2399407fae9a09d4eb88fac43306913c, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -2308,7 +2308,7 @@ MonoBehaviour:
   m_margin: {x: 0, y: 0, z: 0, w: 0}
   m_isUsingLegacyAnimationComponent: 0
   m_isVolumetricText: 0
-  m_hasFontAssetChanged: 0
+  m_hasFontAssetChanged: 1
   m_baseMaterial: {fileID: 0}
   m_maskOffset: {x: 0, y: 0, z: 0, w: 0}
 --- !u!1 &3424713057361542993
@@ -2797,8 +2797,8 @@ MonoBehaviour:
       m_Calls: []
   m_text: Waiting for host to start game...
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: a85375d7a1bc6bd48af4544ae7c0d43a, type: 2}
-  m_sharedMaterial: {fileID: -7613155648396029141, guid: a85375d7a1bc6bd48af4544ae7c0d43a, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: 2399407fae9a09d4eb88fac43306913c, type: 2}
+  m_sharedMaterial: {fileID: -6414730339928134731, guid: 2399407fae9a09d4eb88fac43306913c, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -3238,7 +3238,7 @@ MonoBehaviour:
       m_Calls: []
   m_text: Game has already started
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: a85375d7a1bc6bd48af4544ae7c0d43a, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: 2399407fae9a09d4eb88fac43306913c, type: 2}
   m_sharedMaterial: {fileID: -7613155648396029141, guid: a85375d7a1bc6bd48af4544ae7c0d43a, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
@@ -3304,7 +3304,7 @@ MonoBehaviour:
   m_margin: {x: 0, y: 0, z: 0, w: 0}
   m_isUsingLegacyAnimationComponent: 0
   m_isVolumetricText: 0
-  m_hasFontAssetChanged: 0
+  m_hasFontAssetChanged: 1
   m_baseMaterial: {fileID: 0}
   m_maskOffset: {x: 0, y: 0, z: 0, w: 0}
 --- !u!1 &4873722090288894954
@@ -3727,8 +3727,8 @@ MonoBehaviour:
       m_Calls: []
   m_text: "\u200B"
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: a85375d7a1bc6bd48af4544ae7c0d43a, type: 2}
-  m_sharedMaterial: {fileID: -7613155648396029141, guid: a85375d7a1bc6bd48af4544ae7c0d43a, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: 2399407fae9a09d4eb88fac43306913c, type: 2}
+  m_sharedMaterial: {fileID: -6414730339928134731, guid: 2399407fae9a09d4eb88fac43306913c, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -4137,8 +4137,8 @@ MonoBehaviour:
       m_Calls: []
   m_text: 'Players Connected: 0'
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: a85375d7a1bc6bd48af4544ae7c0d43a, type: 2}
-  m_sharedMaterial: {fileID: -7613155648396029141, guid: a85375d7a1bc6bd48af4544ae7c0d43a, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: 2399407fae9a09d4eb88fac43306913c, type: 2}
+  m_sharedMaterial: {fileID: -6414730339928134731, guid: 2399407fae9a09d4eb88fac43306913c, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -4474,8 +4474,8 @@ MonoBehaviour:
       m_Calls: []
   m_text: 'Join code: XXXXXX'
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: a85375d7a1bc6bd48af4544ae7c0d43a, type: 2}
-  m_sharedMaterial: {fileID: -7613155648396029141, guid: a85375d7a1bc6bd48af4544ae7c0d43a, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: 2399407fae9a09d4eb88fac43306913c, type: 2}
+  m_sharedMaterial: {fileID: -6414730339928134731, guid: 2399407fae9a09d4eb88fac43306913c, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -4611,8 +4611,8 @@ MonoBehaviour:
       m_Calls: []
   m_text: Enter join code...
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: a85375d7a1bc6bd48af4544ae7c0d43a, type: 2}
-  m_sharedMaterial: {fileID: -7613155648396029141, guid: a85375d7a1bc6bd48af4544ae7c0d43a, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: 2399407fae9a09d4eb88fac43306913c, type: 2}
+  m_sharedMaterial: {fileID: -6414730339928134731, guid: 2399407fae9a09d4eb88fac43306913c, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
