@@ -2001,7 +2001,7 @@ PrefabInstance:
     - target: {fileID: -7511558181221131132, guid: f3f799d3be506f740a385f3021759947, type: 3}
       propertyPath: 'm_Materials.Array.data[0]'
       value: 
-      objectReference: {fileID: 2100000, guid: 40dc320eda9ffd24696247919d2e96e7, type: 2}
+      objectReference: {fileID: -876546973899608171, guid: 644011b17bcc61b42b93576fbcfeda74, type: 3}
     - target: {fileID: 919132149155446097, guid: f3f799d3be506f740a385f3021759947, type: 3}
       propertyPath: m_Name
       value: BigDrawerDraw (1)
@@ -2457,7 +2457,7 @@ PrefabInstance:
     - target: {fileID: -7511558181221131132, guid: ddabe27f27a8acd4eb1081523abadc83, type: 3}
       propertyPath: 'm_Materials.Array.data[0]'
       value: 
-      objectReference: {fileID: 2100000, guid: 40dc320eda9ffd24696247919d2e96e7, type: 2}
+      objectReference: {fileID: -876546973899608171, guid: 644011b17bcc61b42b93576fbcfeda74, type: 3}
     - target: {fileID: 919132149155446097, guid: ddabe27f27a8acd4eb1081523abadc83, type: 3}
       propertyPath: m_Name
       value: Bed
@@ -2656,7 +2656,7 @@ PrefabInstance:
     - target: {fileID: -7511558181221131132, guid: f3f799d3be506f740a385f3021759947, type: 3}
       propertyPath: 'm_Materials.Array.data[0]'
       value: 
-      objectReference: {fileID: 2100000, guid: 40dc320eda9ffd24696247919d2e96e7, type: 2}
+      objectReference: {fileID: -876546973899608171, guid: 644011b17bcc61b42b93576fbcfeda74, type: 3}
     - target: {fileID: 919132149155446097, guid: f3f799d3be506f740a385f3021759947, type: 3}
       propertyPath: m_Name
       value: BigDrawerDraw
@@ -2810,7 +2810,7 @@ PrefabInstance:
     - target: {fileID: -7511558181221131132, guid: 8b5764bd0c929e540a39b1db6e00a84e, type: 3}
       propertyPath: 'm_Materials.Array.data[0]'
       value: 
-      objectReference: {fileID: 2100000, guid: 40dc320eda9ffd24696247919d2e96e7, type: 2}
+      objectReference: {fileID: -876546973899608171, guid: 644011b17bcc61b42b93576fbcfeda74, type: 3}
     - target: {fileID: 919132149155446097, guid: 8b5764bd0c929e540a39b1db6e00a84e, type: 3}
       propertyPath: m_Name
       value: DeskDrawer
@@ -2884,7 +2884,7 @@ PrefabInstance:
     - target: {fileID: -7511558181221131132, guid: 3dd0a3d20b3f63441a68417ae10095e9, type: 3}
       propertyPath: 'm_Materials.Array.data[0]'
       value: 
-      objectReference: {fileID: 2100000, guid: 40dc320eda9ffd24696247919d2e96e7, type: 2}
+      objectReference: {fileID: -876546973899608171, guid: 644011b17bcc61b42b93576fbcfeda74, type: 3}
     - target: {fileID: 919132149155446097, guid: 3dd0a3d20b3f63441a68417ae10095e9, type: 3}
       propertyPath: m_Name
       value: Desk
@@ -3243,7 +3243,7 @@ PrefabInstance:
     - target: {fileID: -7511558181221131132, guid: 2c137142231769a4b822aeed2b9feb88, type: 3}
       propertyPath: 'm_Materials.Array.data[0]'
       value: 
-      objectReference: {fileID: 2100000, guid: 40dc320eda9ffd24696247919d2e96e7, type: 2}
+      objectReference: {fileID: -876546973899608171, guid: 644011b17bcc61b42b93576fbcfeda74, type: 3}
     - target: {fileID: 919132149155446097, guid: 2c137142231769a4b822aeed2b9feb88, type: 3}
       propertyPath: m_Name
       value: BigDrawer
@@ -3420,7 +3420,7 @@ PrefabInstance:
     - target: {fileID: -7511558181221131132, guid: 34d3fe2aec9f0cc41a49d4583cc3694e, type: 3}
       propertyPath: 'm_Materials.Array.data[0]'
       value: 
-      objectReference: {fileID: 2100000, guid: 40dc320eda9ffd24696247919d2e96e7, type: 2}
+      objectReference: {fileID: -876546973899608171, guid: 644011b17bcc61b42b93576fbcfeda74, type: 3}
     - target: {fileID: 919132149155446097, guid: 34d3fe2aec9f0cc41a49d4583cc3694e, type: 3}
       propertyPath: m_Name
       value: BedSideDrawerDraw
@@ -3794,7 +3794,7 @@ PrefabInstance:
     - target: {fileID: -7511558181221131132, guid: 6c7b032d9648b6c488dc499a8c40f0dc, type: 3}
       propertyPath: 'm_Materials.Array.data[0]'
       value: 
-      objectReference: {fileID: 2100000, guid: 40dc320eda9ffd24696247919d2e96e7, type: 2}
+      objectReference: {fileID: -876546973899608171, guid: 644011b17bcc61b42b93576fbcfeda74, type: 3}
     - target: {fileID: 919132149155446097, guid: 6c7b032d9648b6c488dc499a8c40f0dc, type: 3}
       propertyPath: m_Name
       value: WardrobeLeftDoor
@@ -3860,7 +3860,7 @@ PrefabInstance:
     - target: {fileID: -7511558181221131132, guid: 26a34fadb77c4d54696cdc866cfe7df4, type: 3}
       propertyPath: 'm_Materials.Array.data[0]'
       value: 
-      objectReference: {fileID: 2100000, guid: 40dc320eda9ffd24696247919d2e96e7, type: 2}
+      objectReference: {fileID: -876546973899608171, guid: 644011b17bcc61b42b93576fbcfeda74, type: 3}
     - target: {fileID: 919132149155446097, guid: 26a34fadb77c4d54696cdc866cfe7df4, type: 3}
       propertyPath: m_Name
       value: Chair_no_arms
@@ -4079,7 +4079,7 @@ PrefabInstance:
     - target: {fileID: -7511558181221131132, guid: 34d3fe2aec9f0cc41a49d4583cc3694e, type: 3}
       propertyPath: 'm_Materials.Array.data[0]'
       value: 
-      objectReference: {fileID: 2100000, guid: 40dc320eda9ffd24696247919d2e96e7, type: 2}
+      objectReference: {fileID: -876546973899608171, guid: 644011b17bcc61b42b93576fbcfeda74, type: 3}
     - target: {fileID: 919132149155446097, guid: 34d3fe2aec9f0cc41a49d4583cc3694e, type: 3}
       propertyPath: m_Name
       value: BedSideDrawerDraw (1)
@@ -4657,7 +4657,7 @@ PrefabInstance:
     - target: {fileID: -7511558181221131132, guid: c9f39de2abe93eb47a17c90a11bc416e, type: 3}
       propertyPath: 'm_Materials.Array.data[0]'
       value: 
-      objectReference: {fileID: 2100000, guid: 40dc320eda9ffd24696247919d2e96e7, type: 2}
+      objectReference: {fileID: -876546973899608171, guid: 644011b17bcc61b42b93576fbcfeda74, type: 3}
     - target: {fileID: 919132149155446097, guid: c9f39de2abe93eb47a17c90a11bc416e, type: 3}
       propertyPath: m_Name
       value: WardrobeRightDoor
@@ -4727,7 +4727,7 @@ PrefabInstance:
     - target: {fileID: -7511558181221131132, guid: 524fb64fc93d92c449d78b79ad9fe0d3, type: 3}
       propertyPath: 'm_Materials.Array.data[0]'
       value: 
-      objectReference: {fileID: 2100000, guid: 40dc320eda9ffd24696247919d2e96e7, type: 2}
+      objectReference: {fileID: -876546973899608171, guid: 644011b17bcc61b42b93576fbcfeda74, type: 3}
     - target: {fileID: 919132149155446097, guid: 524fb64fc93d92c449d78b79ad9fe0d3, type: 3}
       propertyPath: m_Name
       value: BedSideDrawer
@@ -4900,7 +4900,7 @@ PrefabInstance:
     - target: {fileID: -7511558181221131132, guid: 2b54e7758cc993d4daf8b116386b1eef, type: 3}
       propertyPath: 'm_Materials.Array.data[0]'
       value: 
-      objectReference: {fileID: 2100000, guid: 40dc320eda9ffd24696247919d2e96e7, type: 2}
+      objectReference: {fileID: -876546973899608171, guid: 644011b17bcc61b42b93576fbcfeda74, type: 3}
     - target: {fileID: 919132149155446097, guid: 2b54e7758cc993d4daf8b116386b1eef, type: 3}
       propertyPath: m_Name
       value: WardrobeMain
