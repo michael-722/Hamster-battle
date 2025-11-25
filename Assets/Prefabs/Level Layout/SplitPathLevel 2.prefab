@@ -1229,7 +1229,7 @@ PrefabInstance:
     - target: {fileID: -7511558181221131132, guid: b68755ce1a64d644690e88a0a3d6a956, type: 3}
       propertyPath: 'm_Materials.Array.data[0]'
       value: 
-      objectReference: {fileID: 2100000, guid: cf3048d201bc51d45bf698dec2bbbbbc, type: 2}
+      objectReference: {fileID: -876546973899608171, guid: cbcb267efa5d81b44a2ad8174a80f8ad, type: 3}
     - target: {fileID: 919132149155446097, guid: b68755ce1a64d644690e88a0a3d6a956, type: 3}
       propertyPath: m_Name
       value: PingPongBat (1)
@@ -1241,6 +1241,9 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: b68755ce1a64d644690e88a0a3d6a956, type: 3}
       insertIndex: -1
       addedObject: {fileID: 1018999564162296222}
+    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: b68755ce1a64d644690e88a0a3d6a956, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 8841740034762532442}
   m_SourcePrefab: {fileID: 100100000, guid: b68755ce1a64d644690e88a0a3d6a956, type: 3}
 --- !u!4 &1498664075824718451 stripped
 Transform:
@@ -1273,6 +1276,27 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 51.593864, y: 33.507042, z: 4.2083793}
   m_Center: {x: -0.0000038146973, y: -0.000002861023, z: 5.684342e-14}
+--- !u!65 &8841740034762532442
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2271929286012942537}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 51.593864, y: 33.507042, z: 4.2083793}
+  m_Center: {x: -0.0000076293945, y: -0.000008583069, z: 5.684342e-14}
 --- !u!1001 &1390160585406069060
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -5743,7 +5767,7 @@ PrefabInstance:
     - target: {fileID: -7511558181221131132, guid: b68755ce1a64d644690e88a0a3d6a956, type: 3}
       propertyPath: 'm_Materials.Array.data[0]'
       value: 
-      objectReference: {fileID: 2100000, guid: cf3048d201bc51d45bf698dec2bbbbbc, type: 2}
+      objectReference: {fileID: -876546973899608171, guid: cbcb267efa5d81b44a2ad8174a80f8ad, type: 3}
     - target: {fileID: 919132149155446097, guid: b68755ce1a64d644690e88a0a3d6a956, type: 3}
       propertyPath: m_Name
       value: PingPongBat
@@ -5755,6 +5779,9 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: b68755ce1a64d644690e88a0a3d6a956, type: 3}
       insertIndex: -1
       addedObject: {fileID: 5891346649149225123}
+    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: b68755ce1a64d644690e88a0a3d6a956, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 3319018261815327565}
   m_SourcePrefab: {fileID: 100100000, guid: b68755ce1a64d644690e88a0a3d6a956, type: 3}
 --- !u!1 &5179428176708180596 stripped
 GameObject:
@@ -5782,6 +5809,27 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 51.593872, y: 33.507042, z: 4.208383}
   m_Center: {x: 1.4210855e-14, y: -0.0000009536743, z: 0.0000076293945}
+--- !u!65 &3319018261815327565
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5179428176708180596}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 51.593872, y: 33.507042, z: 4.208383}
+  m_Center: {x: 1.4210855e-14, y: -0.0000009536743, z: -4.2632564e-14}
 --- !u!4 &5524464084967702734 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: b68755ce1a64d644690e88a0a3d6a956, type: 3}
