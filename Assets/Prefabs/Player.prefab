@@ -137,7 +137,7 @@ SphereCollider:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5676784670361202095}
-  m_Material: {fileID: 13400000, guid: 621fd169508dac340830b0f36d0021cb, type: 2}
+  m_Material: {fileID: 13400000, guid: 4ea57215cbc23924f880042a0b18fdba, type: 2}
   m_IncludeLayers:
     serializedVersion: 2
     m_Bits: 0
@@ -159,7 +159,7 @@ Rigidbody:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5676784670361202095}
   serializedVersion: 4
-  m_Mass: 2
+  m_Mass: 1.5
   m_Drag: 0.7
   m_AngularDrag: 0.7
   m_CenterOfMass: {x: 0, y: 0, z: 0}
@@ -202,7 +202,7 @@ LineRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: cbc4aace4fc66c047abf4be8fda708fb, type: 2}
+  - {fileID: 2100000, guid: 7ebaa9d45149be545abcb9492b01d476, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -226,6 +226,7 @@ LineRenderer:
   m_Positions:
   - {x: 0, y: 0, z: 0}
   - {x: 0, y: 0, z: 1}
+  - {x: 0.8090513, y: 3.2997231, z: 8.98665}
   m_Parameters:
     serializedVersion: 3
     widthMultiplier: 1
@@ -233,8 +234,8 @@ LineRenderer:
       serializedVersion: 2
       m_Curve:
       - serializedVersion: 3
-        time: 0
-        value: 0.04424858
+        time: 0.04347992
+        value: 1
         inSlope: 0
         outSlope: 0
         tangentMode: 0
@@ -271,15 +272,15 @@ LineRenderer:
       atime6: 0
       atime7: 0
       m_Mode: 0
-      m_ColorSpace: -1
+      m_ColorSpace: 0
       m_NumColorKeys: 2
       m_NumAlphaKeys: 2
     numCornerVertices: 4
     numCapVertices: 4
     alignment: 0
-    textureMode: 0
-    textureScale: {x: 1, y: 1}
-    shadowBias: 0.5
+    textureMode: 1
+    textureScale: {x: 1, y: 0.35}
+    shadowBias: 0
     generateLightingData: 0
   m_MaskInteraction: 0
   m_UseWorldSpace: 1
@@ -337,6 +338,7 @@ MonoBehaviour:
   timeStep: 0.06
   flatPreviewMaxDistance: 8
   shootSfx: {fileID: 0}
+  trajectoryMaterial: {fileID: 2100000, guid: 7ebaa9d45149be545abcb9492b01d476, type: 2}
   spawnRadius: 7.5
   aplha: 1
   player1Color: {r: 1, g: 0, b: 0, a: 0}
