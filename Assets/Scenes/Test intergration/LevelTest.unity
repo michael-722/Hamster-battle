@@ -3045,6 +3045,7 @@ MonoBehaviour:
   LeaveGameSinglePlayer: {fileID: 0}
   completeTimeTxt: {fileID: 0}
   userEnteredName: {fileID: 1928863402}
+  dnfUI: {fileID: 0}
 --- !u!1001 &1738307077
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -3889,6 +3890,18 @@ PrefabInstance:
       propertyPath: GlobalObjectIdHash
       value: 1852957251
       objectReference: {fileID: 0}
+    - target: {fileID: 353845616666293063, guid: b57f5d9378cad84409dcec41945fc376, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 699548770626946782, guid: b57f5d9378cad84409dcec41945fc376, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 918948815543041390, guid: b57f5d9378cad84409dcec41945fc376, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 3517352223635642069, guid: b57f5d9378cad84409dcec41945fc376, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
@@ -3929,6 +3942,34 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 3526647710764855083, guid: b57f5d9378cad84409dcec41945fc376, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4404006317284667004, guid: b57f5d9378cad84409dcec41945fc376, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4661890182496163446, guid: b57f5d9378cad84409dcec41945fc376, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4891783967903027195, guid: b57f5d9378cad84409dcec41945fc376, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5453615224657692904, guid: b57f5d9378cad84409dcec41945fc376, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5814796395773273796, guid: b57f5d9378cad84409dcec41945fc376, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6631035087190986674, guid: b57f5d9378cad84409dcec41945fc376, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 7822757532397385633, guid: b57f5d9378cad84409dcec41945fc376, type: 3}
       propertyPath: m_Name
       value: StartGameUI
@@ -3936,6 +3977,14 @@ PrefabInstance:
     - target: {fileID: 7822757532397385633, guid: b57f5d9378cad84409dcec41945fc376, type: 3}
       propertyPath: m_IsActive
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7999872898072235108, guid: b57f5d9378cad84409dcec41945fc376, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8985375875437468892, guid: b57f5d9378cad84409dcec41945fc376, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
