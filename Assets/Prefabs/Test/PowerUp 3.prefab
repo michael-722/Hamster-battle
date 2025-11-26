@@ -14,6 +14,7 @@ GameObject:
   - component: {fileID: 938831539841744040}
   - component: {fileID: 636179726262567385}
   - component: {fileID: 6686237826399803020}
+  - component: {fileID: -5122216289755317684}
   m_Layer: 0
   m_Name: PowerUp 3
   m_TagString: Untagged
@@ -43,7 +44,7 @@ MeshFilter:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 9206048007770735692}
-  m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+  m_Mesh: {fileID: 3093944478464165908, guid: 4d3797a8d91d09d4ab09f2b536bc62b8, type: 3}
 --- !u!23 &7494009830137776974
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -67,7 +68,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 87e16fc1e697bef4eab8623b4b8155a8, type: 2}
+  - {fileID: 2100000, guid: 4ef48252bf9edfb40ab043ac85eed9d8, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -108,8 +109,8 @@ BoxCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Size: {x: 1, y: 1, z: 1}
-  m_Center: {x: 0, y: 0, z: 0}
+  m_Size: {x: 1.6317225, y: 1.6385868, z: 0.18065158}
+  m_Center: {x: 0, y: 0, z: -0.000000018626451}
 --- !u!114 &636179726262567385
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -123,7 +124,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   GlobalObjectIdHash: 1064671407
-  InScenePlacedSourceGlobalObjectIdHash: 0
+  InScenePlacedSourceGlobalObjectIdHash: 1064671407
   DeferredDespawnTick: 0
   Ownership: 1
   AlwaysReplicateAsRoot: 0
@@ -149,3 +150,18 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ShowTopMostFoldoutHeaderGroup: 1
   powerup: {fileID: 11400000, guid: 8cc5e292fc0be51458ba643f56807cdc, type: 2}
+--- !u!114 &-5122216289755317684
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9206048007770735692}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: db06c5e871632f24dbea48162d2dd746, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Xspeed: 0
+  Yspeed: 90
+  Zspeed: 0

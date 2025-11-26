@@ -15,6 +15,8 @@ public class DebugController : MonoBehaviour
     private int consoleHeight = 30;
     private Vector2 scrollPos;
 
+    private int TartgetFrameRate = 60;
+
     //command definitions
     private static DebugCommand CommandInfo;
 
@@ -22,6 +24,9 @@ public class DebugController : MonoBehaviour
     public static DebugCommand<string> StartClient;
     public static DebugCommand Disconnect;
 
+    public static DebugCommand<int> SetFPSTarget;
+
+    public static DebugCommand<string> ShowDebug;
     public static DebugCommand ShowNetworkDebug;
 
     public static DebugCommand ShowHelp;
@@ -68,16 +73,46 @@ public class DebugController : MonoBehaviour
             showHelp = !showHelp;
         });
 
+        ShowDebug = new DebugCommand<string>("showDebug", "show debug info", "showDebug <bool>", (info) =>
+        {
+            info = info.ToLower();
+
+            if (info.Contains("true"))
+            {
+                Debug.unityLogger.logEnabled = true;
+            }
+            else if (info.Contains("false"))
+            {
+                Debug.unityLogger.logEnabled = bool.Parse(info);
+            }
+        });
+
+        SetFPSTarget = new DebugCommand<int>("setFPSTarget", "set target frame rate", "setFPSTarget <int>", (fps) =>
+        {
+            Application.targetFrameRate = fps;
+        });
+
         //command indexing
         commandList = new List<object>
         { 
             CommandInfo,
+
             StartHost,
             StartClient,
             Disconnect,
+
+            SetFPSTarget,
+
             ShowNetworkDebug,
-            ShowHelp
+            ShowDebug,
+
+            ShowHelp,
         };
+    }
+
+    private void Start()
+    {
+        Application.targetFrameRate = TartgetFrameRate;
     }
 
     private void Update()
