@@ -24,14 +24,17 @@ public class DebugController : MonoBehaviour
     public static DebugCommand<string> StartClient;
     public static DebugCommand Disconnect;
 
+    public static DebugCommand ShowFPS;
     public static DebugCommand<int> SetFPSTarget;
 
-    public static DebugCommand<string> ShowDebug;
+    public static DebugCommand ShowDebug;
     public static DebugCommand ShowNetworkDebug;
 
     public static DebugCommand ShowHelp;
 
     public List<object> commandList;
+
+    [SerializeField] private GameObject FPSDisplay;
 
     /*
     IMPORTANT 
@@ -63,7 +66,7 @@ public class DebugController : MonoBehaviour
             NetworkManager.Singleton.Shutdown();
         });
 
-        ShowNetworkDebug = new DebugCommand("showNetworkDebug", "show network debug info", "showNetworkDebug", () =>
+        ShowNetworkDebug = new DebugCommand("showNetworkDebug", "Toggle network debug info", "showNetworkDebug", () =>
         {
             ShowNetworkStats.instance.ToggleNetworkStats();
         });
@@ -73,23 +76,21 @@ public class DebugController : MonoBehaviour
             showHelp = !showHelp;
         });
 
-        ShowDebug = new DebugCommand<string>("showDebug", "show debug info", "showDebug <bool>", (info) =>
+        ShowDebug = new DebugCommand("showDebug", "Toggle debug info", "showDebug", () =>
         {
-            info = info.ToLower();
-
-            if (info.Contains("true"))
-            {
-                Debug.unityLogger.logEnabled = true;
-            }
-            else if (info.Contains("false"))
-            {
-                Debug.unityLogger.logEnabled = bool.Parse(info);
-            }
+            Debug.unityLogger.logEnabled = !Debug.unityLogger.logEnabled;
         });
 
         SetFPSTarget = new DebugCommand<int>("setFPSTarget", "set target frame rate", "setFPSTarget <int>", (fps) =>
         {
             Application.targetFrameRate = fps;
+        });
+
+        ShowFPS = new DebugCommand("showFPS", "Toggle showing frame rate", "showFPS", () =>
+        {
+            if (FPSDisplay == null) return;
+
+            FPSDisplay.SetActive(!FPSDisplay.activeInHierarchy);
         });
 
         //command indexing
@@ -101,6 +102,7 @@ public class DebugController : MonoBehaviour
             StartClient,
             Disconnect,
 
+            ShowFPS,
             SetFPSTarget,
 
             ShowNetworkDebug,

@@ -33,14 +33,22 @@ public class PlayerRace : NetworkBehaviour
         endRaceTimerRpc();//stops timer
         var nm = NetworkManager.Singleton;
         if (nm != null && nm.IsListening && IsSpawned)
+        {
             RaceManager.Instance.RegisterFinishServerRpc(OwnerClientId);
+            DestroyServerRpc();
+        }
         else
         {
-            Destroy(this.gameObject);
             RaceManager.Instance.RegisterFinishOffline(this);
+            Destroy(this.gameObject);
         }
     }
 
+    [ServerRpc]
+    private void DestroyServerRpc()
+    {
+        Destroy(gameObject);
+    }
     
     public void HideRaceCountDownRpc()
     {

@@ -609,6 +609,9 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 3f0491ba62059254cb59cb68b0e7910b, type: 3}
       insertIndex: -1
       addedObject: {fileID: 3022947304919437880}
+    - targetCorrespondingSourceObject: {fileID: 4194709002670782441, guid: 3f0491ba62059254cb59cb68b0e7910b, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 6963576251141233624}
   m_SourcePrefab: {fileID: 100100000, guid: 3f0491ba62059254cb59cb68b0e7910b, type: 3}
 --- !u!1 &6093625348693509709 stripped
 GameObject:
@@ -642,3 +645,24 @@ Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: 3f0491ba62059254cb59cb68b0e7910b, type: 3}
   m_PrefabInstance: {fileID: 6364024059411069724}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &7090662204263845109 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 4194709002670782441, guid: 3f0491ba62059254cb59cb68b0e7910b, type: 3}
+  m_PrefabInstance: {fileID: 6364024059411069724}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &6963576251141233624
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7090662204263845109}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 72e5d13de1024314cbdd28634184b291, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  hamsterSkins:
+  - {fileID: -876546973899608171, guid: d0fa380a802bbc94a9f072c756fb0cee, type: 3}
+  - {fileID: -876546973899608171, guid: 2d012f406b74328438357d09fbf67de2, type: 3}
+  - {fileID: -876546973899608171, guid: 66fbca5e0912da249afa115da4aa7822, type: 3}
