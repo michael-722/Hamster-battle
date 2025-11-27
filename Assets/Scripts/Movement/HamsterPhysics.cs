@@ -59,12 +59,12 @@ public class HamsterPhysics : MonoBehaviour
         }
 
         //anim
-        updateAnimationState(linearSpeed, currentPinFactor);
+        updateAnimationState(currentPinFactor);
     }
 
-    private void updateAnimationState(float linearSpeed, float pinFactor)
+    private void updateAnimationState(float pinFactor)
     {
-        float horizontalSpeed = new Vector3(ballRigidbody.linearVelocity.x, ballRigidbody.linearVelocity.y, 0).magnitude;
+        float horizontalSpeed = new Vector3(ballRigidbody.linearVelocity.x, 0, ballRigidbody.linearVelocity.z).magnitude;
 
         if (pinFactor > 0.99f)
         {
@@ -80,7 +80,7 @@ public class HamsterPhysics : MonoBehaviour
             }
             else
             {
-                speedInput = Mathf.InverseLerp(idleThreshold, idleThreshold + 2f, horizontalSpeed);
+                speedInput = Mathf.InverseLerp(idleThreshold, idleThreshold + 10f, horizontalSpeed);
                 speedInput = Mathf.Clamp01(speedInput);
             }
 
