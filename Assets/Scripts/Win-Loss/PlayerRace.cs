@@ -101,10 +101,24 @@ public class PlayerRace : NetworkBehaviour
     [ClientRpc]
     public void ShowPowerupActivatedClientRpc(string powerupId, float duration, ulong pickerId)
     {
+        var nm = NetworkManager.Singleton;
+        var localId = nm != null ? nm.LocalClientId.ToString() : "no-nm";
+
+        Debug.Log($"[RPC] ShowPowerupActivatedClientRpc on client {localId}");
+
+        if (NotificationUI.Instance == null)
+        {
+            Debug.LogWarning($"[RPC] NotificationUI.Instance is NULL on client {localId}");
+            return;
+        }
+
+        Debug.Log($"[RPC] NotificationUI.Instance present on client {localId}");
+
         string who = $"Player {pickerId}";
         string msg = $"{who} has activated {powerupId} for {duration:0.#} seconds";
-        NotificationUI.Instance?.Show(msg, duration);
+        NotificationUI.Instance.Show(msg, duration);
     }
+
 
     public void ResetPlayer()
     {
