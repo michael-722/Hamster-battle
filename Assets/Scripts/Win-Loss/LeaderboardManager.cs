@@ -172,6 +172,10 @@ public class LeaderboardManager : MonoBehaviour
     {
         RaceManager.Instance.ResetRace();
         LobbySetUp.instance.showStartUI();
+
+        var hc = FindAnyObjectByType<HamsterBallController>();
+        Destroy(hc.gameObject);
+
         LeaveGameSinglePlayer.SetActive(false);
     }
 

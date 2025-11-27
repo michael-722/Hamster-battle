@@ -375,7 +375,6 @@ GameObject:
   - component: {fileID: 1541717414398560610}
   - component: {fileID: 8023968393088258223}
   - component: {fileID: 2420780931152925606}
-  - component: {fileID: 8840435692183261308}
   - component: {fileID: 8584046247988066087}
   m_Layer: 5
   m_Name: PauseUI
@@ -468,22 +467,6 @@ MonoBehaviour:
   m_BlockingMask:
     serializedVersion: 2
     m_Bits: 4294967295
---- !u!114 &8840435692183261308
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 390141419262014220}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 72b88dc405074244bb4792fe5cfbe5e2, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  myMixer: {fileID: 24100000, guid: c6534205efa2fc94cb2f80d8a70fb35c, type: 2}
-  masterSlider: {fileID: 8177122530392724334}
-  musicSlider: {fileID: 5074577755902732159}
-  SFXSlider: {fileID: 4410360709049806270}
 --- !u!114 &8584046247988066087
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -496,7 +479,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 86aa907087e6b7b4f8612efc2e7f4c6a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  myMixer: {fileID: 24100000, guid: c6534205efa2fc94cb2f80d8a70fb35c, type: 2}
   sensitivitySlider: {fileID: 1604249231761964388}
+  musicSlider: {fileID: 5074577755902732159}
+  SFXSlider: {fileID: 4410360709049806270}
   pauseMenu: {fileID: 1457047491718401394}
   isPaused: 0
 --- !u!1 &1457047491718401394
@@ -945,7 +931,7 @@ MonoBehaviour:
   m_OnValueChanged:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 8840435692183261308}
+      - m_Target: {fileID: 0}
         m_TargetAssemblyTypeName: SoundManager, Assembly-CSharp
         m_MethodName: SetMusicVolume
         m_Mode: 1
@@ -1412,7 +1398,7 @@ MonoBehaviour:
   m_OnValueChanged:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 8840435692183261308}
+      - m_Target: {fileID: 0}
         m_TargetAssemblyTypeName: SoundManager, Assembly-CSharp
         m_MethodName: SetSFXVolume
         m_Mode: 1
@@ -2934,7 +2920,7 @@ MonoBehaviour:
   m_OnValueChanged:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 8840435692183261308}
+      - m_Target: {fileID: 0}
         m_TargetAssemblyTypeName: SoundManager, Assembly-CSharp
         m_MethodName: SetMusicVolume
         m_Mode: 1
