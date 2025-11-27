@@ -217,11 +217,11 @@ public class HamsterBallController : NetworkBehaviour
         SetTrajectoryColor(pullFrac);//set color of lr material
 
         // branch: flat line when loft is 0°, arc otherwise
-        /*if (loftAngleDeg <= 0.0001f)
+        if (loftAngleDeg <= 0.0001f)
         {
             DrawFlatPreview(flatDir, pullFrac); // straight ground line
         }
-        else*/
+        else
             DrawArcPreview(flatDir, pullFrac); // ballistic arc
     }
 
