@@ -52,7 +52,6 @@ public class HamsterBallController : NetworkBehaviour
     private float basePower; // original power
 
     private bool canMove = false;
-
     private bool inputEnabled = true;
 
     //rgb yellow
