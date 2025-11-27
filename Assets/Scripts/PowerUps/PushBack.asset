@@ -18,7 +18,7 @@ MonoBehaviour:
   stacks: 0
   speedMult: 1
   sizeMult: 1
-  pushBack: 60
+  pushBack: 50
   scope: 1
   centredOnPicker: 1
-  aoeRadius: 10
+  aoeRadius: 30
