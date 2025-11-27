@@ -336,7 +336,7 @@ MonoBehaviour:
   loftAdjustSpeed: 60
   trajectoryPoints: 25
   timeStep: 0.06
-  flatPreviewMaxDistance: 8
+  flatPreviewMaxDistance: 23
   shootSfx: {fileID: 0}
   trajectoryMaterial: {fileID: 2100000, guid: 7ebaa9d45149be545abcb9492b01d476, type: 2}
   spawnRadius: 7.5

@@ -35,19 +35,13 @@ public class PlayerRace : NetworkBehaviour
         if (nm != null && nm.IsListening && IsSpawned)
         {
             RaceManager.Instance.RegisterFinishServerRpc(OwnerClientId);
-            DestroyServerRpc();
+            gameObject.transform.localScale = new Vector3(0, 0, 0);
         }
         else
         {
             RaceManager.Instance.RegisterFinishOffline(this);
             Destroy(this.gameObject);
         }
-    }
-
-    [ServerRpc]
-    private void DestroyServerRpc()
-    {
-        Destroy(gameObject);
     }
     
     public void HideRaceCountDownRpc()
