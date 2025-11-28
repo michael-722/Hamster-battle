@@ -94,7 +94,7 @@ public class HamsterBallController : NetworkBehaviour
 
         int colorIndex = (int)OwnerClientId;
 
-        string[] names = { "Yellow", "Red", "Blue", "Green" };
+        string[] names = { "Red", "Green", "Blue", "Purple" };
 
         if (colorIndex >= 0 && colorIndex < names.Length)
             PlayerColorName = names[colorIndex];

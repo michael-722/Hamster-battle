@@ -149,6 +149,8 @@ public class LeaderboardManager : MonoBehaviour
         AuthenticationService.Instance.SignOut();
         AuthenticationService.Instance.ClearSessionToken();
         await TrySignIn();
+
+        userEnteredName.text = "";
     }
 
     public void setTime(double time)
@@ -195,6 +197,8 @@ public class LeaderboardManager : MonoBehaviour
         {
             //Debug.Log("host pressed play again");
             LobbySetUp.instance.showHostPlayAgainUI();
+
+            PickupSpawner.Instance.DespawnAll();
         }
         else
         {

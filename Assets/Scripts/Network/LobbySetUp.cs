@@ -83,6 +83,7 @@ public class LobbySetUp : NetworkBehaviour
     {
         if (clientId == 0)//host dc
         {
+            PickupSpawner.Instance.DespawnAll();
             startGameBtn.SetActive(false);
             connectedPlayers = -1;
             return;
@@ -147,6 +148,8 @@ public class LobbySetUp : NetworkBehaviour
             syncedCountdown.instance.StartCountdown();
             onStartPressedRpc();
             IsLeaderboardOpenRpc();
+
+           PickupSpawner.Instance.SpawnAll();
         }
     }
 
