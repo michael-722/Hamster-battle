@@ -48,7 +48,9 @@ public class Relay : MonoBehaviour
         NetworkManager.Singleton.NetworkConfig.NetworkIdRecycleDelay = 0.1f;//as soon as dc can reuse networkId
     }
 
-    public async void StartHost()
+    public async 
+    Task
+StartHost()
     {
         try
         {

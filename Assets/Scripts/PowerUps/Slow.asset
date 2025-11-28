@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   id: slow_others
   icon: {fileID: 0}
-  duration: 10
+  duration: 15
   stacks: 0
   speedMult: 0.55
   sizeMult: 1
