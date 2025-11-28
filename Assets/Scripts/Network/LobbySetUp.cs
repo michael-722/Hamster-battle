@@ -38,6 +38,8 @@ public class LobbySetUp : NetworkBehaviour
 
     private bool hasHostDC = false;
 
+    private bool hasHostStartedUp = false;
+
     private void Awake()
     {
         if (instance != null && instance != this)
@@ -127,11 +129,29 @@ public class LobbySetUp : NetworkBehaviour
         startGameBtn.SetActive(true);
     }
 
+    public async void OnHostUIBackPressed()
+    {
+        if (hasHostStartedUp)
+        {
+            await Task.Delay(2000);
+        }
+        dissconnect();
+    }
+
+
     public void onHostGamePressed()
     {
         singlePlayerLayout.SetActive(false);
         multiPlayerLayout.SetActive(true);
-        Relay.instance.StartHost();
+
+        requestHostStart();
+    }
+
+    private async void requestHostStart()
+    {
+        hasHostStartedUp = true;
+        await Relay.instance.StartHost();
+        hasHostStartedUp = false;
     }
 
     public void setJoinCode(string code)
