@@ -12,10 +12,21 @@ public class DebugController : MonoBehaviour
     private bool focusTextField = false;
     private string input;
 
-    private int consoleHeight = 30;
     private Vector2 scrollPos;
 
     private int TartgetFrameRate = 60;
+
+    // Reference resolution for scaling (adjust this to your "perfect" resolution)
+    private const float REFERENCE_HEIGHT = 360;
+
+    // Scaled values (calculated based on screen height)
+    private float consoleHeight => 30f * GetScaleFactor();
+    private float helpBoxHeight => 100f * GetScaleFactor();
+    private float helpBoxPadding => 5f * GetScaleFactor();
+    private float itemHeight => 20f * GetScaleFactor();
+    private float textFieldPadding => 10f * GetScaleFactor();
+    private float textFieldHeight => 20f * GetScaleFactor();
+    private float textFieldOffsetY => 5f * GetScaleFactor();
 
     //command definitions
     private static DebugCommand CommandInfo;
@@ -43,6 +54,12 @@ public class DebugController : MonoBehaviour
     */
 
     //note need to make this into a unity package at some point -strip out project specific stuff first tho
+
+    // Calculate scale factor based on screen height
+    private float GetScaleFactor()
+    {
+        return Screen.height / REFERENCE_HEIGHT;
+    }
 
     private void Awake()
     {
@@ -95,7 +112,7 @@ public class DebugController : MonoBehaviour
 
         //command indexing
         commandList = new List<object>
-        { 
+        {
             CommandInfo,
 
             StartHost,
@@ -119,7 +136,7 @@ public class DebugController : MonoBehaviour
 
     private void Update()
     {
-        if (Input.GetKeyDown(KeyCode.BackQuote))//toggle console with the ` key
+        if (Input.GetKeyDown(KeyCode.Alpha0))//toggle console with the 0 key
         {
             ToggleConsole();
         }
@@ -142,8 +159,13 @@ public class DebugController : MonoBehaviour
     private void OnGUI()
     {
         if (!showConsole) return;
-        //check for ` key to close console
-        if (Event.current.type == EventType.KeyDown && Event.current.keyCode == KeyCode.BackQuote)
+
+        //scale font size based on resolution
+        GUI.skin.label.fontSize = Mathf.RoundToInt(12f * GetScaleFactor());
+        GUI.skin.textField.fontSize = Mathf.RoundToInt(12f * GetScaleFactor());
+
+        //check for 0 key to close console
+        if (Event.current.type == EventType.KeyDown && Event.current.keyCode == KeyCode.Alpha0)
         {
             ToggleConsole();
             return;
@@ -161,17 +183,17 @@ public class DebugController : MonoBehaviour
 
         if (showHelp)//draw help box
         {
-            GUI.Box(new Rect(0, y - 100, Screen.width, 100), "");
-            Rect viewport = new Rect(0, 0, Screen.width - 30, 20 * commandList.Count);
+            GUI.Box(new Rect(0, y - helpBoxHeight, Screen.width, helpBoxHeight), "");
+            Rect viewport = new Rect(0, 0, Screen.width - 30 * GetScaleFactor(), itemHeight * commandList.Count);
 
-            scrollPos = GUI.BeginScrollView(new Rect(0, y - 100, Screen.width, 90), scrollPos, viewport);
+            scrollPos = GUI.BeginScrollView(new Rect(0, y - helpBoxHeight, Screen.width, helpBoxHeight - 10 * GetScaleFactor()), scrollPos, viewport);
 
             for (int i = 0; i < commandList.Count; i++)
             {
                 DebugCommandBase command = commandList[i] as DebugCommandBase;
-                
+
                 string lable = $"{command.commandFormat} - {command.commandDescription}";
-                Rect lableRect = new Rect(5, i * 20, viewport.width - 10, 20);
+                Rect lableRect = new Rect(helpBoxPadding, i * itemHeight, viewport.width - helpBoxPadding * 2, itemHeight);
 
                 GUI.Label(lableRect, lable);
             }
@@ -180,9 +202,9 @@ public class DebugController : MonoBehaviour
         }
 
         //draw console background and text field
-        GUI.Box(new Rect(0, y, Screen.width, 30), "");
+        GUI.Box(new Rect(0, y, Screen.width, consoleHeight), "");
         GUI.SetNextControlName("ConsoleInput");
-        input = GUI.TextField(new Rect(10, y + 5, Screen.width - 20, 20), input);
+        input = GUI.TextField(new Rect(textFieldPadding, y + textFieldOffsetY, Screen.width - textFieldPadding * 2, textFieldHeight), input);
 
         if (focusTextField)//force focus on txt field when console opens
         {
@@ -193,6 +215,7 @@ public class DebugController : MonoBehaviour
 
     private void ProcessInput(string input)
     {
+        if (input == null) return;
         string[] properties = input.Split(' ');//split input into properties
 
         for (int i = 0; i < commandList.Count; i++)
