@@ -173,10 +173,10 @@ public class LeaderboardManager : MonoBehaviour
         RaceManager.Instance.ResetRace();
         LobbySetUp.instance.showStartUI();
 
-        var hc = FindAnyObjectByType<HamsterBallController>();
-        Destroy(hc.gameObject);
-
         LeaveGameSinglePlayer.SetActive(false);
+
+        var hc = FindAnyObjectByType<HamsterBallController>();
+        if (hc != null) Destroy(hc.gameObject);
     }
 
     public void OnShowDNFUI()
@@ -206,6 +206,8 @@ public class LeaderboardManager : MonoBehaviour
     public void OnShowSinglePlayerLeave()
     {
         LeaveGameSinglePlayer.SetActive(true);
+        RaceHUD.Instance.ResetHUD();
+        RaceHUD.Instance.SetFinished(true);
     }
 
     public bool IsLeaderboardOpen()

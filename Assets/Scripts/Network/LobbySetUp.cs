@@ -34,7 +34,7 @@ public class LobbySetUp : NetworkBehaviour
     [SerializeField] private GameObject multiPlayerLayout;
 
     private int connectedPlayers = -1;
-    private bool singlePlayer = false;
+    public bool singlePlayer = false;
 
     private bool hasHostDC = false;
 
@@ -227,6 +227,7 @@ public class LobbySetUp : NetworkBehaviour
     {
         NetworkManager.Singleton.Shutdown();
         connectedPlayers = -1;
+        ResetState();
     }
 
     public void setSinglePlayer(bool state) { singlePlayer = state; }
@@ -247,6 +248,16 @@ public class LobbySetUp : NetworkBehaviour
         gameStarted = new(false);
     }
 
+    public void ResetState()
+    {
+        resetValuesRpc();
+
+        resetPlayers();
+        RaceManager.Instance?.ResetRace();
+        RaceHUD.Instance.ResetHUD();
+        RaceHUD.Instance.SetFinished(true);
+    }
+
     public void showHostPlayAgainUI()
     {
         if (hasHostDC)
@@ -259,11 +270,7 @@ public class LobbySetUp : NetworkBehaviour
         UIRootObj.SetActive(true);
         hostingUI.SetActive(true);
 
-        resetValuesRpc();
-
-        resetPlayers();
-        RaceManager.Instance?.ResetRace();
-        resetHUD();
+        ResetState();
     }
 
     public void showClientPlayAgainUI()
@@ -275,15 +282,7 @@ public class LobbySetUp : NetworkBehaviour
         
         LobbyUI.SetActive(true);
 
-        resetPlayers();
-        RaceManager.Instance?.ResetRace();
-        resetHUD();
-    }
-
-    private void resetHUD()
-    {
-        RaceHUD.Instance.ResetHUD();
-        RaceHUD.Instance.SetFinished(false);
+        ResetState();
     }
 
     private void resetPlayers()
