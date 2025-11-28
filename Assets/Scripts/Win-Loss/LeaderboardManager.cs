@@ -207,4 +207,27 @@ public class LeaderboardManager : MonoBehaviour
     {
         LeaveGameSinglePlayer.SetActive(true);
     }
+
+    public bool IsLeaderboardOpen()
+    {
+        return leaderboardUI.activeSelf || submitUI.activeSelf;
+    }
+
+    [Rpc(SendTo.Server)]
+    public void KickPlayerServerRpc(ulong clientId)
+    {
+        if (NetworkManager.Singleton.ConnectedClients.ContainsKey(clientId))
+        {
+            if (NetworkManager.Singleton.IsHost)
+                NetworkManager.Singleton.DisconnectClient(clientId);
+            else
+                NetworkManager.Singleton.Shutdown();
+        }
+    }
+
+    public void HideLeadboaedUI()
+    {
+        leaderboardUI.SetActive(false);
+        submitUI.SetActive(false);
+    }
 }

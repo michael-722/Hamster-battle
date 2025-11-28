@@ -24,6 +24,7 @@ public class LobbySetUp : NetworkBehaviour
 
     [SerializeField] private GameObject hostLeftGameUI;
     [SerializeField] private GameObject failedJoinCodeUI;
+    [SerializeField] private GameObject hostStartedAnotherGameUI;
 
     [SerializeField] private GameObject startGameBtn;
 
@@ -145,6 +146,17 @@ public class LobbySetUp : NetworkBehaviour
 
             syncedCountdown.instance.StartCountdown();
             onStartPressedRpc();
+            IsLeaderboardOpenRpc();
+        }
+    }
+
+    [Rpc(SendTo.Everyone)]
+    private void IsLeaderboardOpenRpc()
+    {
+        if (LeaderboardManager.instance.IsLeaderboardOpen())
+        {
+            LeaderboardManager.instance.KickPlayerServerRpc(OwnerClientId);
+            hostStartedNewGame();
         }
     }
 
@@ -152,6 +164,14 @@ public class LobbySetUp : NetworkBehaviour
     {
         failedJoinCodeUI.SetActive(true);
         LobbyUI.SetActive(false);
+    }
+
+    public void hostStartedNewGame()
+    {
+        hostStartedAnotherGameUI.SetActive(true);
+        LobbyUI.SetActive(false);
+        UIRootObj.SetActive(true);
+        LeaderboardManager.instance.HideLeadboaedUI();
     }
 
     [Rpc(SendTo.NotServer)]
