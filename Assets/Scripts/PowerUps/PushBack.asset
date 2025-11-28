@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   id: push_others
   icon: {fileID: 0}
-  duration: 30
+  duration: 15
   stacks: 0
   speedMult: 1
   sizeMult: 1
