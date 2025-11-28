@@ -1,7 +1,9 @@
 using UnityEngine;
 using UnityEngine.Audio;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 using Input = UnityEngine.Input;
+
 
 public class SettingsMenu : MonoBehaviour
 {
@@ -100,6 +102,9 @@ public class SettingsMenu : MonoBehaviour
 
         isPaused = false;
         LeaderboardManager.instance.OnLeaveSinglePlayerPressed();
+
+        UnityEngine.SceneManagement.SceneManager.LoadScene(UnityEngine.SceneManagement.SceneManager.GetActiveScene().buildIndex); // reload current scene (for some reason the SceneManager was throwing errors??)
+
     }
 
     public void SetSenVal(float val)
