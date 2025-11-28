@@ -160,8 +160,8 @@ public class RaceManager : NetworkBehaviour
         finishOrder.Clear();
         offlineFinishOrder.Clear();
 
-        windowOpen.Value = false;
-        windowEndServerTime.Value = 0f;
+        windowOpen = new(false);
+        windowEndServerTime = new(0f);
         offlineWindowEnd = 0f;
 
         foreach (var pr in FindObjectsByType<PlayerRace>(FindObjectsSortMode.None))

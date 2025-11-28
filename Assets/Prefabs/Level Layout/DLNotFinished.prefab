@@ -65,7 +65,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 31321ba15b8f8eb4c954353edc038b1d, type: 2}
+  - {fileID: 2100000, guid: cf3048d201bc51d45bf698dec2bbbbbc, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -108,68 +108,6 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 1, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
---- !u!1 &592708795419436730
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 4630069524679602465}
-  m_Layer: 0
-  m_Name: BottleWithLid
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &4630069524679602465
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 592708795419436730}
-  serializedVersion: 2
-  m_LocalRotation: {x: -0, y: -0.6542467, z: -0, w: 0.75628126}
-  m_LocalPosition: {x: 39.775, y: 2.72, z: -42.41}
-  m_LocalScale: {x: 0.50562406, y: 0.5056242, z: 0.5056242}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 7503896949877118593}
-  m_LocalEulerAnglesHint: {x: 0, y: -81.725, z: 0}
---- !u!1 &851057789559863182
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 5275114965010337488}
-  m_Layer: 0
-  m_Name: BottleWithLid (2)
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &5275114965010337488
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 851057789559863182}
-  serializedVersion: 2
-  m_LocalRotation: {x: -0, y: -0.6565671, z: -0, w: 0.7542677}
-  m_LocalPosition: {x: -35.68, y: 2.72, z: 47.09}
-  m_LocalScale: {x: 0.50562406, y: 0.5056242, z: 0.5056242}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 7503896949877118593}
-  m_LocalEulerAnglesHint: {x: 0, y: -82.077, z: 0}
 --- !u!1 &1055321923602739252
 GameObject:
   m_ObjectHideFlags: 0
@@ -235,7 +173,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 31321ba15b8f8eb4c954353edc038b1d, type: 2}
+  - {fileID: 2100000, guid: cf3048d201bc51d45bf698dec2bbbbbc, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -312,37 +250,6 @@ Transform:
   - {fileID: 3522724179984903125}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!1 &4944724243735252850
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 103842092363106951}
-  m_Layer: 0
-  m_Name: BottleWithLid (1)
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &103842092363106951
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4944724243735252850}
-  serializedVersion: 2
-  m_LocalRotation: {x: -0, y: 0.22116236, z: -0, w: 0.975237}
-  m_LocalPosition: {x: 2.5, y: 2.72, z: 51.9}
-  m_LocalScale: {x: 0.50562406, y: 0.5056242, z: 0.5056242}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 7503896949877118593}
-  m_LocalEulerAnglesHint: {x: 0, y: 25.555, z: 0}
 --- !u!1 &4995714909171930542
 GameObject:
   m_ObjectHideFlags: 0
@@ -408,7 +315,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 31321ba15b8f8eb4c954353edc038b1d, type: 2}
+  - {fileID: 2100000, guid: cf3048d201bc51d45bf698dec2bbbbbc, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -516,7 +423,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 31321ba15b8f8eb4c954353edc038b1d, type: 2}
+  - {fileID: 2100000, guid: cf3048d201bc51d45bf698dec2bbbbbc, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -591,13 +498,10 @@ Transform:
   - {fileID: 6062007380115425028}
   - {fileID: 1689830108340307877}
   - {fileID: 6105325375403839141}
-  - {fileID: 4630069524679602465}
   - {fileID: 8508222937847319153}
   - {fileID: 7521645600964026956}
-  - {fileID: 103842092363106951}
   - {fileID: 6679376741980452948}
   - {fileID: 6627693792218424225}
-  - {fileID: 5275114965010337488}
   - {fileID: 7905354807066268313}
   - {fileID: 2929766999448904252}
   - {fileID: 5887706015896661547}
@@ -780,6 +684,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: -15.422
       objectReference: {fileID: 0}
+    - target: {fileID: -7511558181221131132, guid: 53d0900564331c24cbb9de6601693538, type: 3}
+      propertyPath: 'm_Materials.Array.data[0]'
+      value: 
+      objectReference: {fileID: 2100000, guid: cf3048d201bc51d45bf698dec2bbbbbc, type: 2}
     - target: {fileID: 919132149155446097, guid: 53d0900564331c24cbb9de6601693538, type: 3}
       propertyPath: m_Name
       value: Cube (6)
@@ -883,6 +791,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: -7511558181221131132, guid: aa4ced390924adb45869d8ea08112973, type: 3}
+      propertyPath: 'm_Materials.Array.data[0]'
+      value: 
+      objectReference: {fileID: 2100000, guid: cf3048d201bc51d45bf698dec2bbbbbc, type: 2}
     - target: {fileID: 919132149155446097, guid: aa4ced390924adb45869d8ea08112973, type: 3}
       propertyPath: m_Name
       value: Book (2)
@@ -986,6 +898,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: -7511558181221131132, guid: aa4ced390924adb45869d8ea08112973, type: 3}
+      propertyPath: 'm_Materials.Array.data[0]'
+      value: 
+      objectReference: {fileID: 2100000, guid: cf3048d201bc51d45bf698dec2bbbbbc, type: 2}
     - target: {fileID: 919132149155446097, guid: aa4ced390924adb45869d8ea08112973, type: 3}
       propertyPath: m_Name
       value: Book (1)
@@ -1089,6 +1005,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 13.421
       objectReference: {fileID: 0}
+    - target: {fileID: -7511558181221131132, guid: 53d0900564331c24cbb9de6601693538, type: 3}
+      propertyPath: 'm_Materials.Array.data[0]'
+      value: 
+      objectReference: {fileID: 2100000, guid: cf3048d201bc51d45bf698dec2bbbbbc, type: 2}
     - target: {fileID: 919132149155446097, guid: 53d0900564331c24cbb9de6601693538, type: 3}
       propertyPath: m_Name
       value: Cube (1)
@@ -1192,6 +1112,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 7.223
       objectReference: {fileID: 0}
+    - target: {fileID: -7511558181221131132, guid: 53d0900564331c24cbb9de6601693538, type: 3}
+      propertyPath: 'm_Materials.Array.data[0]'
+      value: 
+      objectReference: {fileID: 2100000, guid: cf3048d201bc51d45bf698dec2bbbbbc, type: 2}
     - target: {fileID: 919132149155446097, guid: 53d0900564331c24cbb9de6601693538, type: 3}
       propertyPath: m_Name
       value: Cube (10)
@@ -1295,6 +1219,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: -15.422
       objectReference: {fileID: 0}
+    - target: {fileID: -7511558181221131132, guid: 53d0900564331c24cbb9de6601693538, type: 3}
+      propertyPath: 'm_Materials.Array.data[0]'
+      value: 
+      objectReference: {fileID: 2100000, guid: cf3048d201bc51d45bf698dec2bbbbbc, type: 2}
     - target: {fileID: 919132149155446097, guid: 53d0900564331c24cbb9de6601693538, type: 3}
       propertyPath: m_Name
       value: Cube (8)
@@ -1398,6 +1326,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: -7511558181221131132, guid: bec0200ad82270243be4ff094915133a, type: 3}
+      propertyPath: 'm_Materials.Array.data[0]'
+      value: 
+      objectReference: {fileID: 2100000, guid: cf3048d201bc51d45bf698dec2bbbbbc, type: 2}
     - target: {fileID: 919132149155446097, guid: bec0200ad82270243be4ff094915133a, type: 3}
       propertyPath: m_Name
       value: BottleCap (2)
@@ -1501,6 +1433,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: -12.599
       objectReference: {fileID: 0}
+    - target: {fileID: -7511558181221131132, guid: 53d0900564331c24cbb9de6601693538, type: 3}
+      propertyPath: 'm_Materials.Array.data[0]'
+      value: 
+      objectReference: {fileID: 2100000, guid: cf3048d201bc51d45bf698dec2bbbbbc, type: 2}
     - target: {fileID: 919132149155446097, guid: 53d0900564331c24cbb9de6601693538, type: 3}
       propertyPath: m_Name
       value: Cube (2)
@@ -1608,6 +1544,10 @@ PrefabInstance:
       propertyPath: m_ConstrainProportionsScale
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: -7511558181221131132, guid: 9cc9d5f1817e7f2479515fde1ccc215f, type: 3}
+      propertyPath: 'm_Materials.Array.data[0]'
+      value: 
+      objectReference: {fileID: 2100000, guid: cf3048d201bc51d45bf698dec2bbbbbc, type: 2}
     - target: {fileID: 919132149155446097, guid: 9cc9d5f1817e7f2479515fde1ccc215f, type: 3}
       propertyPath: m_Name
       value: Car1
@@ -1711,6 +1651,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: -12.599
       objectReference: {fileID: 0}
+    - target: {fileID: -7511558181221131132, guid: 53d0900564331c24cbb9de6601693538, type: 3}
+      propertyPath: 'm_Materials.Array.data[0]'
+      value: 
+      objectReference: {fileID: 2100000, guid: cf3048d201bc51d45bf698dec2bbbbbc, type: 2}
     - target: {fileID: 919132149155446097, guid: 53d0900564331c24cbb9de6601693538, type: 3}
       propertyPath: m_Name
       value: Cube (4)
@@ -1876,6 +1820,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 136.107
       objectReference: {fileID: 0}
+    - target: {fileID: -7511558181221131132, guid: 53d0900564331c24cbb9de6601693538, type: 3}
+      propertyPath: 'm_Materials.Array.data[0]'
+      value: 
+      objectReference: {fileID: 2100000, guid: cf3048d201bc51d45bf698dec2bbbbbc, type: 2}
     - target: {fileID: 919132149155446097, guid: 53d0900564331c24cbb9de6601693538, type: 3}
       propertyPath: m_Name
       value: Cube (12)
@@ -1979,6 +1927,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 13.421
       objectReference: {fileID: 0}
+    - target: {fileID: -7511558181221131132, guid: 53d0900564331c24cbb9de6601693538, type: 3}
+      propertyPath: 'm_Materials.Array.data[0]'
+      value: 
+      objectReference: {fileID: 2100000, guid: cf3048d201bc51d45bf698dec2bbbbbc, type: 2}
     - target: {fileID: 919132149155446097, guid: 53d0900564331c24cbb9de6601693538, type: 3}
       propertyPath: m_Name
       value: Cube
@@ -2082,6 +2034,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 391.146
       objectReference: {fileID: 0}
+    - target: {fileID: -7511558181221131132, guid: 53d0900564331c24cbb9de6601693538, type: 3}
+      propertyPath: 'm_Materials.Array.data[0]'
+      value: 
+      objectReference: {fileID: 2100000, guid: cf3048d201bc51d45bf698dec2bbbbbc, type: 2}
     - target: {fileID: 919132149155446097, guid: 53d0900564331c24cbb9de6601693538, type: 3}
       propertyPath: m_Name
       value: Cube (17)
@@ -2185,6 +2141,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 114.413
       objectReference: {fileID: 0}
+    - target: {fileID: -7511558181221131132, guid: 53d0900564331c24cbb9de6601693538, type: 3}
+      propertyPath: 'm_Materials.Array.data[0]'
+      value: 
+      objectReference: {fileID: 2100000, guid: cf3048d201bc51d45bf698dec2bbbbbc, type: 2}
     - target: {fileID: 919132149155446097, guid: 53d0900564331c24cbb9de6601693538, type: 3}
       propertyPath: m_Name
       value: Cube (13)
@@ -2292,6 +2252,10 @@ PrefabInstance:
       propertyPath: m_ConstrainProportionsScale
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: -7511558181221131132, guid: 9cc9d5f1817e7f2479515fde1ccc215f, type: 3}
+      propertyPath: 'm_Materials.Array.data[0]'
+      value: 
+      objectReference: {fileID: 2100000, guid: cf3048d201bc51d45bf698dec2bbbbbc, type: 2}
     - target: {fileID: 919132149155446097, guid: 9cc9d5f1817e7f2479515fde1ccc215f, type: 3}
       propertyPath: m_Name
       value: Car1 (1)
@@ -2383,6 +2347,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: -7511558181221131132, guid: aa4ced390924adb45869d8ea08112973, type: 3}
+      propertyPath: 'm_Materials.Array.data[0]'
+      value: 
+      objectReference: {fileID: 2100000, guid: cf3048d201bc51d45bf698dec2bbbbbc, type: 2}
     - target: {fileID: 919132149155446097, guid: aa4ced390924adb45869d8ea08112973, type: 3}
       propertyPath: m_Name
       value: Book
@@ -2486,6 +2454,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: -7511558181221131132, guid: 7baa387665c61a545b20483dfd29a52e, type: 3}
+      propertyPath: 'm_Materials.Array.data[0]'
+      value: 
+      objectReference: {fileID: 2100000, guid: cf3048d201bc51d45bf698dec2bbbbbc, type: 2}
     - target: {fileID: 919132149155446097, guid: 7baa387665c61a545b20483dfd29a52e, type: 3}
       propertyPath: m_Name
       value: BottleMain (4)
@@ -2590,6 +2562,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: -7511558181221131132, guid: bec0200ad82270243be4ff094915133a, type: 3}
+      propertyPath: 'm_Materials.Array.data[0]'
+      value: 
+      objectReference: {fileID: 2100000, guid: cf3048d201bc51d45bf698dec2bbbbbc, type: 2}
     - target: {fileID: 919132149155446097, guid: bec0200ad82270243be4ff094915133a, type: 3}
       propertyPath: m_Name
       value: BottleCap (2)
@@ -2693,6 +2669,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 306.901
       objectReference: {fileID: 0}
+    - target: {fileID: -7511558181221131132, guid: 53d0900564331c24cbb9de6601693538, type: 3}
+      propertyPath: 'm_Materials.Array.data[0]'
+      value: 
+      objectReference: {fileID: 2100000, guid: cf3048d201bc51d45bf698dec2bbbbbc, type: 2}
     - target: {fileID: 919132149155446097, guid: 53d0900564331c24cbb9de6601693538, type: 3}
       propertyPath: m_Name
       value: Cube (14)
@@ -2796,6 +2776,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: -7511558181221131132, guid: 7baa387665c61a545b20483dfd29a52e, type: 3}
+      propertyPath: 'm_Materials.Array.data[0]'
+      value: 
+      objectReference: {fileID: 2100000, guid: cf3048d201bc51d45bf698dec2bbbbbc, type: 2}
     - target: {fileID: 919132149155446097, guid: 7baa387665c61a545b20483dfd29a52e, type: 3}
       propertyPath: m_Name
       value: BottleMain (4)
@@ -2904,6 +2888,10 @@ PrefabInstance:
       propertyPath: m_ConstrainProportionsScale
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: -7511558181221131132, guid: 02d8583296ca86944b98c9d844277923, type: 3}
+      propertyPath: 'm_Materials.Array.data[0]'
+      value: 
+      objectReference: {fileID: 2100000, guid: cf3048d201bc51d45bf698dec2bbbbbc, type: 2}
     - target: {fileID: 919132149155446097, guid: 02d8583296ca86944b98c9d844277923, type: 3}
       propertyPath: m_Name
       value: Car2
@@ -3007,6 +2995,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: -7511558181221131132, guid: aa4ced390924adb45869d8ea08112973, type: 3}
+      propertyPath: 'm_Materials.Array.data[0]'
+      value: 
+      objectReference: {fileID: 2100000, guid: cf3048d201bc51d45bf698dec2bbbbbc, type: 2}
     - target: {fileID: 919132149155446097, guid: aa4ced390924adb45869d8ea08112973, type: 3}
       propertyPath: m_Name
       value: Book (4)
@@ -3110,6 +3102,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: -7511558181221131132, guid: bec0200ad82270243be4ff094915133a, type: 3}
+      propertyPath: 'm_Materials.Array.data[0]'
+      value: 
+      objectReference: {fileID: 2100000, guid: cf3048d201bc51d45bf698dec2bbbbbc, type: 2}
     - target: {fileID: 919132149155446097, guid: bec0200ad82270243be4ff094915133a, type: 3}
       propertyPath: m_Name
       value: BottleCap (2)
@@ -3213,6 +3209,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 91.768
       objectReference: {fileID: 0}
+    - target: {fileID: -7511558181221131132, guid: 53d0900564331c24cbb9de6601693538, type: 3}
+      propertyPath: 'm_Materials.Array.data[0]'
+      value: 
+      objectReference: {fileID: 2100000, guid: cf3048d201bc51d45bf698dec2bbbbbc, type: 2}
     - target: {fileID: 919132149155446097, guid: 53d0900564331c24cbb9de6601693538, type: 3}
       propertyPath: m_Name
       value: Cube (11)
@@ -3316,6 +3316,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: -7511558181221131132, guid: 7baa387665c61a545b20483dfd29a52e, type: 3}
+      propertyPath: 'm_Materials.Array.data[0]'
+      value: 
+      objectReference: {fileID: 2100000, guid: cf3048d201bc51d45bf698dec2bbbbbc, type: 2}
     - target: {fileID: 919132149155446097, guid: 7baa387665c61a545b20483dfd29a52e, type: 3}
       propertyPath: m_Name
       value: BottleMain (4)
@@ -3420,6 +3424,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: -7511558181221131132, guid: aa4ced390924adb45869d8ea08112973, type: 3}
+      propertyPath: 'm_Materials.Array.data[0]'
+      value: 
+      objectReference: {fileID: 2100000, guid: cf3048d201bc51d45bf698dec2bbbbbc, type: 2}
     - target: {fileID: 919132149155446097, guid: aa4ced390924adb45869d8ea08112973, type: 3}
       propertyPath: m_Name
       value: Book (3)
@@ -3523,6 +3531,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: -65.948
       objectReference: {fileID: 0}
+    - target: {fileID: -7511558181221131132, guid: 53d0900564331c24cbb9de6601693538, type: 3}
+      propertyPath: 'm_Materials.Array.data[0]'
+      value: 
+      objectReference: {fileID: 2100000, guid: cf3048d201bc51d45bf698dec2bbbbbc, type: 2}
     - target: {fileID: 919132149155446097, guid: 53d0900564331c24cbb9de6601693538, type: 3}
       propertyPath: m_Name
       value: Cube (3)
@@ -3626,6 +3638,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 27.425
       objectReference: {fileID: 0}
+    - target: {fileID: -7511558181221131132, guid: 53d0900564331c24cbb9de6601693538, type: 3}
+      propertyPath: 'm_Materials.Array.data[0]'
+      value: 
+      objectReference: {fileID: 2100000, guid: cf3048d201bc51d45bf698dec2bbbbbc, type: 2}
     - target: {fileID: 919132149155446097, guid: 53d0900564331c24cbb9de6601693538, type: 3}
       propertyPath: m_Name
       value: Cube (7)
@@ -3729,6 +3745,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 351.239
       objectReference: {fileID: 0}
+    - target: {fileID: -7511558181221131132, guid: 53d0900564331c24cbb9de6601693538, type: 3}
+      propertyPath: 'm_Materials.Array.data[0]'
+      value: 
+      objectReference: {fileID: 2100000, guid: cf3048d201bc51d45bf698dec2bbbbbc, type: 2}
     - target: {fileID: 919132149155446097, guid: 53d0900564331c24cbb9de6601693538, type: 3}
       propertyPath: m_Name
       value: Cube (16)

@@ -24,13 +24,17 @@ public class LobbySetUp : NetworkBehaviour
 
     [SerializeField] private GameObject hostLeftGameUI;
     [SerializeField] private GameObject failedJoinCodeUI;
+    [SerializeField] private GameObject hostStartedAnotherGameUI;
 
     [SerializeField] private GameObject startGameBtn;
 
     [SerializeField] private TMP_Text connectedPlayersTxt;
 
+    [SerializeField] private GameObject singlePlayerLayout;
+    [SerializeField] private GameObject multiPlayerLayout;
+
     private int connectedPlayers = -1;
-    private bool singlePlayer = false;
+    public bool singlePlayer = false;
 
     private bool hasHostDC = false;
 
@@ -79,6 +83,7 @@ public class LobbySetUp : NetworkBehaviour
     {
         if (clientId == 0)//host dc
         {
+            PickupSpawner.Instance.DespawnAll();
             startGameBtn.SetActive(false);
             connectedPlayers = -1;
             return;
@@ -124,6 +129,8 @@ public class LobbySetUp : NetworkBehaviour
 
     public void onHostGamePressed()
     {
+        singlePlayerLayout.SetActive(false);
+        multiPlayerLayout.SetActive(true);
         Relay.instance.StartHost();
     }
 
@@ -140,6 +147,19 @@ public class LobbySetUp : NetworkBehaviour
 
             syncedCountdown.instance.StartCountdown();
             onStartPressedRpc();
+            IsLeaderboardOpenRpc();
+
+           PickupSpawner.Instance.SpawnAll();
+        }
+    }
+
+    [Rpc(SendTo.Everyone)]
+    private void IsLeaderboardOpenRpc()
+    {
+        if (LeaderboardManager.instance.IsLeaderboardOpen())
+        {
+            LeaderboardManager.instance.KickPlayerServerRpc(OwnerClientId);
+            hostStartedNewGame();
         }
     }
 
@@ -147,6 +167,14 @@ public class LobbySetUp : NetworkBehaviour
     {
         failedJoinCodeUI.SetActive(true);
         LobbyUI.SetActive(false);
+    }
+
+    public void hostStartedNewGame()
+    {
+        hostStartedAnotherGameUI.SetActive(true);
+        LobbyUI.SetActive(false);
+        UIRootObj.SetActive(true);
+        LeaderboardManager.instance.HideLeadboaedUI();
     }
 
     [Rpc(SendTo.NotServer)]
@@ -161,6 +189,9 @@ public class LobbySetUp : NetworkBehaviour
 
     public void OnSingleplayerPressed()
     {
+        singlePlayerLayout.SetActive(true);
+        multiPlayerLayout.SetActive(false);
+
         canStartGame.Value = true;
 
         Vector3 spawnPos = GetSpawnPosition(NetworkManager.Singleton.LocalClientId);
@@ -172,6 +203,8 @@ public class LobbySetUp : NetworkBehaviour
 
     public void onJoinGamePressed()
     {
+        singlePlayerLayout.SetActive(false);
+        multiPlayerLayout.SetActive(true);
         Relay.instance.JoinGame(lobbyCode.text);
         lobbyCode.text = "";
     }
@@ -197,6 +230,7 @@ public class LobbySetUp : NetworkBehaviour
     {
         NetworkManager.Singleton.Shutdown();
         connectedPlayers = -1;
+        ResetState();
     }
 
     public void setSinglePlayer(bool state) { singlePlayer = state; }
@@ -217,6 +251,16 @@ public class LobbySetUp : NetworkBehaviour
         gameStarted = new(false);
     }
 
+    public void ResetState()
+    {
+        resetValuesRpc();
+
+        resetPlayers();
+        RaceManager.Instance?.ResetRace();
+        RaceHUD.Instance.ResetHUD();
+        RaceHUD.Instance.SetFinished(true);
+    }
+
     public void showHostPlayAgainUI()
     {
         if (hasHostDC)
@@ -229,11 +273,7 @@ public class LobbySetUp : NetworkBehaviour
         UIRootObj.SetActive(true);
         hostingUI.SetActive(true);
 
-        resetValuesRpc();
-
-        resetPlayers();
-        RaceManager.Instance?.ResetRace();
-        resetHUD();
+        ResetState();
     }
 
     public void showClientPlayAgainUI()
@@ -245,15 +285,7 @@ public class LobbySetUp : NetworkBehaviour
         
         LobbyUI.SetActive(true);
 
-        resetPlayers();
-        RaceManager.Instance?.ResetRace();
-        resetHUD();
-    }
-
-    private void resetHUD()
-    {
-        RaceHUD.Instance.ResetHUD();
-        RaceHUD.Instance.SetFinished(false);
+        ResetState();
     }
 
     private void resetPlayers()

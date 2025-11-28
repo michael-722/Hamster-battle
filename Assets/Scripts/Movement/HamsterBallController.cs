@@ -32,9 +32,11 @@ public class HamsterBallController : NetworkBehaviour
     public float timeStep = 0.06f; // arc timestep
     public float flatPreviewMaxDistance = 8f; // max flat line length at 0°
 
-    [Header("Audio (optional)")]
+    [Header("Audio")]
     public AudioSource shootSfx; // sound on shoot
-    
+
+    [SerializeField] private Material trajectoryMaterial;
+
     public float spawnRadius = 7.5f;
 
     private Rigidbody rb; // ball rigidbody
@@ -50,10 +52,12 @@ public class HamsterBallController : NetworkBehaviour
     private float basePower; // original power
 
     private bool canMove = false;
-
     private bool inputEnabled = true;
 
     //rgb yellow
+
+    public string PlayerColorName { get; private set; }
+
     private List<Color> playerColors;
 
 
@@ -79,15 +83,26 @@ public class HamsterBallController : NetworkBehaviour
         canMove = false;
 
         playerColors = new List<Color>()
-        {
-            new Color(player1Color.r, player1Color.g, player1Color.b, aplha),
-            new Color(player2Color.r, player2Color.g, player2Color.b, aplha),
-            new Color(player3Color.r, player3Color.g, player3Color.b, aplha),
-            new Color(player4Color.r, player4Color.g, player4Color.b, aplha)
-        };
+    {
+        new Color(player1Color.r, player1Color.g, player1Color.b, aplha),
+        new Color(player2Color.r, player2Color.g, player2Color.b, aplha),
+        new Color(player3Color.r, player3Color.g, player3Color.b, aplha),
+        new Color(player4Color.r, player4Color.g, player4Color.b, aplha)
+    };
 
         gameObject.GetComponent<MeshRenderer>().material.color = playerColors[(int)OwnerClientId];
+
+        int colorIndex = (int)OwnerClientId;
+
+        string[] names = { "Red", "Green", "Blue", "Purple" };//need changing if the colors set in inspector change <================================
+
+        if (colorIndex >= 0 && colorIndex < names.Length)
+            PlayerColorName = names[colorIndex];
+        else
+            PlayerColorName = $"Player {OwnerClientId}";
+
     }
+
 
     private void Update()
     {
@@ -107,7 +122,7 @@ public class HamsterBallController : NetworkBehaviour
             HandleLoftAdjust(); // wheel/Q/E adjusts loft
             HandleInput(); // drag + release
             DrawTrajectoryPreview(); // draw line
-            if (Input.GetKeyDown(KeyCode.R)) StopBall(); // dev freeze
+            if (Input.GetKeyDown(KeyCode.Alpha9)) StopBall(); // dev freeze
         }
     }
 
@@ -213,15 +228,15 @@ public class HamsterBallController : NetworkBehaviour
         Vector3 flatDir = new Vector3(dragVec.x, 0f, dragVec.z); // ground direction
         float pullFrac = Mathf.Clamp01(dragVec.magnitude / maxDragDistance); // 0..1
 
+        SetTrajectoryColor(pullFrac);//set color of lr material
+
         // branch: flat line when loft is 0°, arc otherwise
         if (loftAngleDeg <= 0.0001f)
         {
             DrawFlatPreview(flatDir, pullFrac); // straight ground line
         }
         else
-        {
             DrawArcPreview(flatDir, pullFrac); // ballistic arc
-        }
     }
 
     private void DrawFlatPreview(Vector3 flatDir, float pullFrac)
@@ -299,5 +314,31 @@ public class HamsterBallController : NetworkBehaviour
         if (basePower <= 0.0001f) basePower = Mathf.Max(0.0001f, power); // safety
         power = basePower * Mathf.Max(0.01f, speedMult); // never zero
                                                          // size is handled by PowerupManager via transform.localScale
+    }
+
+    private void SetTrajectoryColor(float pullFrac)
+    {
+        float frac = Mathf.Clamp01(pullFrac);
+
+        Color low = new Color(0f, 1f, 0f, aplha);//green
+        Color mid = new Color(1f, 1f, 0f, aplha);//yellow
+        Color high = new Color(1f, 0f, 0f, aplha);//red
+
+        Color c;
+        if (frac <= 0.5f)
+        {
+            float t = (frac <= 0f) ? 0f : (frac / 0.5f);
+            c = Color.Lerp(low, mid, t);
+        }
+        else
+        {
+            float t = ((frac - 0.5f) <= 0f) ? 0f : ((frac - 0.5f) / 0.5f);
+            c = Color.Lerp(mid, high, t);
+        }
+
+        if (trajectoryMaterial != null)
+        {
+            trajectoryMaterial.color = c;
+        }
     }
 }

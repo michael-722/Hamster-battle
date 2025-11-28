@@ -52,7 +52,7 @@ public static class PowerupService
         }
 
         BeginPushbackRepeater(def, picker, center);
-        picker.ShowPowerupActivatedClientRpc(def.id, def.duration, picker.OwnerClientId);
+        picker.ShowPowerupActivatedClientRpc(def.id, 5f, picker.OwnerClientId);//only show nofication for 4 sec since the eintire time seems too long
 
     }
 
