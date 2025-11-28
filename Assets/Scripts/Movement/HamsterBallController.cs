@@ -94,7 +94,7 @@ public class HamsterBallController : NetworkBehaviour
 
         int colorIndex = (int)OwnerClientId;
 
-        string[] names = { "Yellow", "Red", "Blue", "Green" };
+        string[] names = { "Red", "Green", "Blue", "Purple" };//need changing if the colors set in inspector change <================================
 
         if (colorIndex >= 0 && colorIndex < names.Length)
             PlayerColorName = names[colorIndex];
@@ -122,7 +122,7 @@ public class HamsterBallController : NetworkBehaviour
             HandleLoftAdjust(); // wheel/Q/E adjusts loft
             HandleInput(); // drag + release
             DrawTrajectoryPreview(); // draw line
-            if (Input.GetKeyDown(KeyCode.R)) StopBall(); // dev freeze
+            if (Input.GetKeyDown(KeyCode.Alpha9)) StopBall(); // dev freeze
         }
     }
 

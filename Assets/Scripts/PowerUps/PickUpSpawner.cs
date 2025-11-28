@@ -1,25 +1,31 @@
 using UnityEngine;
 using Unity.Netcode;
+using System.Collections.Generic;
 
 public class PickupSpawner : NetworkBehaviour
 {
+    public static PickupSpawner Instance;
+
     [SerializeField] private GameObject[] pickupPrefabs;
     [SerializeField] private Transform[] spawnPoints;  // I seriealized the fields this time!!!!!
     [SerializeField] private float respawnDelay = 10f;
 
-    public override void OnNetworkSpawn()
+    private List<GameObject> spawnedPickups = new List<GameObject>();
+
+    private void Start()
     {
-        if (!IsServer) return;
-        SpawnAll();
+        Instance = this;
     }
 
-    private void SpawnAll()
+    public void SpawnAll()
     {
+        if (!IsServer) return;
         foreach (var point in spawnPoints)
         {
             var prefab = pickupPrefabs[Random.Range(0, pickupPrefabs.Length)];
             var go = Instantiate(prefab, point.position, prefab.transform.rotation);
             go.GetComponent<NetworkObject>().Spawn(true);
+            spawnedPickups.Add(go);
         }
     }
 
@@ -36,5 +42,27 @@ public class PickupSpawner : NetworkBehaviour
         var prefab = pickupPrefabs[Random.Range(0, pickupPrefabs.Length)];
         var go = Instantiate(prefab, pos, prefab.transform.rotation);
         go.GetComponent<NetworkObject>().Spawn(true);
+    }
+
+    public void DespawnAll()
+    {
+        if (!IsServer) return;
+
+        if (spawnedPickups == null || spawnedPickups.Count == 0) return;
+
+        for (int i = spawnedPickups.Count - 1; i >= 0; i--)
+        {
+            var pickup = spawnedPickups[i];
+            if (pickup != null)
+            {
+                var netObj = pickup.GetComponent<NetworkObject>();
+                if (netObj != null && netObj.IsSpawned)
+                {
+                    netObj.Despawn(true);
+                }
+                Destroy(pickup);
+            }
+            spawnedPickups.RemoveAt(i);
+        }
     }
 }

@@ -106,8 +106,6 @@ public class PlayerRace : NetworkBehaviour
         NotificationUI.Instance?.Show(msg, duration);
     }
 
-
-
     public void ResetPlayer()
     {
         Result = RaceResult.None;
