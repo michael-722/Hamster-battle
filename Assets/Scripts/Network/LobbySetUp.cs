@@ -265,7 +265,7 @@ public class LobbySetUp : NetworkBehaviour
         resetValuesRpc();
     }
 
-    private void resetValuesRpc()
+    public void resetValuesRpc()
     {
         canStartGame = new(false);
         gameStarted = new(false);
