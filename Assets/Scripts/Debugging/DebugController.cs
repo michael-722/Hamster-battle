@@ -95,7 +95,8 @@ public class DebugController : MonoBehaviour
 
         ShowDebug = new DebugCommand("showDebug", "Toggle debug info", "showDebug", () =>
         {
-            Debug.unityLogger.logEnabled = !Debug.unityLogger.logEnabled;
+            //Debug.unityLogger.logEnabled = !Debug.unityLogger.logEnabled;
+            Debug.developerConsoleEnabled = !Debug.developerConsoleEnabled;
         });
 
         SetFPSTarget = new DebugCommand<int>("setFPSTarget", "set target frame rate", "setFPSTarget <int>", (fps) =>

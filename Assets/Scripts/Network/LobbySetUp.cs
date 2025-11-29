@@ -331,6 +331,11 @@ public class LobbySetUp : NetworkBehaviour
         }
     }
 
+    public int getConnectedPlayers()
+    {
+        return connectedPlayers + 1;
+    }
+
     //spawn pos func is from the hamsterball controller need to put into manager script septrately=====================
     private Vector3 GetSpawnPosition(ulong clientId)
     {
