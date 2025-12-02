@@ -1,3 +1,4 @@
+using NUnit.Framework.Interfaces;
 using System.Threading.Tasks;
 using TMPro;
 using Unity.Netcode;
@@ -118,6 +119,9 @@ public class LobbySetUp : NetworkBehaviour
                 hostLeftGameUI.SetActive(true);
                 UIRootObj.SetActive(true);
 
+                ResetState();
+
+                LeaderboardManager.instance.HideLeadboaedUI();
                 syncedCountdown.instance.StopCountdown();
             }
         }

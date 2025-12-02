@@ -90,7 +90,7 @@ public class HamsterBallController : NetworkBehaviour
         new Color(player4Color.r, player4Color.g, player4Color.b, aplha)
     };
 
-        gameObject.GetComponent<MeshRenderer>().material.color = playerColors[(int)OwnerClientId];
+        gameObject.GetComponent<MeshRenderer>().material.color = playerColors[(int)OwnerClientId % playerColors.Count];
 
         int colorIndex = (int)OwnerClientId;
 

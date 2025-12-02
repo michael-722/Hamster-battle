@@ -244,4 +244,9 @@ public class LeaderboardManager : MonoBehaviour
         leaderboardUI.SetActive(false);
         submitUI.SetActive(false);
     }
+
+    public bool GetLeaderboardUIState()
+    {
+        return leaderboardUI.activeSelf || submitUI.activeSelf;
+    }
 }
