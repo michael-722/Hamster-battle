@@ -169,5 +169,4 @@ public class RaceManager : NetworkBehaviour
             pr.ResetPlayer();
         }
     }
-
 }
