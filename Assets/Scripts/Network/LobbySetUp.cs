@@ -1,3 +1,4 @@
+using NUnit.Framework.Interfaces;
 using System.Threading.Tasks;
 using TMPro;
 using Unity.Netcode;
@@ -118,6 +119,9 @@ public class LobbySetUp : NetworkBehaviour
                 hostLeftGameUI.SetActive(true);
                 UIRootObj.SetActive(true);
 
+                ResetState();
+
+                LeaderboardManager.instance.HideLeadboaedUI();
                 syncedCountdown.instance.StopCountdown();
             }
         }
@@ -143,6 +147,9 @@ public class LobbySetUp : NetworkBehaviour
     {
         singlePlayerLayout.SetActive(false);
         multiPlayerLayout.SetActive(true);
+
+        joinCode.text = "Generating join code...";
+        connectedPlayersTxt.text = "Players Connected: 0";
 
         requestHostStart();
     }

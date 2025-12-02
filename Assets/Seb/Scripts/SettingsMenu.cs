@@ -43,7 +43,7 @@ public class SettingsMenu : MonoBehaviour
 
     private void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Escape))
+        if (Input.GetKeyDown(KeyCode.Escape) && !LeaderboardManager.instance.GetLeaderboardUIState())
         {
             if(isPaused)
             {
@@ -97,6 +97,8 @@ public class SettingsMenu : MonoBehaviour
 
         PlayerRace.instance.ResetPlayer();
         RaceHUD.Instance.ResetHUD();
+
+        syncedCountdown.instance.StopCountdown();
 
         isPaused = false;
         

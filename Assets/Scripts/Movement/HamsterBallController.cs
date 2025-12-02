@@ -90,7 +90,7 @@ public class HamsterBallController : NetworkBehaviour
         new Color(player4Color.r, player4Color.g, player4Color.b, aplha)
     };
 
-        gameObject.GetComponent<MeshRenderer>().material.color = playerColors[(int)OwnerClientId];
+        gameObject.GetComponent<MeshRenderer>().material.color = playerColors[(int)OwnerClientId % playerColors.Count];
 
         int colorIndex = (int)OwnerClientId;
 
@@ -166,8 +166,6 @@ public class HamsterBallController : NetworkBehaviour
 
     private void HandleLoftAdjust()
     {
-        float wheel = Input.mouseScrollDelta.y; // mouse wheel delta
-        if (Mathf.Abs(wheel) > 0f) loftAngleDeg += wheel * loftAdjustPerWheelStep; // wheel adjust
         if (Input.GetKey(KeyCode.Q)) loftAngleDeg -= loftAdjustSpeed * Time.deltaTime; // Q down
         if (Input.GetKey(KeyCode.E)) loftAngleDeg += loftAdjustSpeed * Time.deltaTime; // E up
         loftAngleDeg = Mathf.Clamp(loftAngleDeg, loftMin, loftMax); // clamp
