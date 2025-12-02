@@ -1,4 +1,3 @@
-using UnityEditor.Sprites;
 using UnityEngine;
 
 // Data-only powerup definition

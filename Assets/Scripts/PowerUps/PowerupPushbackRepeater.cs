@@ -23,6 +23,19 @@ public class PowerupPushbackRepeater : MonoBehaviour
     {
         while (Time.time < _endTime)
         {
+            bool hasLocalHamsterController = false;
+
+            var hamsterControllers = FindObjectsByType<HamsterBallController>(FindObjectsSortMode.None);
+            foreach (var ctrl in hamsterControllers)
+            {
+                if (ctrl.IsOwner && ctrl.gameObject == _picker.gameObject)
+                {
+                    hasLocalHamsterController = true;
+                    break;
+                }
+            }
+            if (hasLocalHamsterController) break;
+
             ApplyPush();
             yield return _fixedDelay;
         }
