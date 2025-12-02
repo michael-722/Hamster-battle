@@ -148,6 +148,9 @@ public class LobbySetUp : NetworkBehaviour
         singlePlayerLayout.SetActive(false);
         multiPlayerLayout.SetActive(true);
 
+        joinCode.text = "Generating join code...";
+        connectedPlayersTxt.text = "Players Connected: 0";
+
         requestHostStart();
     }
 
