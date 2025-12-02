@@ -1,3 +1,4 @@
+using NUnit.Framework.Interfaces;
 using System;
 using System.Threading.Tasks;
 using TMPro;
@@ -190,6 +191,11 @@ public class LeaderboardManager : MonoBehaviour
         dnfUI.SetActive(true);
     }
 
+    public bool IsDnfUIOpen()
+    {
+        return dnfUI.activeSelf;
+    }
+
     public void OnSinglePlayerPlayAgain()
     {
         LobbySetUp.instance.OnSingleplayerPressed();
@@ -201,17 +207,14 @@ public class LeaderboardManager : MonoBehaviour
         {
             //Debug.Log("host pressed play again");
             LobbySetUp.instance.showHostPlayAgainUI();
-            LobbySetUp.instance.resetValuesRpc();
-
-            PickupSpawner.Instance.DespawnAll();
         }
         else
         {
             //Debug.Log("client pressed play again");
             LobbySetUp.instance.showClientPlayAgainUI();
 
-            var hc = FindAnyObjectByType<HamsterBallController>();
-            if (hc.IsOwner) hc.gameObject.GetComponent<HamsterBallController>().SetCanMove(false);
+            //var hc = FindAnyObjectByType<HamsterBallController>();
+            //if (hc.IsOwner) hc.gameObject.GetComponent<HamsterBallController>().SetCanMove(false);
         }
     }
 
@@ -225,18 +228,6 @@ public class LeaderboardManager : MonoBehaviour
     public bool IsLeaderboardOpen()
     {
         return leaderboardUI.activeSelf || submitUI.activeSelf;
-    }
-
-    [Rpc(SendTo.Server)]
-    public void KickPlayerServerRpc(ulong clientId)
-    {
-        if (NetworkManager.Singleton.ConnectedClients.ContainsKey(clientId))
-        {
-            if (NetworkManager.Singleton.IsHost)
-                NetworkManager.Singleton.DisconnectClient(clientId);
-            else
-                NetworkManager.Singleton.Shutdown();
-        }
     }
 
     public void HideLeadboaedUI()

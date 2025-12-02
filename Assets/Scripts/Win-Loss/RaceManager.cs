@@ -27,7 +27,7 @@ public class RaceManager : NetworkBehaviour
         Instance = this; // set singleton
     }
 
-    public bool IsWindowOpen() => windowOpen.Value; // for HUD
+    public bool HasGameBeenFinished() => windowOpen.Value; // for HUD
 
     public float TimeLeft() // seconds remaining
     {
@@ -59,16 +59,19 @@ public class RaceManager : NetworkBehaviour
         }
         else
         {
-            if (NetworkManager.ServerTime.Time <= windowEndServerTime.Value)
-                SendResultClientRpc(playerId, RaceResult.LoseEscaped, rank);
-            else
-                SendResultClientRpc(playerId, RaceResult.LoseStuck, 0);
+            if (NetworkManager.ServerTime.Time <= windowEndServerTime.Value) SendResultClientRpc(playerId, RaceResult.LoseEscaped, rank);
+            else SendResultClientRpc(playerId, RaceResult.LoseStuck, 0);
         }
     }
 
     private IEnumerator CloseWindowWhenDue()
     {
-        while ((float)NetworkManager.ServerTime.Time < windowEndServerTime.Value) yield return null;
+        Debug.Log("finish detected - starting countdown");
+        while ((float)NetworkManager.ServerTime.Time < windowEndServerTime.Value)
+        {   
+            Debug.Log("time left: " + TimeLeft());
+            yield return null;
+        }
         CloseAndDNF();
     }
 

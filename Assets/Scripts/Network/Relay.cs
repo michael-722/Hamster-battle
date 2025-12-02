@@ -115,4 +115,16 @@ public class Relay : MonoBehaviour
             Destroy(obj);
         }
     }
+
+    [Rpc(SendTo.Server)]
+    public void KickPlayerServerRpc(ulong clientId)
+    {
+        if (NetworkManager.Singleton.ConnectedClients.ContainsKey(clientId))
+        {
+            if (NetworkManager.Singleton.IsHost)
+                NetworkManager.Singleton.DisconnectClient(clientId);
+            else
+                NetworkManager.Singleton.Shutdown();
+        }
+    }
 }

@@ -121,6 +121,7 @@ public class LobbySetUp : NetworkBehaviour
 
                 ResetState();
 
+
                 LeaderboardManager.instance.HideLeadboaedUI();
                 syncedCountdown.instance.StopCountdown();
             }
@@ -170,22 +171,25 @@ public class LobbySetUp : NetworkBehaviour
     {
         if (IsServer)
         {
+            ResetState();
             gameStarted.Value = true;
 
             syncedCountdown.instance.StartCountdown();
             onStartPressedRpc();
-            IsLeaderboardOpenRpc();
+            canStartNewGameRpc();
 
-           PickupSpawner.Instance.SpawnAll();
+            PickupSpawner.Instance.DespawnAll();
+            PickupSpawner.Instance.SpawnAll();
         }
     }
 
     [Rpc(SendTo.Everyone)]
-    private void IsLeaderboardOpenRpc()
+    private void canStartNewGameRpc()
     {
-        if (LeaderboardManager.instance.IsLeaderboardOpen())
+        //add check here for if the player hasnt finished original game yet
+        if (LeaderboardManager.instance.IsLeaderboardOpen() || LeaderboardManager.instance.IsDnfUIOpen())
         {
-            LeaderboardManager.instance.KickPlayerServerRpc(OwnerClientId);
+            Relay.instance.KickPlayerServerRpc(OwnerClientId);
             hostStartedNewGame();
         }
     }
@@ -199,8 +203,11 @@ public class LobbySetUp : NetworkBehaviour
     public void hostStartedNewGame()
     {
         hostStartedAnotherGameUI.SetActive(true);
+        
         LobbyUI.SetActive(false);
         UIRootObj.SetActive(true);
+
+        ResetState();
         LeaderboardManager.instance.HideLeadboaedUI();
     }
 
@@ -299,8 +306,6 @@ public class LobbySetUp : NetworkBehaviour
 
         UIRootObj.SetActive(true);
         hostingUI.SetActive(true);
-
-        ResetState();
     }
 
     public void showClientPlayAgainUI()

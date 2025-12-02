@@ -14,5 +14,6 @@ public class GoalTrigger : MonoBehaviour
         var pr = other.GetComponentInParent<PlayerRace>(); // find player
         if (pr == null) return; // not a player
         pr.HitGoal(); // submit finish
+        RaceHUD.Instance.SetFinished(true);
     }
 }

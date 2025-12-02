@@ -64,7 +64,7 @@ public class RaceHUD : MonoBehaviour
         }
 
         var rm = RaceManager.Instance;
-        if (rm != null && rm.IsWindowOpen() && !finished)
+        if (rm != null && rm.HasGameBeenFinished() && !finished)
             countdownText.text = $"Time Left: {rm.TimeLeft():0.0}s";
         else
             countdownText.text = "";
