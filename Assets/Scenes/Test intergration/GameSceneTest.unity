@@ -138,7 +138,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5205388365997288040, guid: f3bcc7c3103373e44835056998947089, type: 3}
       propertyPath: spawnPoints.Array.size
-      value: 15
+      value: 10
       objectReference: {fileID: 0}
     - target: {fileID: 5205388365997288040, guid: f3bcc7c3103373e44835056998947089, type: 3}
       propertyPath: pickupPrefabs.Array.size
@@ -171,35 +171,35 @@ PrefabInstance:
     - target: {fileID: 5205388365997288040, guid: f3bcc7c3103373e44835056998947089, type: 3}
       propertyPath: 'spawnPoints.Array.data[6]'
       value: 
-      objectReference: {fileID: 0}
+      objectReference: {fileID: 2043593829}
     - target: {fileID: 5205388365997288040, guid: f3bcc7c3103373e44835056998947089, type: 3}
       propertyPath: 'spawnPoints.Array.data[7]'
       value: 
-      objectReference: {fileID: 0}
+      objectReference: {fileID: 1132567034}
     - target: {fileID: 5205388365997288040, guid: f3bcc7c3103373e44835056998947089, type: 3}
       propertyPath: 'spawnPoints.Array.data[8]'
       value: 
-      objectReference: {fileID: 2043593829}
+      objectReference: {fileID: 2137464323}
     - target: {fileID: 5205388365997288040, guid: f3bcc7c3103373e44835056998947089, type: 3}
       propertyPath: 'spawnPoints.Array.data[9]'
       value: 
-      objectReference: {fileID: 1132567034}
+      objectReference: {fileID: 1411388527}
     - target: {fileID: 5205388365997288040, guid: f3bcc7c3103373e44835056998947089, type: 3}
       propertyPath: 'spawnPoints.Array.data[10]'
       value: 
-      objectReference: {fileID: 0}
+      objectReference: {fileID: 1411388527}
     - target: {fileID: 5205388365997288040, guid: f3bcc7c3103373e44835056998947089, type: 3}
       propertyPath: 'spawnPoints.Array.data[11]'
       value: 
-      objectReference: {fileID: 0}
+      objectReference: {fileID: 1411388527}
     - target: {fileID: 5205388365997288040, guid: f3bcc7c3103373e44835056998947089, type: 3}
       propertyPath: 'spawnPoints.Array.data[12]'
       value: 
-      objectReference: {fileID: 2137464323}
+      objectReference: {fileID: 1411388527}
     - target: {fileID: 5205388365997288040, guid: f3bcc7c3103373e44835056998947089, type: 3}
       propertyPath: 'spawnPoints.Array.data[13]'
       value: 
-      objectReference: {fileID: 0}
+      objectReference: {fileID: 1411388527}
     - target: {fileID: 5205388365997288040, guid: f3bcc7c3103373e44835056998947089, type: 3}
       propertyPath: 'spawnPoints.Array.data[14]'
       value: 
@@ -794,7 +794,7 @@ Transform:
   m_GameObject: {fileID: 480777853}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -5.9, y: 12.3, z: 20.1}
+  m_LocalPosition: {x: -59.5, y: 12.3, z: 155.7}
   m_LocalScale: {x: 53, y: 24.733334, z: 3.5333333}
   m_ConstrainProportionsScale: 1
   m_Children: []
@@ -3187,7 +3187,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4673813112757785671, guid: 44563122c9ec7c241aca040216bcc048, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: -0.0000756979
+      value: -0.00001809001
       objectReference: {fileID: 0}
     - target: {fileID: 4722262746088890284, guid: 44563122c9ec7c241aca040216bcc048, type: 3}
       propertyPath: m_Size
@@ -3207,11 +3207,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5653143871955522844, guid: 44563122c9ec7c241aca040216bcc048, type: 3}
       propertyPath: m_AnchorMax.y
-      value: 1
+      value: 0.5
       objectReference: {fileID: 0}
     - target: {fileID: 5653143871955522844, guid: 44563122c9ec7c241aca040216bcc048, type: 3}
       propertyPath: m_AnchorMin.y
-      value: 0.000000059604645
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6869853904149541322, guid: 44563122c9ec7c241aca040216bcc048, type: 3}
       propertyPath: m_Pivot.x
@@ -3306,6 +3306,10 @@ PrefabInstance:
       value: -135
       objectReference: {fileID: 0}
     - target: {fileID: 7649563724577078700, guid: 44563122c9ec7c241aca040216bcc048, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8560526469065537335, guid: 44563122c9ec7c241aca040216bcc048, type: 3}
       propertyPath: m_IsActive
       value: 0
       objectReference: {fileID: 0}

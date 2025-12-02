@@ -95,10 +95,11 @@ public class SettingsMenu : MonoBehaviour
     {
         pauseMenu.SetActive(false);
 
-        //PlayerRace.instance.ResetPlayer();
-        //RaceHUD.Instance.ResetHUD();
+        PlayerRace.instance.ResetPlayer();
+        RaceHUD.Instance.ResetHUD();
 
         isPaused = false;
+        
         LeaderboardManager.instance.OnLeaveSinglePlayerPressed();
     }
 

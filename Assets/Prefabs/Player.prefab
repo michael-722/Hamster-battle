@@ -342,7 +342,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ShowTopMostFoldoutHeaderGroup: 1
-  stopThreshold: 0.4
+  stopThreshold: 1.2
   stopSettleTime: 0.2
   power: 15
   maxDragDistance: 4
