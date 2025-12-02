@@ -1,12 +1,16 @@
 using UnityEngine;
-using Input = UnityEngine.Input;
+using UnityEngine.Audio;
 using UnityEngine.UI;
+using Input = UnityEngine.Input;
 
 public class SettingsMenu : MonoBehaviour
 {
     public static SettingsMenu instance;
 
+    [SerializeField] private AudioMixer myMixer;
     [SerializeField] private Slider sensitivitySlider;
+    [SerializeField] private Slider musicSlider;
+    [SerializeField] private Slider SFXSlider;
 
     public GameObject pauseMenu;
     public bool isPaused;
@@ -23,6 +27,10 @@ public class SettingsMenu : MonoBehaviour
         instance = this;
         pauseMenu.SetActive(false);
 
+        musicSlider.onValueChanged.AddListener(SetMusicVolume);
+        SFXSlider.onValueChanged.AddListener(SetSFXVolume);
+
+        LoadVolume();
         try
         {
             SetSenVal(PlayerPrefs.GetFloat("sensitivity"));
@@ -43,9 +51,28 @@ public class SettingsMenu : MonoBehaviour
             }
             else
             {
+                LoadVolume();
                 PauseGame();
             }
         }
+    }
+
+    public void SetMusicVolume(float vol)
+    {
+        //Debug.Log("music vol: " + vol);
+        musicSlider.value = vol;
+        myMixer.SetFloat("Music", Mathf.Log10(vol) * 20);
+        PlayerPrefs.SetFloat("MusicVolume", vol);
+        PlayerPrefs.Save();
+    }
+
+    public void SetSFXVolume(float vol)
+    {
+        //Debug.Log("SFX vol: " + vol);
+        SFXSlider.value = vol;
+        myMixer.SetFloat("SFX", Mathf.Log10(vol) * 20);
+        PlayerPrefs.SetFloat("SFXVolume", vol);
+        PlayerPrefs.Save();
     }
 
     public void PauseGame()
@@ -68,20 +95,11 @@ public class SettingsMenu : MonoBehaviour
     {
         pauseMenu.SetActive(false);
 
-        LobbySetUp.instance.dissconnect();
-        LobbySetUp.instance.showStartUI();
-
-        syncedCountdown.instance.StopCountdown();
-
         //PlayerRace.instance.ResetPlayer();
         //RaceHUD.Instance.ResetHUD();
 
-        try
-        {
-            HamsterBallController hamsterBall = FindFirstObjectByType<HamsterBallController>();
-            Destroy(hamsterBall.gameObject);
-        }
-        catch { Debug.LogWarning("no player instance found - leave game"); }
+        isPaused = false;
+        LeaderboardManager.instance.OnLeaveSinglePlayerPressed();
     }
 
     public void SetSenVal(float val)
@@ -100,5 +118,25 @@ public class SettingsMenu : MonoBehaviour
             return sensitivitySlider.value;
         }
         catch { return 0.0f; }
+    }
+
+    private void LoadVolume()
+    {
+        try
+        {
+            //SetMasterVolume(PlayerPrefs.GetFloat("SetMasterVolume"));
+
+            //Debug.Log("loaded music vol: " + PlayerPrefs.GetFloat("MusicVolume"));
+            //Debug.Log("loaded SFX vol: " + PlayerPrefs.GetFloat("SFXVolume"));
+
+            SetMusicVolume(PlayerPrefs.GetFloat("MusicVolume"));
+            SetSFXVolume(PlayerPrefs.GetFloat("SFXVolume"));
+        }
+        catch
+        {
+            //SetMasterVolume(0.75f);
+            SetMusicVolume(0.75f);
+            SetSFXVolume(0.75f);
+        }
     }
 }
