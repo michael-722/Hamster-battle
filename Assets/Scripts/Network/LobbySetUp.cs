@@ -29,6 +29,9 @@ public class LobbySetUp : NetworkBehaviour
 
     [SerializeField] private TMP_Text connectedPlayersTxt;
 
+    [SerializeField] private GameObject singlePlayerLayout;
+    [SerializeField] private GameObject multiPlayerLayout;
+
     private int connectedPlayers = -1;
     private bool singlePlayer = false;
 
@@ -124,6 +127,8 @@ public class LobbySetUp : NetworkBehaviour
 
     public void onHostGamePressed()
     {
+        singlePlayerLayout.SetActive(false);
+        multiPlayerLayout.SetActive(true);
         Relay.instance.StartHost();
     }
 
@@ -161,6 +166,9 @@ public class LobbySetUp : NetworkBehaviour
 
     public void OnSingleplayerPressed()
     {
+        singlePlayerLayout.SetActive(true);
+        multiPlayerLayout.SetActive(false);
+
         canStartGame.Value = true;
 
         Vector3 spawnPos = GetSpawnPosition(NetworkManager.Singleton.LocalClientId);
@@ -172,6 +180,8 @@ public class LobbySetUp : NetworkBehaviour
 
     public void onJoinGamePressed()
     {
+        singlePlayerLayout.SetActive(false);
+        multiPlayerLayout.SetActive(true);
         Relay.instance.JoinGame(lobbyCode.text);
         lobbyCode.text = "";
     }
