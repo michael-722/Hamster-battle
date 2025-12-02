@@ -28,6 +28,7 @@ public class HamsterBallController : NetworkBehaviour
     public float loftAdjustSpeed = 60f; // Q/E adjust speed
 
     [Header("Trajectory")]
+    [SerializeField] private Material trajectoryMaterial;
     public int trajectoryPoints = 25; // number of points
     public float timeStep = 0.06f; // arc timestep
     public float flatPreviewMaxDistance = 8f; // max flat line length at 0°
@@ -35,9 +36,6 @@ public class HamsterBallController : NetworkBehaviour
     [Header("Audio")]
     public AudioSource shootSfx; // sound on shoot
 
-    [SerializeField] private Material trajectoryMaterial;
-
-    public float spawnRadius = 7.5f;
 
     private Rigidbody rb; // ball rigidbody
     private LineRenderer lr; // line renderer
@@ -54,11 +52,16 @@ public class HamsterBallController : NetworkBehaviour
     private bool canMove = false;
     private bool inputEnabled = true;
 
-    //rgb yellow
+    //rgb purple
 
     public string PlayerColorName { get; private set; }
 
     private List<Color> playerColors;
+
+
+    [Header("Player Vibes/Spawning")] // why tf can i not think of a better header name than vibes
+
+    public float spawnRadius = 7.5f;
 
 
     [SerializeField] private float aplha = 0.65f;
