@@ -98,6 +98,8 @@ public class SettingsMenu : MonoBehaviour
         PlayerRace.instance.ResetPlayer();
         RaceHUD.Instance.ResetHUD();
 
+        syncedCountdown.instance.StopCountdown();
+
         isPaused = false;
         
         LeaderboardManager.instance.OnLeaveSinglePlayerPressed();
