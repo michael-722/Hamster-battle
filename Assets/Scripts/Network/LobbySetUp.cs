@@ -358,4 +358,9 @@ public class LobbySetUp : NetworkBehaviour
         
         return new Vector3(offset.x, 5f, offset.z);
     }
+
+    public bool getUIRootObjState()
+    {
+        return UIRootObj.activeSelf;
+    }
 }

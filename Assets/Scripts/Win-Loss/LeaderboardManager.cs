@@ -174,7 +174,6 @@ public class LeaderboardManager : MonoBehaviour
     
     public void OnLeaveSinglePlayerPressed() 
     {
-        Debug.Log("leaving single player game");
         RaceManager.Instance.ResetRace();
         LobbySetUp.instance.showStartUI();
 

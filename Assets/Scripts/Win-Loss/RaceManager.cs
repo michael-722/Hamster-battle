@@ -12,8 +12,8 @@ public class RaceManager : NetworkBehaviour
     public float finishWindow = 15f; // seconds after first finish
 
     // network state for countdown
-    private NetworkVariable<bool> windowOpen = new(false, NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Server);
-    private NetworkVariable<float> windowEndServerTime = new(0f, NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Server);
+    public NetworkVariable<bool> windowOpen = new(false, NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Server);
+    public NetworkVariable<float> windowEndServerTime = new(0f, NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Server);
 
     private readonly List<ulong> finishOrder = new(); // online order by clientId
     private bool closed = false; // window closed
@@ -25,6 +25,11 @@ public class RaceManager : NetworkBehaviour
     private void Awake()
     {
         Instance = this; // set singleton
+    }
+
+    public override void OnNetworkSpawn()
+    {
+        base.OnNetworkSpawn();
     }
 
     public bool HasGameBeenFinished() => windowOpen.Value; // for HUD
@@ -66,13 +71,19 @@ public class RaceManager : NetworkBehaviour
 
     private IEnumerator CloseWindowWhenDue()
     {
-        Debug.Log("finish detected - starting countdown");
+        CountdownTimerRpc(windowEndServerTime.Value);
         while ((float)NetworkManager.ServerTime.Time < windowEndServerTime.Value)
-        {   
+        {
             Debug.Log("time left: " + TimeLeft());
             yield return null;
         }
         CloseAndDNF();
+    }
+
+    [Rpc(SendTo.Everyone)]
+    private void CountdownTimerRpc(float time)
+    {
+        Debug.Log(windowEndServerTime.Value);
     }
 
     private void CloseAndDNF()
@@ -98,7 +109,7 @@ public class RaceManager : NetworkBehaviour
 
         var pr = FindLocalPlayerRace();
         if (pr != null) pr.SetResultLocal(result, rank);
-        pr.HideRaceCountDownRpc();
+        RaceHUD.Instance.SetFinished(true);
     }
 
     private PlayerRace FindLocalPlayerRace()
@@ -163,9 +174,12 @@ public class RaceManager : NetworkBehaviour
         finishOrder.Clear();
         offlineFinishOrder.Clear();
 
-        windowOpen = new(false);
-        windowEndServerTime = new(0f);
-        offlineWindowEnd = 0f;
+        if (IsServer)
+        {
+            windowOpen.Value = false;
+            windowEndServerTime.Value = 0f;
+            offlineWindowEnd = 0f;
+        }
 
         foreach (var pr in FindObjectsByType<PlayerRace>(FindObjectsSortMode.None))
         {

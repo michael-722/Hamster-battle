@@ -43,12 +43,6 @@ public class PlayerRace : NetworkBehaviour
             Destroy(this.gameObject);
         }
     }
-    
-    public void HideRaceCountDownRpc()
-    {
-        //Debug.Log("Hiding");
-        RaceHUD.Instance.SetFinished(true);
-    }
 
     [Rpc(SendTo.Owner)]
     public void startRaceTimerRpc()
