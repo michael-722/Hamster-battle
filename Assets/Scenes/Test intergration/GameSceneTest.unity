@@ -256,6 +256,14 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 6659065980424095273, guid: f3bcc7c3103373e44835056998947089, type: 3}
+      propertyPath: singlePlayerLayouts.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6659065980424095273, guid: f3bcc7c3103373e44835056998947089, type: 3}
+      propertyPath: 'singlePlayerLayouts.Array.data[1]'
+      value: 
+      objectReference: {fileID: 967268332101201373, guid: 3fb56519096392646abd8378296bc602, type: 3}
     - target: {fileID: 8177228917831802290, guid: f3bcc7c3103373e44835056998947089, type: 3}
       propertyPath: m_Name
       value: RaceManager
@@ -794,7 +802,7 @@ Transform:
   m_GameObject: {fileID: 480777853}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -59.5, y: 12.3, z: 155.7}
+  m_LocalPosition: {x: 0.3, y: 12.3, z: 17.4}
   m_LocalScale: {x: 53, y: 24.733334, z: 3.5333333}
   m_ConstrainProportionsScale: 1
   m_Children: []
@@ -1652,7 +1660,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 413645149251144281, guid: 259c5f0869674ce4db17dfa57452d543, type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 428132777709510777, guid: 259c5f0869674ce4db17dfa57452d543, type: 3}
       propertyPath: Xspeed

@@ -49,17 +49,25 @@ public class syncedCountdown : NetworkBehaviour
             remainingTime -= 1f;
         }
 
-        if (NetworkManager.Singleton.IsConnectedClient) LobbySetUp.instance.allowStartRpc();
-        else LobbySetUp.instance.setSinglePlayer(true);
+        if (NetworkManager.Singleton.IsConnectedClient)
+        {
+            //multiplayer timer start
+            LobbySetUp.instance.allowStartRpc();
+        }
+        else
+        {
+            //singleplayer timer start
+            PlayerRace pr = FindFirstObjectByType<PlayerRace>();
+            PlayerRace.instance.startRaceTime();
+        }
 
         countdownText.text = "GO!";
 
         foreach (var ctrl in FindObjectsByType<HamsterBallController>(sortMode:FindObjectsSortMode.None))
         {
-            if (ctrl.IsOwner)
+            if (ctrl.IsOwner || LobbySetUp.instance.singlePlayer)
             {
                 ctrl.SetCanMove(true);
-                ctrl.GetComponent<PlayerRace>().startRaceTimerRpc();
             }
         }
 
