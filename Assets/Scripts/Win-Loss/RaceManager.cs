@@ -12,8 +12,8 @@ public class RaceManager : NetworkBehaviour
     public float finishWindow = 15f; // seconds after first finish
 
     // network state for countdown
-    private NetworkVariable<bool> windowOpen = new(false, NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Server);
-    private NetworkVariable<float> windowEndServerTime = new(0f, NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Server);
+    public NetworkVariable<bool> windowOpen = new(false, NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Server);
+    public NetworkVariable<float> windowEndServerTime = new(0f, NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Server);
 
     private readonly List<ulong> finishOrder = new(); // online order by clientId
     private bool closed = false; // window closed
@@ -27,7 +27,12 @@ public class RaceManager : NetworkBehaviour
         Instance = this; // set singleton
     }
 
-    public bool IsWindowOpen() => windowOpen.Value; // for HUD
+    public override void OnNetworkSpawn()
+    {
+        base.OnNetworkSpawn();
+    }
+
+    public bool HasGameBeenFinished() => windowOpen.Value; // for HUD
 
     public float TimeLeft() // seconds remaining
     {
@@ -59,57 +64,16 @@ public class RaceManager : NetworkBehaviour
         }
         else
         {
-            if (NetworkManager.ServerTime.Time <= windowEndServerTime.Value)
-                SendResultClientRpc(playerId, RaceResult.LoseEscaped, rank);
-            else
-                SendResultClientRpc(playerId, RaceResult.LoseStuck, 0);
+            if (NetworkManager.ServerTime.Time <= windowEndServerTime.Value) SendResultClientRpc(playerId, RaceResult.LoseEscaped, rank);
+            else SendResultClientRpc(playerId, RaceResult.LoseStuck, 0);
         }
-    }
-
-    private IEnumerator CloseWindowWhenDue()
-    {
-        while ((float)NetworkManager.ServerTime.Time < windowEndServerTime.Value) yield return null;
-        CloseAndDNF();
-    }
-
-    private void CloseAndDNF()
-    {
-        if (closed) return;
-        closed = true;
-        windowOpen.Value = false;
-
-        foreach (var kv in NetworkManager.ConnectedClientsList)
-        {
-            ulong id = kv.ClientId;
-            if (!finishOrder.Contains(id))
-                SendResultClientRpc(id, RaceResult.LoseStuck, 0); // DNF, rank unknown
-        }
-    }
-
-    // send result to a specific client
-    [ClientRpc]
-    private void SendResultClientRpc(ulong targetClientId, RaceResult result, int rank)
-    {
-        if (NetworkManager.Singleton == null) return;
-        if (NetworkManager.Singleton.LocalClientId != targetClientId) return;
-
-        var pr = FindLocalPlayerRace();
-        if (pr != null) pr.SetResultLocal(result, rank);
-        pr.HideRaceCountDownRpc();
-    }
-
-    private PlayerRace FindLocalPlayerRace()
-    {
-        foreach (var pr in FindObjectsOfType<PlayerRace>())
-            if (pr.IsOwner) return pr;
-        return null;
     }
 
     // -------- OFFLINE SUPPORT (with ranks) --------
 
     public void RegisterFinishOffline(PlayerRace pr)
     {
-        LeaderboardManager.instance.OnShowSinglePlayerLeave();
+        //LeaderboardManager.instance.OnShowSinglePlayerLeave();
 
         // first finisher
         if (!windowOpen.Value)
@@ -136,6 +100,49 @@ public class RaceManager : NetworkBehaviour
         }
     }
 
+    private IEnumerator CloseWindowWhenDue()
+    {
+        while ((float)NetworkManager.ServerTime.Time < windowEndServerTime.Value)
+        {
+            //Debug.Log("time left: " + TimeLeft());
+            yield return null;
+        }
+        CloseAndDNF();
+    }
+
+    private void CloseAndDNF()
+    {
+        if (closed) return;
+        closed = true;
+        windowOpen.Value = false;
+
+        foreach (var kv in NetworkManager.ConnectedClientsList)
+        {
+            ulong id = kv.ClientId;
+            if (!finishOrder.Contains(id))
+                SendResultClientRpc(id, RaceResult.LoseStuck, 0); // DNF, rank unknown
+        }
+    }
+
+    // send result to a specific client
+    [ClientRpc]
+    private void SendResultClientRpc(ulong targetClientId, RaceResult result, int rank)
+    {
+        if (NetworkManager.Singleton == null) return;
+        if (NetworkManager.Singleton.LocalClientId != targetClientId) return;
+
+        var pr = FindLocalPlayerRace();
+        if (pr != null) pr.SetResultLocal(result, rank);
+        RaceHUD.Instance.SetFinished(true);
+    }
+
+    private PlayerRace FindLocalPlayerRace()
+    {
+        foreach (var pr in FindObjectsOfType<PlayerRace>())
+            if (pr.IsOwner) return pr;
+        return null;
+    }
+
     private void Update()
     {
         // offline countdown close
@@ -160,9 +167,12 @@ public class RaceManager : NetworkBehaviour
         finishOrder.Clear();
         offlineFinishOrder.Clear();
 
-        windowOpen = new(false);
-        windowEndServerTime = new(0f);
-        offlineWindowEnd = 0f;
+        if (IsServer)
+        {
+            windowOpen.Value = false;
+            windowEndServerTime.Value = 0f;
+            offlineWindowEnd = 0f;
+        }
 
         foreach (var pr in FindObjectsByType<PlayerRace>(FindObjectsSortMode.None))
         {

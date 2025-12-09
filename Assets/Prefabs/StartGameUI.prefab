@@ -3934,9 +3934,8 @@ MonoBehaviour:
   failedJoinCodeUI: {fileID: 283242732719288209}
   hostStartedAnotherGameUI: {fileID: 744299303829898784}
   startGameBtn: {fileID: 4183487140384138328}
+  HostGameBackBtn: {fileID: 8968392757903588570}
   connectedPlayersTxt: {fileID: 3330238378979038961}
-  singlePlayerLayout: {fileID: 0}
-  multiPlayerLayout: {fileID: 0}
   singlePlayer: 0
 --- !u!1 &4898611857538966345
 GameObject:
