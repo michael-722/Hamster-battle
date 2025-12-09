@@ -83,24 +83,49 @@ public class HamsterBallController : NetworkBehaviour
         canMove = false;
 
         playerColors = new List<Color>()
-    {
-        new Color(player1Color.r, player1Color.g, player1Color.b, aplha),
-        new Color(player2Color.r, player2Color.g, player2Color.b, aplha),
-        new Color(player3Color.r, player3Color.g, player3Color.b, aplha),
-        new Color(player4Color.r, player4Color.g, player4Color.b, aplha)
-    };
+        {
+            new Color(player1Color.r, player1Color.g, player1Color.b, aplha),
+            new Color(player2Color.r, player2Color.g, player2Color.b, aplha),
+            new Color(player3Color.r, player3Color.g, player3Color.b, aplha),
+            new Color(player4Color.r, player4Color.g, player4Color.b, aplha)
+        };
 
-        gameObject.GetComponent<MeshRenderer>().material.color = playerColors[(int)OwnerClientId];
+        int connectionIndex = 0;
+        var nm = NetworkManager.Singleton;
 
-        int colorIndex = (int)OwnerClientId;
+        Debug.Log("OwnerClientId: " + OwnerClientId);
+        //try get connection order
+        if (nm != null && nm.IsListening && IsSpawned && nm.ConnectedClientsList != null)
+        {
+            var clients = nm.ConnectedClientsList;
+            for (int i = 0; i < clients.Count; i++)
+            {
+                if (clients[i].ClientId == OwnerClientId)
+                {
+                    connectionIndex = i;
+                    break;
+                }
+            }
+        }
+        else
+        {
+            connectionIndex = (int)(OwnerClientId % (ulong)playerColors.Count);
+        }
 
-        string[] names = { "Red", "Green", "Blue", "Purple" };//need changing if the colors set in inspector change <================================
+        int colorIndex = connectionIndex % playerColors.Count;
+
+        var meshRend = gameObject.GetComponent<MeshRenderer>();
+        if (meshRend != null && meshRend.material != null)
+        {
+            meshRend.material.color = playerColors[colorIndex];
+        }
+
+        string[] names = { "Red", "Green", "Blue", "Purple" }; // keep in sync with inspector colors
 
         if (colorIndex >= 0 && colorIndex < names.Length)
             PlayerColorName = names[colorIndex];
         else
-            PlayerColorName = $"Player {OwnerClientId}";
-
+            PlayerColorName = $"Player {connectionIndex + 1}";
     }
 
 
@@ -166,8 +191,6 @@ public class HamsterBallController : NetworkBehaviour
 
     private void HandleLoftAdjust()
     {
-        float wheel = Input.mouseScrollDelta.y; // mouse wheel delta
-        if (Mathf.Abs(wheel) > 0f) loftAngleDeg += wheel * loftAdjustPerWheelStep; // wheel adjust
         if (Input.GetKey(KeyCode.Q)) loftAngleDeg -= loftAdjustSpeed * Time.deltaTime; // Q down
         if (Input.GetKey(KeyCode.E)) loftAngleDeg += loftAdjustSpeed * Time.deltaTime; // E up
         loftAngleDeg = Mathf.Clamp(loftAngleDeg, loftMin, loftMax); // clamp

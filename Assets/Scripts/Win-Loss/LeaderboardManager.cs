@@ -170,8 +170,10 @@ public class LeaderboardManager : MonoBehaviour
         LobbySetUp.instance.showStartUI();
     }
 
+    
     public void OnLeaveSinglePlayerPressed() 
     {
+        Debug.Log("leaving single player game");
         RaceManager.Instance.ResetRace();
         LobbySetUp.instance.showStartUI();
 
@@ -179,6 +181,8 @@ public class LeaderboardManager : MonoBehaviour
 
         var hc = FindAnyObjectByType<HamsterBallController>();
         if (hc != null) Destroy(hc.gameObject);
+
+        OnLeaveGameBtnPressed();
     }
 
     public void OnShowDNFUI()
@@ -197,6 +201,7 @@ public class LeaderboardManager : MonoBehaviour
         {
             //Debug.Log("host pressed play again");
             LobbySetUp.instance.showHostPlayAgainUI();
+            LobbySetUp.instance.resetValuesRpc();
 
             PickupSpawner.Instance.DespawnAll();
         }
@@ -204,6 +209,9 @@ public class LeaderboardManager : MonoBehaviour
         {
             //Debug.Log("client pressed play again");
             LobbySetUp.instance.showClientPlayAgainUI();
+
+            var hc = FindAnyObjectByType<HamsterBallController>();
+            if (hc.IsOwner) hc.gameObject.GetComponent<HamsterBallController>().SetCanMove(false);
         }
     }
 
@@ -235,5 +243,10 @@ public class LeaderboardManager : MonoBehaviour
     {
         leaderboardUI.SetActive(false);
         submitUI.SetActive(false);
+    }
+
+    public bool GetLeaderboardUIState()
+    {
+        return leaderboardUI.activeSelf || submitUI.activeSelf;
     }
 }

@@ -1,3 +1,4 @@
+using NUnit.Framework.Interfaces;
 using System.Threading.Tasks;
 using TMPro;
 using Unity.Netcode;
@@ -118,6 +119,9 @@ public class LobbySetUp : NetworkBehaviour
                 hostLeftGameUI.SetActive(true);
                 UIRootObj.SetActive(true);
 
+                ResetState();
+
+                LeaderboardManager.instance.HideLeadboaedUI();
                 syncedCountdown.instance.StopCountdown();
             }
         }
@@ -143,6 +147,9 @@ public class LobbySetUp : NetworkBehaviour
     {
         singlePlayerLayout.SetActive(false);
         multiPlayerLayout.SetActive(true);
+
+        joinCode.text = "Generating join code...";
+        connectedPlayersTxt.text = "Players Connected: 0";
 
         requestHostStart();
     }
@@ -265,7 +272,7 @@ public class LobbySetUp : NetworkBehaviour
         resetValuesRpc();
     }
 
-    private void resetValuesRpc()
+    public void resetValuesRpc()
     {
         canStartGame = new(false);
         gameStarted = new(false);
@@ -329,6 +336,11 @@ public class LobbySetUp : NetworkBehaviour
                 newNetObj.SpawnAsPlayerObject(client.ClientId);
             }
         }
+    }
+
+    public int getConnectedPlayers()
+    {
+        return connectedPlayers + 1;
     }
 
     //spawn pos func is from the hamsterball controller need to put into manager script septrately=====================
