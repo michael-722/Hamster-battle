@@ -27,7 +27,7 @@ public class LeaderboardManager : MonoBehaviour
 
     [SerializeField] private GameObject dnfUI;
 
-    private string leaderboardID = "FastestTimes";
+    private string leaderboardID;
 
     private bool isSigningIn = false;
     private bool hasSubmittedTime = false;
@@ -96,6 +96,7 @@ public class LeaderboardManager : MonoBehaviour
 
         if (leaderboardUI.activeSelf && refresh)
         {
+            leaderboardID = LevelLayout.instance.GetActiveLayout().name;
             if (!AuthenticationService.Instance.IsSignedIn) return;
             refresh = false;
             refreshLeaderboard();

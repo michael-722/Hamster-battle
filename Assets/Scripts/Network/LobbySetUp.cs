@@ -31,9 +31,6 @@ public class LobbySetUp : NetworkBehaviour
 
     [SerializeField] private TMP_Text connectedPlayersTxt;
 
-    [SerializeField] private GameObject singlePlayerLayout;
-    [SerializeField] private GameObject multiPlayerLayout;
-
     private int connectedPlayers = -1;
     public bool singlePlayer = false;
 
@@ -146,9 +143,6 @@ public class LobbySetUp : NetworkBehaviour
 
     public void onHostGamePressed()
     {
-        singlePlayerLayout.SetActive(false);
-        multiPlayerLayout.SetActive(true);
-
         joinCode.text = "Generating join code...";
         connectedPlayersTxt.text = "Players Connected: 0";
 
@@ -159,6 +153,7 @@ public class LobbySetUp : NetworkBehaviour
     {
         hasHostStartedUp = true;
         await Relay.instance.StartHost();
+        LevelLayout.instance.SetMultiPlayerLayout();
         hasHostStartedUp = false;
     }
 
@@ -223,8 +218,7 @@ public class LobbySetUp : NetworkBehaviour
 
     public void OnSingleplayerPressed()
     {
-        singlePlayerLayout.SetActive(true);
-        multiPlayerLayout.SetActive(false);
+        LevelLayout.instance.SetSinglePlayerLayout();
 
         canStartGame.Value = true;
 
@@ -237,8 +231,6 @@ public class LobbySetUp : NetworkBehaviour
 
     public void onJoinGamePressed()
     {
-        singlePlayerLayout.SetActive(false);
-        multiPlayerLayout.SetActive(true);
         Relay.instance.JoinGame(lobbyCode.text);
         lobbyCode.text = "";
     }
