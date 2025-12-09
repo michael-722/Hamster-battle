@@ -167,6 +167,12 @@ public class LobbySetUp : NetworkBehaviour
         joinCode.text = ("Join code: " + code);
     }
 
+    public void copyJoinCodePressed()
+    {
+        string code = joinCode.text.Replace("Join code:", "").Replace(" ", "");
+        GUIUtility.systemCopyBuffer = code;
+    }
+
     public void onStartGamePressed()
     {
         if (IsServer)
