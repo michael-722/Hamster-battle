@@ -110,9 +110,9 @@ RectTransform:
   - {fileID: 2612746986965682386}
   m_Father: {fileID: 6635583050601630342}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0.5, y: 0}
-  m_AnchorMax: {x: 0.5, y: 0}
-  m_AnchoredPosition: {x: 190, y: 650}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: 190, y: -430}
   m_SizeDelta: {x: 445, y: 124}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &3411636667957470020
@@ -2264,7 +2264,7 @@ GameObject:
   - component: {fileID: 2110555324215413832}
   - component: {fileID: 8147269229171269290}
   m_Layer: 5
-  m_Name: LeaderboardUI 1
+  m_Name: LeaderboardUI
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2376,7 +2376,6 @@ MonoBehaviour:
   completeTimeTxt: {fileID: 5447156912025855456}
   userEnteredName: {fileID: 9034001904593678996}
   dnfUI: {fileID: 436562606618591701}
-  playAgainWarningTxt: {fileID: 7125453401479578188}
 --- !u!1 &4841682582310229709
 GameObject:
   m_ObjectHideFlags: 0
@@ -2412,11 +2411,11 @@ RectTransform:
   - {fileID: 5083058791943797941}
   m_Father: {fileID: 840971450847269812}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0.5, y: 0}
-  m_AnchorMax: {x: 0.5, y: 0}
-  m_AnchoredPosition: {x: 0, y: 0}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: 0, y: -118}
   m_SizeDelta: {x: 306, y: 124}
-  m_Pivot: {x: 0.5, y: 0}
+  m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &122631159840028902
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -2908,9 +2907,9 @@ RectTransform:
   - {fileID: 4744439712346415097}
   m_Father: {fileID: 6635583050601630342}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0.5, y: 0}
-  m_AnchorMax: {x: 0.5, y: 0}
-  m_AnchoredPosition: {x: -325, y: 650}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: -325, y: -430}
   m_SizeDelta: {x: 171.5, y: 124}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &2594956821775562531
@@ -4171,7 +4170,7 @@ MonoBehaviour:
   m_HandleRect: {fileID: 5653143871955522844}
   m_Direction: 2
   m_Value: 1
-  m_Size: 0.70000005
+  m_Size: 0.7
   m_NumberOfSteps: 0
   m_OnValueChanged:
     m_PersistentCalls:
