@@ -39,7 +39,8 @@ public class PlayerRace : NetworkBehaviour
         }
         else
         {
-            RaceManager.Instance.RegisterFinishOffline(this);
+            LeaderboardManager.instance.setTime(completeTime);
+            //RaceManager.Instance.RegisterFinishOffline(this);
             Destroy(this.gameObject);
         }
     }

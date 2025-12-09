@@ -71,19 +71,12 @@ public class RaceManager : NetworkBehaviour
 
     private IEnumerator CloseWindowWhenDue()
     {
-        CountdownTimerRpc(windowEndServerTime.Value);
         while ((float)NetworkManager.ServerTime.Time < windowEndServerTime.Value)
         {
-            Debug.Log("time left: " + TimeLeft());
+            //Debug.Log("time left: " + TimeLeft());
             yield return null;
         }
         CloseAndDNF();
-    }
-
-    [Rpc(SendTo.Everyone)]
-    private void CountdownTimerRpc(float time)
-    {
-        Debug.Log(windowEndServerTime.Value);
     }
 
     private void CloseAndDNF()
@@ -123,7 +116,7 @@ public class RaceManager : NetworkBehaviour
 
     public void RegisterFinishOffline(PlayerRace pr)
     {
-        LeaderboardManager.instance.OnShowSinglePlayerLeave();
+        //LeaderboardManager.instance.OnShowSinglePlayerLeave();
 
         // first finisher
         if (!windowOpen.Value)

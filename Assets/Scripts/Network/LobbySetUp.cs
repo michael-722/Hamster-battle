@@ -28,6 +28,7 @@ public class LobbySetUp : NetworkBehaviour
     [SerializeField] private GameObject hostStartedAnotherGameUI;
 
     [SerializeField] private GameObject startGameBtn;
+    [SerializeField] private GameObject HostGameBackBtn;
 
     [SerializeField] private TMP_Text connectedPlayersTxt;
 
@@ -85,6 +86,7 @@ public class LobbySetUp : NetworkBehaviour
         {
             PickupSpawner.Instance.DespawnAll();
             startGameBtn.SetActive(false);
+            HostGameBackBtn.SetActive(false);
             connectedPlayers = -1;
             return;
         }
@@ -129,17 +131,8 @@ public class LobbySetUp : NetworkBehaviour
     {
         if (!IsServer) return;
         startGameBtn.SetActive(true);
+        HostGameBackBtn.SetActive(true);
     }
-
-    public async void OnHostUIBackPressed()
-    {
-        if (hasHostStartedUp)
-        {
-            await Task.Delay(2000);
-        }
-        dissconnect();
-    }
-
 
     public void onHostGamePressed()
     {
@@ -147,6 +140,17 @@ public class LobbySetUp : NetworkBehaviour
         connectedPlayersTxt.text = "Players Connected: 0";
 
         requestHostStart();
+    }
+
+    public void OnSingleplayerPressed()
+    {
+        LevelLayout.instance.SetSinglePlayerLayout();
+
+        Vector3 spawnPos = GetSpawnPosition(NetworkManager.Singleton.LocalClientId);
+        Quaternion spawnRot = Quaternion.identity;
+
+        GameObject player = Instantiate(NetworkManager.Singleton.NetworkConfig.PlayerPrefab, spawnPos, spawnRot);
+        syncedCountdown.instance.StartCountdown(); 
     }
 
     private async void requestHostStart()
@@ -214,19 +218,6 @@ public class LobbySetUp : NetworkBehaviour
         startGameBtn.SetActive(true);
         startGameBtn.GetComponent<Button>().onClick.Invoke();
         startGameBtn.SetActive(false);
-    }
-
-    public void OnSingleplayerPressed()
-    {
-        LevelLayout.instance.SetSinglePlayerLayout();
-
-        canStartGame.Value = true;
-
-        Vector3 spawnPos = GetSpawnPosition(NetworkManager.Singleton.LocalClientId);
-        Quaternion spawnRot = Quaternion.identity;
-
-        GameObject player = Instantiate(NetworkManager.Singleton.NetworkConfig.PlayerPrefab, spawnPos, spawnRot);
-        //syncedCountdown.instance.StartCountdown(); 
     }
 
     public void onJoinGamePressed()

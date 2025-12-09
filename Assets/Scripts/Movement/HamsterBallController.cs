@@ -89,7 +89,6 @@ public class HamsterBallController : NetworkBehaviour
         int connectionIndex = 0;
         var nm = NetworkManager.Singleton;
 
-        Debug.Log("OwnerClientId: " + OwnerClientId);
         //try get connection order
         if (nm != null && nm.IsListening && IsSpawned && nm.ConnectedClientsList != null)
         {

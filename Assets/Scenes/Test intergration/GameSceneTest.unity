@@ -256,6 +256,14 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 6659065980424095273, guid: f3bcc7c3103373e44835056998947089, type: 3}
+      propertyPath: singlePlayerLayouts.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6659065980424095273, guid: f3bcc7c3103373e44835056998947089, type: 3}
+      propertyPath: 'singlePlayerLayouts.Array.data[1]'
+      value: 
+      objectReference: {fileID: 967268332101201373, guid: 3fb56519096392646abd8378296bc602, type: 3}
     - target: {fileID: 8177228917831802290, guid: f3bcc7c3103373e44835056998947089, type: 3}
       propertyPath: m_Name
       value: RaceManager

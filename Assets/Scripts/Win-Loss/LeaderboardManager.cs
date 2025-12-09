@@ -96,7 +96,10 @@ public class LeaderboardManager : MonoBehaviour
 
         if (leaderboardUI.activeSelf && refresh)
         {
-            leaderboardID = LevelLayout.instance.GetActiveLayout().name;
+            GameObject activeLayout = LevelLayout.instance?.GetActiveLayout();
+            leaderboardID = activeLayout.name.Replace("(Clone)", "").Trim();
+            Debug.Log("Leaderboard ID set to: " + leaderboardID);
+
             if (!AuthenticationService.Instance.IsSignedIn) return;
             refresh = false;
             refreshLeaderboard();
