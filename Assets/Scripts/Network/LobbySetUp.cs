@@ -101,7 +101,7 @@ public class LobbySetUp : NetworkBehaviour
 
         if (clientId == NetworkManager.Singleton.LocalClientId)
         {
-            //Debug.Log("Client disconnected from server. Reason: " + NetworkManager.Singleton.DisconnectReason);
+            Debug.Log("Client disconnected from server. Reason: " + NetworkManager.Singleton.DisconnectReason);
             var reason = NetworkManager.Singleton.DisconnectReason;
 
             if (reason.Contains("Game already started"))
@@ -144,6 +144,7 @@ public class LobbySetUp : NetworkBehaviour
 
     public void OnSingleplayerPressed()
     {
+        singlePlayer = true;
         LevelLayout.instance.SetSinglePlayerLayout();
 
         Vector3 spawnPos = GetSpawnPosition(NetworkManager.Singleton.LocalClientId);
@@ -228,8 +229,7 @@ public class LobbySetUp : NetworkBehaviour
 
     public bool canStart()
     {
-        if (singlePlayer) return true;
-        else return canStartGame.Value;
+        return canStartGame.Value;
     }
 
     public void setCanStart(bool val)

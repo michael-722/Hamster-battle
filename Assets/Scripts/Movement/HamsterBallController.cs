@@ -155,7 +155,7 @@ public class HamsterBallController : NetworkBehaviour
             rb.angularVelocity = Vector3.zero;
         }
         else
-        { 
+        {
             gameObject.GetComponent<PlayerRace>().startRaceTimerRpc(); 
         }
     }

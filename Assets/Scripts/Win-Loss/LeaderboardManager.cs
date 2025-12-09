@@ -30,7 +30,6 @@ public class LeaderboardManager : MonoBehaviour
     private string leaderboardID;
 
     private bool isSigningIn = false;
-    private bool hasSubmittedTime = false;
     private bool refresh = true;
 
     private double completedTime;
@@ -98,7 +97,7 @@ public class LeaderboardManager : MonoBehaviour
         {
             GameObject activeLayout = LevelLayout.instance?.GetActiveLayout();
             leaderboardID = activeLayout.name.Replace("(Clone)", "").Trim();
-            Debug.Log("Leaderboard ID set to: " + leaderboardID);
+            //Debug.Log("Leaderboard ID set to: " + leaderboardID);
 
             if (!AuthenticationService.Instance.IsSignedIn) return;
             refresh = false;
@@ -136,7 +135,6 @@ public class LeaderboardManager : MonoBehaviour
     {
         //add check if username has spaces - not valid
         SubmitScore();
-        hasSubmittedTime = true;
 
         submitUI.SetActive(false);
         leaderboardUI.SetActive(true);
@@ -171,6 +169,12 @@ public class LeaderboardManager : MonoBehaviour
 
     public void OnLeaveGameBtnPressed()
     {
+        if (LobbySetUp.instance.singlePlayer)
+        {
+            OnLeaveSinglePlayerPressed();
+            return;
+        }
+
         LobbySetUp.instance.dissconnect();
         LobbySetUp.instance.showStartUI();
     }
@@ -181,12 +185,14 @@ public class LeaderboardManager : MonoBehaviour
         RaceManager.Instance.ResetRace();
         LobbySetUp.instance.showStartUI();
 
+        LobbySetUp.instance.setSinglePlayer(false);
+
         LeaveGameSinglePlayer.SetActive(false);
 
         var hc = FindAnyObjectByType<HamsterBallController>();
         if (hc != null) Destroy(hc.gameObject);
 
-        OnLeaveGameBtnPressed();
+        HideLeadboaedUI();
     }
 
     public void OnShowDNFUI()
@@ -206,6 +212,12 @@ public class LeaderboardManager : MonoBehaviour
 
     public void OnPlayAgainPressed()
     {
+        if (LobbySetUp.instance.singlePlayer)
+        {
+            OnSinglePlayerPlayAgain();
+            return;
+        }
+
         if (NetworkManager.Singleton.LocalClientId == 0)
         {
             //Debug.Log("host pressed play again");

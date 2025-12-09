@@ -8,7 +8,6 @@ public class HamsterPhysics : MonoBehaviour
 
     [SerializeField] private float runTiltStrength = 5f;//climb height inside ball
     [SerializeField] private float gravityAlignSpeed = 10f;
-    [SerializeField] private float turnSpeed = 10f;
 
     [SerializeField] private float pinThreshold = 15f;
     [SerializeField] private float unpinSpeed = 5f;

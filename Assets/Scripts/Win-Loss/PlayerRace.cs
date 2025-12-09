@@ -39,6 +39,7 @@ public class PlayerRace : NetworkBehaviour
         }
         else
         {
+            endRaceTime();
             LeaderboardManager.instance.setTime(completeTime);
             //RaceManager.Instance.RegisterFinishOffline(this);
             Destroy(this.gameObject);
@@ -62,6 +63,22 @@ public class PlayerRace : NetworkBehaviour
 
         ctrl.SetCanMove(false);
         //Debug.Log("timer ended " + endTime);
+    }
+
+
+    public void startRaceTime()
+    {
+        startTime = Time.time;
+    }
+
+    public void endRaceTime()
+    {
+        endTime = Time.time;
+        completeTime = endTime - startTime;
+        //Debug.Log("complete time was: " + completeTime);
+        LeaderboardManager.instance.setTime(completeTime);
+
+        ctrl.SetCanMove(false);
     }
 
     public void SetResultLocal(RaceResult r, int rank)

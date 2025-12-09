@@ -69,6 +69,37 @@ public class RaceManager : NetworkBehaviour
         }
     }
 
+    // -------- OFFLINE SUPPORT (with ranks) --------
+
+    public void RegisterFinishOffline(PlayerRace pr)
+    {
+        //LeaderboardManager.instance.OnShowSinglePlayerLeave();
+
+        // first finisher
+        if (!windowOpen.Value)
+        {
+            windowOpen.Value = true;
+            offlineWindowEnd = Time.time + finishWindow;
+            offlineFinishOrder.Clear();
+            offlineFinishOrder.Add(pr);
+            pr.SetResultLocal(RaceResult.Win, 1);
+        }
+        else
+        {
+            if (Time.time <= offlineWindowEnd)
+            {
+                if (!offlineFinishOrder.Contains(pr))
+                    offlineFinishOrder.Add(pr);
+                int rank = offlineFinishOrder.IndexOf(pr) + 1; // 1-based
+                pr.SetResultLocal(RaceResult.LoseEscaped, rank);
+            }
+            else
+            {
+                pr.SetResultLocal(RaceResult.LoseStuck, 0);
+            }
+        }
+    }
+
     private IEnumerator CloseWindowWhenDue()
     {
         while ((float)NetworkManager.ServerTime.Time < windowEndServerTime.Value)
@@ -110,37 +141,6 @@ public class RaceManager : NetworkBehaviour
         foreach (var pr in FindObjectsOfType<PlayerRace>())
             if (pr.IsOwner) return pr;
         return null;
-    }
-
-    // -------- OFFLINE SUPPORT (with ranks) --------
-
-    public void RegisterFinishOffline(PlayerRace pr)
-    {
-        //LeaderboardManager.instance.OnShowSinglePlayerLeave();
-
-        // first finisher
-        if (!windowOpen.Value)
-        {
-            windowOpen.Value = true;
-            offlineWindowEnd = Time.time + finishWindow;
-            offlineFinishOrder.Clear();
-            offlineFinishOrder.Add(pr);
-            pr.SetResultLocal(RaceResult.Win, 1);
-        }
-        else
-        {
-            if (Time.time <= offlineWindowEnd)
-            {
-                if (!offlineFinishOrder.Contains(pr))
-                    offlineFinishOrder.Add(pr);
-                int rank = offlineFinishOrder.IndexOf(pr) + 1; // 1-based
-                pr.SetResultLocal(RaceResult.LoseEscaped, rank);
-            }
-            else
-            {
-                pr.SetResultLocal(RaceResult.LoseStuck, 0);
-            }
-        }
     }
 
     private void Update()
