@@ -13,6 +13,9 @@ public class SettingsMenu : MonoBehaviour
     [SerializeField] private Slider musicSlider;
     [SerializeField] private Slider SFXSlider;
 
+    [SerializeField] private GameObject mainMenu;
+    [SerializeField] private GameObject gameMenu;
+
     public GameObject pauseMenu;
     public bool isPaused;
 
@@ -45,7 +48,10 @@ public class SettingsMenu : MonoBehaviour
 
     private void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Escape) && !LeaderboardManager.instance.GetLeaderboardUIState())
+        if (gameMenu.activeInHierarchy || mainMenu.activeInHierarchy) return;
+        if (LeaderboardManager.instance.GetLeaderboardUIState()) return;
+
+        if (Input.GetKeyDown(KeyCode.Escape))
         {
             if(isPaused)
             {

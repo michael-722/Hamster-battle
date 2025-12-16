@@ -3,6 +3,7 @@ using UnityEngine;
 using System.Collections.Generic;
 using Unity.Netcode;
 using Unity.VisualScripting;
+using System.Runtime.InteropServices.WindowsRuntime;
 
 public class LevelLayout : NetworkBehaviour
 {
@@ -13,8 +14,11 @@ public class LevelLayout : NetworkBehaviour
     [SerializeField] private List<GameObject> singlePlayerLayouts;
     [SerializeField] private List<GameObject> multiPlayerLayouts;
 
-    private GameObject activeLayout;
+    private GameObject activeLayout = null;
     public NetworkVariable<bool> isMultiplayer = new(false);
+
+    private int activeLayoutId = -1;
+    private bool activeLayoutIsMultiplayer = false;
 
     void Start()
     {
@@ -63,26 +67,32 @@ public class LevelLayout : NetworkBehaviour
 
     private void Update()
     {
-        /*
-        if (isMultiplayer.Value)
+        int desiredId = currentLayoutid.Value;
+        bool desiredIsMultiplayer = isMultiplayer.Value;
+
+        if (activeLayout != null && activeLayoutId == desiredId && activeLayoutIsMultiplayer == desiredIsMultiplayer)
         {
-            if (activeLayout != multiPlayerLayouts[currentLayoutid.Value])
-            {
-                Destroy(activeLayout);
-                activeLayout = Instantiate(multiPlayerLayouts[currentLayoutid.Value], new Vector3(-35.5f, 0f, 56f), Quaternion.identity).gameObject;
-                //Debug.Log("multiplayer layout set to id: " + currentLayoutid.Value);
-            }
+            return;
         }
-        else
+
+        List<GameObject> levelList = desiredIsMultiplayer ? multiPlayerLayouts : singlePlayerLayouts;
+        if (levelList == null || levelList.Count == 0)
         {
-            if (activeLayout != singlePlayerLayouts[currentLayoutid.Value])
-            {
-                Destroy(activeLayout);
-                activeLayout = Instantiate(singlePlayerLayouts[currentLayoutid.Value], new Vector3(-35.5f, 0f, 56f), Quaternion.identity).gameObject;
-                //Debug.Log("single player layout set to id: " + currentLayoutid.Value);
-            }
+            Debug.LogError(desiredIsMultiplayer ? "no multi player layouts set" : "no single player layouts set");
+            return;
         }
-        */
+
+        if (desiredId < 0 || desiredId >= levelList.Count)
+        {
+            Debug.LogWarning($"currentLayoutid ({desiredId}) out of range for {(desiredIsMultiplayer ? "multi" : "single")}player layouts");
+            return;
+        }
+
+        Destroy(activeLayout);
+        activeLayout = Instantiate(levelList[desiredId], new Vector3(-35.5f, 0f, 56f), Quaternion.identity).gameObject;
+
+        activeLayoutId = desiredId;
+        activeLayoutIsMultiplayer = desiredIsMultiplayer;
     }
 
     public GameObject GetActiveLayout()
