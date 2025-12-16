@@ -63,6 +63,7 @@ public class LevelLayout : NetworkBehaviour
 
     private void Update()
     {
+        /*
         if (isMultiplayer.Value)
         {
             if (activeLayout != multiPlayerLayouts[currentLayoutid.Value])
@@ -81,6 +82,7 @@ public class LevelLayout : NetworkBehaviour
                 //Debug.Log("single player layout set to id: " + currentLayoutid.Value);
             }
         }
+        */
     }
 
     public GameObject GetActiveLayout()
