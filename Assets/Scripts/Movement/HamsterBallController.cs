@@ -1,10 +1,6 @@
 using UnityEngine;
-
 using Unity.Netcode;
-using UnityEngine.UIElements;
-using Unity.Services.Authentication;
-using Unity.Netcode.Components;
-using System.Collections.Generic;//networking
+using System.Collections.Generic;
 
 // Slingshot: pull = power, mouse wheel = arc; 0° arc draws a flat ground line
 [RequireComponent(typeof(Rigidbody))]
@@ -96,7 +92,6 @@ public class HamsterBallController : NetworkBehaviour
         int connectionIndex = 0;
         var nm = NetworkManager.Singleton;
 
-        Debug.Log("OwnerClientId: " + OwnerClientId);
         //try get connection order
         if (nm != null && nm.IsListening && IsSpawned && nm.ConnectedClientsList != null)
         {
@@ -163,7 +158,7 @@ public class HamsterBallController : NetworkBehaviour
             rb.angularVelocity = Vector3.zero;
         }
         else
-        { 
+        {
             gameObject.GetComponent<PlayerRace>().startRaceTimerRpc(); 
         }
     }

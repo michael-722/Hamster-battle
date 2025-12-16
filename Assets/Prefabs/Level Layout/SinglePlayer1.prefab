@@ -10,12 +10,12 @@ GameObject:
   m_Component:
   - component: {fileID: 8899603381240829720}
   m_Layer: 0
-  m_Name: TutorialLevel 2
+  m_Name: Singleplayer1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &8899603381240829720
 Transform:
   m_ObjectHideFlags: 0
