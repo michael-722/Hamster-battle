@@ -28,11 +28,9 @@ public class LobbySetUp : NetworkBehaviour
     [SerializeField] private GameObject hostStartedAnotherGameUI;
 
     [SerializeField] private GameObject startGameBtn;
+    [SerializeField] private GameObject HostGameBackBtn;
 
     [SerializeField] private TMP_Text connectedPlayersTxt;
-
-    [SerializeField] private GameObject singlePlayerLayout;
-    [SerializeField] private GameObject multiPlayerLayout;
 
     private int connectedPlayers = -1;
     public bool singlePlayer = false;
@@ -88,6 +86,7 @@ public class LobbySetUp : NetworkBehaviour
         {
             PickupSpawner.Instance.DespawnAll();
             startGameBtn.SetActive(false);
+            HostGameBackBtn.SetActive(false);
             connectedPlayers = -1;
             return;
         }
@@ -102,7 +101,7 @@ public class LobbySetUp : NetworkBehaviour
 
         if (clientId == NetworkManager.Singleton.LocalClientId)
         {
-            //Debug.Log("Client disconnected from server. Reason: " + NetworkManager.Singleton.DisconnectReason);
+            Debug.Log("Client disconnected from server. Reason: " + NetworkManager.Singleton.DisconnectReason);
             var reason = NetworkManager.Singleton.DisconnectReason;
 
             if (reason.Contains("Game already started"))
@@ -121,6 +120,7 @@ public class LobbySetUp : NetworkBehaviour
 
                 ResetState();
 
+
                 LeaderboardManager.instance.HideLeadboaedUI();
                 syncedCountdown.instance.StopCountdown();
             }
@@ -131,33 +131,34 @@ public class LobbySetUp : NetworkBehaviour
     {
         if (!IsServer) return;
         startGameBtn.SetActive(true);
+        HostGameBackBtn.SetActive(true);
     }
-
-    public async void OnHostUIBackPressed()
-    {
-        if (hasHostStartedUp)
-        {
-            await Task.Delay(2000);
-        }
-        dissconnect();
-    }
-
 
     public void onHostGamePressed()
     {
-        singlePlayerLayout.SetActive(false);
-        multiPlayerLayout.SetActive(true);
-
         joinCode.text = "Generating join code...";
         connectedPlayersTxt.text = "Players Connected: 0";
 
         requestHostStart();
     }
 
+    public void OnSingleplayerPressed()
+    {
+        singlePlayer = true;
+        LevelLayout.instance.SetSinglePlayerLayout();
+
+        Vector3 spawnPos = GetSpawnPosition(NetworkManager.Singleton.LocalClientId);
+        Quaternion spawnRot = Quaternion.identity;
+
+        GameObject player = Instantiate(NetworkManager.Singleton.NetworkConfig.PlayerPrefab, spawnPos, spawnRot);
+        syncedCountdown.instance.StartCountdown(); 
+    }
+
     private async void requestHostStart()
     {
         hasHostStartedUp = true;
         await Relay.instance.StartHost();
+        LevelLayout.instance.SetMultiPlayerLayout();
         hasHostStartedUp = false;
     }
 
@@ -166,26 +167,35 @@ public class LobbySetUp : NetworkBehaviour
         joinCode.text = ("Join code: " + code);
     }
 
+    public void copyJoinCodePressed()
+    {
+        string code = joinCode.text.Replace("Join code:", "").Replace(" ", "");
+        GUIUtility.systemCopyBuffer = code;
+    }
+
     public void onStartGamePressed()
     {
         if (IsServer)
         {
+            ResetState();
             gameStarted.Value = true;
 
             syncedCountdown.instance.StartCountdown();
             onStartPressedRpc();
-            IsLeaderboardOpenRpc();
+            canStartNewGameRpc();
 
-           PickupSpawner.Instance.SpawnAll();
+            PickupSpawner.Instance.DespawnAll();
+            PickupSpawner.Instance.SpawnAll();
         }
     }
 
     [Rpc(SendTo.Everyone)]
-    private void IsLeaderboardOpenRpc()
+    private void canStartNewGameRpc()
     {
-        if (LeaderboardManager.instance.IsLeaderboardOpen())
+        //add check here for if the player hasnt finished original game yet
+        if (LeaderboardManager.instance.IsLeaderboardOpen() || LeaderboardManager.instance.IsDnfUIOpen())
         {
-            LeaderboardManager.instance.KickPlayerServerRpc(OwnerClientId);
+            Relay.instance.KickPlayerServerRpc(OwnerClientId);
             hostStartedNewGame();
         }
     }
@@ -199,8 +209,11 @@ public class LobbySetUp : NetworkBehaviour
     public void hostStartedNewGame()
     {
         hostStartedAnotherGameUI.SetActive(true);
+        
         LobbyUI.SetActive(false);
         UIRootObj.SetActive(true);
+
+        ResetState();
         LeaderboardManager.instance.HideLeadboaedUI();
     }
 
@@ -214,32 +227,15 @@ public class LobbySetUp : NetworkBehaviour
         startGameBtn.SetActive(false);
     }
 
-    public void OnSingleplayerPressed()
-    {
-        singlePlayerLayout.SetActive(true);
-        multiPlayerLayout.SetActive(false);
-
-        canStartGame.Value = true;
-
-        Vector3 spawnPos = GetSpawnPosition(NetworkManager.Singleton.LocalClientId);
-        Quaternion spawnRot = Quaternion.identity;
-
-        GameObject player = Instantiate(NetworkManager.Singleton.NetworkConfig.PlayerPrefab, spawnPos, spawnRot);
-        //syncedCountdown.instance.StartCountdown(); 
-    }
-
     public void onJoinGamePressed()
     {
-        singlePlayerLayout.SetActive(false);
-        multiPlayerLayout.SetActive(true);
         Relay.instance.JoinGame(lobbyCode.text);
         lobbyCode.text = "";
     }
 
     public bool canStart()
     {
-        if (singlePlayer) return true;
-        else return canStartGame.Value;
+        return canStartGame.Value;
     }
 
     public void setCanStart(bool val)
@@ -299,8 +295,6 @@ public class LobbySetUp : NetworkBehaviour
 
         UIRootObj.SetActive(true);
         hostingUI.SetActive(true);
-
-        ResetState();
     }
 
     public void showClientPlayAgainUI()
@@ -352,5 +346,10 @@ public class LobbySetUp : NetworkBehaviour
         Vector3 offset = new Vector3(Mathf.Cos(angle * Mathf.Deg2Rad), 0f, Mathf.Sin(angle * Mathf.Deg2Rad)) * spawnRadius;
         
         return new Vector3(offset.x, 5f, offset.z);
+    }
+
+    public bool getUIRootObjState()
+    {
+        return UIRootObj.activeSelf;
     }
 }

@@ -39,15 +39,11 @@ public class PlayerRace : NetworkBehaviour
         }
         else
         {
-            RaceManager.Instance.RegisterFinishOffline(this);
+            endRaceTime();
+            LeaderboardManager.instance.setTime(completeTime);
+            //RaceManager.Instance.RegisterFinishOffline(this);
             Destroy(this.gameObject);
         }
-    }
-    
-    public void HideRaceCountDownRpc()
-    {
-        //Debug.Log("Hiding");
-        RaceHUD.Instance.SetFinished(true);
     }
 
     [Rpc(SendTo.Owner)]
@@ -67,6 +63,22 @@ public class PlayerRace : NetworkBehaviour
 
         ctrl.SetCanMove(false);
         //Debug.Log("timer ended " + endTime);
+    }
+
+
+    public void startRaceTime()
+    {
+        startTime = Time.time;
+    }
+
+    public void endRaceTime()
+    {
+        endTime = Time.time;
+        completeTime = endTime - startTime;
+        //Debug.Log("complete time was: " + completeTime);
+        LeaderboardManager.instance.setTime(completeTime);
+
+        ctrl.SetCanMove(false);
     }
 
     public void SetResultLocal(RaceResult r, int rank)
