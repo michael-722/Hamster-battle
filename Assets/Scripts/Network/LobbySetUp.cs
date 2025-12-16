@@ -151,7 +151,8 @@ public class LobbySetUp : NetworkBehaviour
         Quaternion spawnRot = Quaternion.identity;
 
         GameObject player = Instantiate(NetworkManager.Singleton.NetworkConfig.PlayerPrefab, spawnPos, spawnRot);
-        syncedCountdown.instance.StartCountdown(); 
+        syncedCountdown.instance.StartCountdown();
+        Camera.main.GetComponent<BallCameraFollow>().panLevel();
     }
 
     private async void requestHostStart()
