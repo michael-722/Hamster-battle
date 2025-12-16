@@ -525,6 +525,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: MainRoom 2
       objectReference: {fileID: 0}
+    - target: {fileID: 5270088781787965851, guid: 41636668c1064744782cce1bc1a76da7, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -681,7 +685,7 @@ Transform:
   m_GameObject: {fileID: 480777853}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0.3, y: 12.3, z: 17.4}
+  m_LocalPosition: {x: 0.3, y: 12.3, z: 154.4}
   m_LocalScale: {x: 53, y: 24.733334, z: 3.5333333}
   m_ConstrainProportionsScale: 1
   m_Children: []
@@ -701,7 +705,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 390141419262014220, guid: 88913def2829d2d4abf482297f738c6e, type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 1357255582040917010, guid: 88913def2829d2d4abf482297f738c6e, type: 3}
       propertyPath: m_AnchorMax.x
@@ -717,7 +721,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1457047491718401394, guid: 88913def2829d2d4abf482297f738c6e, type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1986654570340835403, guid: 88913def2829d2d4abf482297f738c6e, type: 3}
       propertyPath: m_AnchorMax.x
@@ -1523,7 +1527,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 413645149251144281, guid: 259c5f0869674ce4db17dfa57452d543, type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 428132777709510777, guid: 259c5f0869674ce4db17dfa57452d543, type: 3}
       propertyPath: Xspeed
