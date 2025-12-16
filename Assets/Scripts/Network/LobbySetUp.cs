@@ -181,6 +181,8 @@ public class LobbySetUp : NetworkBehaviour
             gameStarted.Value = true;
 
             syncedCountdown.instance.StartCountdown();
+            Camera.main.GetComponent<BallCameraFollow>().panLevel();
+
             onStartPressedRpc();
             canStartNewGameRpc();
 
@@ -221,6 +223,7 @@ public class LobbySetUp : NetworkBehaviour
     private void onStartPressedRpc()
     {
         syncedCountdown.instance.StartCountdown();
+        Camera.main.GetComponent<BallCameraFollow>().panLevel();
 
         startGameBtn.SetActive(true);
         startGameBtn.GetComponent<Button>().onClick.Invoke();
