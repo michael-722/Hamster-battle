@@ -116,6 +116,9 @@ public class BallCameraFollow : MonoBehaviour
 
     private IEnumerator PanLevelCoroutine()
     {
+        if (splineAnim != null)
+            splineAnim.Restart(false);
+
         splineAnim.Play();
 
         panning = true;
