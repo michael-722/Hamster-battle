@@ -151,7 +151,8 @@ public class LobbySetUp : NetworkBehaviour
         Quaternion spawnRot = Quaternion.identity;
 
         GameObject player = Instantiate(NetworkManager.Singleton.NetworkConfig.PlayerPrefab, spawnPos, spawnRot);
-        syncedCountdown.instance.StartCountdown(); 
+        syncedCountdown.instance.StartCountdown();
+        Camera.main.GetComponent<BallCameraFollow>().panLevel();
     }
 
     private async void requestHostStart()
@@ -167,6 +168,12 @@ public class LobbySetUp : NetworkBehaviour
         joinCode.text = ("Join code: " + code);
     }
 
+    public void copyJoinCodePressed()
+    {
+        string code = joinCode.text.Replace("Join code:", "").Replace(" ", "");
+        GUIUtility.systemCopyBuffer = code;
+    }
+
     public void onStartGamePressed()
     {
         if (IsServer)
@@ -175,6 +182,8 @@ public class LobbySetUp : NetworkBehaviour
             gameStarted.Value = true;
 
             syncedCountdown.instance.StartCountdown();
+            Camera.main.GetComponent<BallCameraFollow>().panLevel();
+
             onStartPressedRpc();
             canStartNewGameRpc();
 
@@ -215,6 +224,7 @@ public class LobbySetUp : NetworkBehaviour
     private void onStartPressedRpc()
     {
         syncedCountdown.instance.StartCountdown();
+        Camera.main.GetComponent<BallCameraFollow>().panLevel();
 
         startGameBtn.SetActive(true);
         startGameBtn.GetComponent<Button>().onClick.Invoke();

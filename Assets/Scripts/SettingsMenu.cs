@@ -9,8 +9,12 @@ public class SettingsMenu : MonoBehaviour
 
     [SerializeField] private AudioMixer myMixer;
     [SerializeField] private Slider sensitivitySlider;
+    [SerializeField] private Slider masterSlider;
     [SerializeField] private Slider musicSlider;
     [SerializeField] private Slider SFXSlider;
+
+    [SerializeField] private GameObject mainMenu;
+    [SerializeField] private GameObject gameMenu;
 
     public GameObject pauseMenu;
     public bool isPaused;
@@ -27,6 +31,7 @@ public class SettingsMenu : MonoBehaviour
         instance = this;
         pauseMenu.SetActive(false);
 
+        masterSlider.onValueChanged.AddListener(SetMasterVolume);
         musicSlider.onValueChanged.AddListener(SetMusicVolume);
         SFXSlider.onValueChanged.AddListener(SetSFXVolume);
 
@@ -43,7 +48,10 @@ public class SettingsMenu : MonoBehaviour
 
     private void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Escape) && !LeaderboardManager.instance.GetLeaderboardUIState())
+        if (gameMenu.activeInHierarchy || mainMenu.activeInHierarchy) return;
+        if (LeaderboardManager.instance.GetLeaderboardUIState()) return;
+
+        if (Input.GetKeyDown(KeyCode.Escape))
         {
             if(isPaused)
             {
@@ -55,6 +63,15 @@ public class SettingsMenu : MonoBehaviour
                 PauseGame();
             }
         }
+    }
+
+    public void SetMasterVolume(float vol)
+    {
+        //Debug.Log("master vol: " + vol);
+        masterSlider.value = vol;
+        myMixer.SetFloat("Master", Mathf.Log10(vol) * 20);
+        PlayerPrefs.SetFloat("MasterVolume", vol);
+        PlayerPrefs.Save();
     }
 
     public void SetMusicVolume(float vol)
@@ -125,21 +142,13 @@ public class SettingsMenu : MonoBehaviour
 
     private void LoadVolume()
     {
-        try
-        {
-            //SetMasterVolume(PlayerPrefs.GetFloat("SetMasterVolume"));
+        try { SetMasterVolume(PlayerPrefs.GetFloat("MasterVolume")); }
+        catch { SetMasterVolume(0.75f); }
 
-            //Debug.Log("loaded music vol: " + PlayerPrefs.GetFloat("MusicVolume"));
-            //Debug.Log("loaded SFX vol: " + PlayerPrefs.GetFloat("SFXVolume"));
+        try { SetMusicVolume(PlayerPrefs.GetFloat("MusicVolume")); }
+        catch { SetMusicVolume(0.75f); }
 
-            SetMusicVolume(PlayerPrefs.GetFloat("MusicVolume"));
-            SetSFXVolume(PlayerPrefs.GetFloat("SFXVolume"));
-        }
-        catch
-        {
-            //SetMasterVolume(0.75f);
-            SetMusicVolume(0.75f);
-            SetSFXVolume(0.75f);
-        }
+        try { SetSFXVolume(PlayerPrefs.GetFloat("SFXVolume")); }
+        catch { SetSFXVolume(0.75f); }
     }
 }

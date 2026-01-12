@@ -197,7 +197,10 @@ public class LeaderboardManager : MonoBehaviour
 
     public void OnShowDNFUI()
     {
-        dnfUI.SetActive(true);
+        //dnfUI.SetActive(true);
+
+        submitUI.SetActive(false);
+        leaderboardUI.SetActive(true);
     }
 
     public bool IsDnfUIOpen()

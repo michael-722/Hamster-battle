@@ -1,4 +1,7 @@
+using TreeEditor;
 using UnityEngine;
+using UnityEngine.Splines;
+using System.Collections;
 
 // Orbit follow camera: RMB drag = rotate, wheel = zoom
 public class BallCameraFollow : MonoBehaviour
@@ -30,6 +33,9 @@ public class BallCameraFollow : MonoBehaviour
     [Header("Collision")]
     public float collisionPadding = 0.3f; // keep camera off walls
 
+    private SplineAnimate splineAnim;
+    private bool panning = false;
+
     void Start()
     {
         // derive orbit from starting offset
@@ -37,6 +43,8 @@ public class BallCameraFollow : MonoBehaviour
         yaw = Mathf.Atan2(offset.x, -offset.z) * Mathf.Rad2Deg; // around Y
         float horiz = new Vector2(offset.x, offset.z).magnitude; // flat length
         pitch = Mathf.Atan2(offset.y, horiz) * Mathf.Rad2Deg; // up/down
+
+        splineAnim = gameObject.GetComponent<SplineAnimate>();
     }
 
     void LateUpdate()
@@ -77,11 +85,13 @@ public class BallCameraFollow : MonoBehaviour
         }
 
         // smooth move
-        transform.position = Vector3.Lerp(
-            transform.position,
-            desiredPos,
-            1f - Mathf.Exp(-followLerp * Time.deltaTime)
-        );
+        if (!panning)
+        {
+            transform.position = Vector3.Lerp(
+                transform.position,
+                desiredPos,
+                1f - Mathf.Exp(-followLerp * Time.deltaTime));
+        }
 
         // smooth look
         Vector3 desiredLook = target.position + lookOffset; // look target
@@ -91,5 +101,25 @@ public class BallCameraFollow : MonoBehaviour
             1f - Mathf.Exp(-lookLerp * Time.deltaTime)
         );
         transform.rotation = Quaternion.LookRotation((lookPos - transform.position).normalized, Vector3.up); // face ball
+    }
+
+    public void panLevel()
+    {
+        if (splineAnim == null)
+        {
+            Debug.Log("sp null");
+            return;
+        }
+
+        StartCoroutine(PanLevelCoroutine());
+    }
+
+    private IEnumerator PanLevelCoroutine()
+    {
+        splineAnim.Play();
+
+        panning = true;
+        while (splineAnim.IsPlaying) yield return null;
+        panning = false;
     }
 }
