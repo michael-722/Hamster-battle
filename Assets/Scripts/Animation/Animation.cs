@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class Animation : MonoBehaviour
+public class HamsterWinLoseAnimation : MonoBehaviour
 {
     private Animator animator;
     [SerializeField] private GameObject hamster;
@@ -38,11 +38,11 @@ public class Animation : MonoBehaviour
         switch (anim)
         {
             case 0:
-                animator.SetBool("Facepalm", true);
+                animator.SetBool("Spin", true);
                 break;
             case 1:
-                animator.SetBool("Cry", true);
-                return;
+                animator.SetBool("KneeDrop", true);
+                break;
         }
     }
 

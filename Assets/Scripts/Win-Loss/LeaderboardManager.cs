@@ -186,7 +186,7 @@ public class LeaderboardManager : MonoBehaviour
         LobbySetUp.instance.showStartUI();
 
         Camera cam = Camera.main;
-        cam.gameObject.GetComponentInChildren<Animation>().ResetAnimations();
+        cam.gameObject.GetComponentInChildren<HamsterWinLoseAnimation>().ResetAnimations();
     }
 
     
@@ -205,7 +205,7 @@ public class LeaderboardManager : MonoBehaviour
         HideLeadboaedUI();
 
         Camera cam = Camera.main;
-        cam.gameObject.GetComponentInChildren<Animation>().ResetAnimations();
+        cam.gameObject.GetComponentInChildren<HamsterWinLoseAnimation>().ResetAnimations();
     }
 
     public void OnShowDNFUI()
@@ -225,7 +225,7 @@ public class LeaderboardManager : MonoBehaviour
     {
         LobbySetUp.instance.OnSingleplayerPressed();
         Camera cam = Camera.main;
-        cam.gameObject.GetComponentInChildren<Animation>().ResetAnimations();
+        cam.gameObject.GetComponentInChildren<HamsterWinLoseAnimation>().ResetAnimations();
     }
 
     public void OnPlayAgainPressed()
@@ -250,7 +250,7 @@ public class LeaderboardManager : MonoBehaviour
             //if (hc.IsOwner) hc.gameObject.GetComponent<HamsterBallController>().SetCanMove(false);
         }
         Camera cam = Camera.main;
-        cam.gameObject.GetComponentInChildren<Animation>().ResetAnimations();
+        cam.gameObject.GetComponentInChildren<HamsterWinLoseAnimation>().ResetAnimations();
     }
 
     public void OnShowSinglePlayerLeave()

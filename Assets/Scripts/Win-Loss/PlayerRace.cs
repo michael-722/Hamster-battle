@@ -95,15 +95,12 @@ public class PlayerRace : NetworkBehaviour
             ctrl.SetInputEnabled(false); // disable input
         }
 
-
         Camera cam = Camera.main;
-        Animation anim = cam.gameObject.GetComponentInChildren<Animation>();
-        if (r == RaceResult.Win)
+        HamsterWinLoseAnimation anim = cam.gameObject.GetComponentInChildren<HamsterWinLoseAnimation>();
+        if (Rank == 1)
             anim.TriggerWinAnimation();
         else
             anim.TriggerLoseAnimation();
-        
-
 
         OnResultChanged?.Invoke(Result, Rank); // notify HUD
     }

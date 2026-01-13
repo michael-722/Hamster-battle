@@ -216,8 +216,14 @@ public class LobbySetUp : NetworkBehaviour
         LobbyUI.SetActive(false);
         UIRootObj.SetActive(true);
 
+        Camera cam = Camera.main;
+        cam.gameObject.GetComponentInChildren<HamsterWinLoseAnimation>().ResetAnimations();
+
+        RaceHUD.Instance.ResetHUD();
+
         ResetState();
         LeaderboardManager.instance.HideLeadboaedUI();
+        syncedCountdown.instance.StopCountdown();
     }
 
     [Rpc(SendTo.NotServer)]
@@ -299,6 +305,7 @@ public class LobbySetUp : NetworkBehaviour
 
         UIRootObj.SetActive(true);
         hostingUI.SetActive(true);
+        syncedCountdown.instance.StopCountdown();
     }
 
     public void showClientPlayAgainUI()
