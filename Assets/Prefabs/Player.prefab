@@ -465,7 +465,6 @@ MonoBehaviour:
   ballRigidbody: {fileID: 4754356836919042236}
   runTiltStrength: 15
   gravityAlignSpeed: 5
-  turnSpeed: 1
   pinThreshold: 3
   unpinSpeed: 2
   idleThreshold: 0.1
@@ -696,6 +695,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   hamsterSkins:
-  - {fileID: -876546973899608171, guid: d0fa380a802bbc94a9f072c756fb0cee, type: 3}
-  - {fileID: -876546973899608171, guid: 2d012f406b74328438357d09fbf67de2, type: 3}
-  - {fileID: -876546973899608171, guid: 66fbca5e0912da249afa115da4aa7822, type: 3}
+  - {fileID: 2100000, guid: b72354d3bca86744dbead91c6e99c3d3, type: 2}
+  - {fileID: 2100000, guid: 6dfc491d87f148941b227440c253395b, type: 2}
+  - {fileID: 2100000, guid: e9827c58b678ca7429b7c2e57737b87e, type: 2}
+  - {fileID: 2100000, guid: 556dbaccd36b44449b6b0a758d414d46, type: 2}
+  - {fileID: 2100000, guid: eaaab53bc90d2dd4c9127c01e97d3676, type: 2}

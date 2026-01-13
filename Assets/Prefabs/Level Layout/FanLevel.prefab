@@ -382,7 +382,7 @@ GameObject:
   m_Component:
   - component: {fileID: 8306203626545681089}
   m_Layer: 0
-  m_Name: FanLevel
+  m_Name: Fanlevel
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

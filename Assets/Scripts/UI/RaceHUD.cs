@@ -118,4 +118,11 @@ public class RaceHUD : MonoBehaviour
 
         finished = false;
     }
+
+    public int GetLocalPlayerRank()
+    {
+        if (local != null)
+            return local.Rank;
+        return 0;
+    }
 }
