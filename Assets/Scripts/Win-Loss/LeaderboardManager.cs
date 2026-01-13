@@ -184,6 +184,9 @@ public class LeaderboardManager : MonoBehaviour
 
         LobbySetUp.instance.dissconnect();
         LobbySetUp.instance.showStartUI();
+
+        Camera cam = Camera.main;
+        cam.gameObject.GetComponentInChildren<Animation>().ResetAnimations();
     }
 
     
@@ -200,6 +203,9 @@ public class LeaderboardManager : MonoBehaviour
         if (hc != null) Destroy(hc.gameObject);
 
         HideLeadboaedUI();
+
+        Camera cam = Camera.main;
+        cam.gameObject.GetComponentInChildren<Animation>().ResetAnimations();
     }
 
     public void OnShowDNFUI()
@@ -218,6 +224,8 @@ public class LeaderboardManager : MonoBehaviour
     public void OnSinglePlayerPlayAgain()
     {
         LobbySetUp.instance.OnSingleplayerPressed();
+        Camera cam = Camera.main;
+        cam.gameObject.GetComponentInChildren<Animation>().ResetAnimations();
     }
 
     public void OnPlayAgainPressed()
@@ -241,6 +249,8 @@ public class LeaderboardManager : MonoBehaviour
             //var hc = FindAnyObjectByType<HamsterBallController>();
             //if (hc.IsOwner) hc.gameObject.GetComponent<HamsterBallController>().SetCanMove(false);
         }
+        Camera cam = Camera.main;
+        cam.gameObject.GetComponentInChildren<Animation>().ResetAnimations();
     }
 
     public void OnShowSinglePlayerLeave()

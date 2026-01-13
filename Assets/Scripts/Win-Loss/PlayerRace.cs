@@ -16,7 +16,7 @@ public class PlayerRace : NetworkBehaviour
     private double endTime;
     private double completeTime;
 
-    private void Awake()  
+    private void Awake()
     {
         instance = this;
 
@@ -95,19 +95,15 @@ public class PlayerRace : NetworkBehaviour
             ctrl.SetInputEnabled(false); // disable input
         }
 
-        // Trigger animations based on result
-        var anim = GetComponent<Animation>();
-        if (anim != null)
-        {
-            if (r == RaceResult.Win)
-            {
-                anim.TriggerWinAnimation();
-            }
-            else
-            {
-                anim.TriggerLoseAnimation();
-            }
-        }
+
+        Camera cam = Camera.main;
+        Animation anim = cam.gameObject.GetComponentInChildren<Animation>();
+        if (r == RaceResult.Win)
+            anim.TriggerWinAnimation();
+        else
+            anim.TriggerLoseAnimation();
+        
+
 
         OnResultChanged?.Invoke(Result, Rank); // notify HUD
     }

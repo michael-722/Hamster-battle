@@ -2,19 +2,18 @@ using UnityEngine;
 
 public class Animation : MonoBehaviour
 {
-    
-
     private Animator animator;
-
+    [SerializeField] private GameObject hamster;
 
     void Start()
     {
         animator = GetComponent<Animator>();
-        //TriggerWinAnimation();
+        hamster.SetActive(false);
     }
 
     public void TriggerWinAnimation()
     {
+        hamster.SetActive(true);
         int anim = Random.Range(0, 3);
 
         switch (anim)
@@ -33,6 +32,7 @@ public class Animation : MonoBehaviour
 
     public void TriggerLoseAnimation()
     {
+        hamster.SetActive(true);
         int anim = Random.Range(0, 2);
 
         switch (anim)
@@ -45,4 +45,14 @@ public class Animation : MonoBehaviour
                 return;
         }
     }
+
+    public void ResetAnimations()
+    {
+        animator.SetBool("Finger", false);
+        animator.SetBool("Cheer", false);
+        animator.SetBool("Flex", false);
+        animator.SetBool("Facepalm", false);
+        animator.SetBool("Cry", false);
+        hamster.SetActive(false);
+    }   
 }
