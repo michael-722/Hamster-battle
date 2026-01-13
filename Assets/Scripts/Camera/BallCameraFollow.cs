@@ -1,4 +1,3 @@
-using TreeEditor;
 using UnityEngine;
 using UnityEngine.Splines;
 using System.Collections;
