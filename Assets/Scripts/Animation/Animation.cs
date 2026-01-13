@@ -51,8 +51,8 @@ public class HamsterWinLoseAnimation : MonoBehaviour
         animator.SetBool("Finger", false);
         animator.SetBool("Cheer", false);
         animator.SetBool("Flex", false);
-        animator.SetBool("Facepalm", false);
-        animator.SetBool("Cry", false);
+        animator.SetBool("Spin", false);
+        animator.SetBool("KneeDrop", false);
         hamster.SetActive(false);
     }   
 }
