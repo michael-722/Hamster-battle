@@ -21,6 +21,7 @@ public class PlayerRace : NetworkBehaviour
         instance = this;
 
         ctrl = GetComponent<HamsterBallController>();
+        Animation anim = GetComponent<Animation>();
     }
 
     public double GetCompleteTime()
@@ -92,6 +93,20 @@ public class PlayerRace : NetworkBehaviour
         {
             ctrl.StopBall();             // stop motion
             ctrl.SetInputEnabled(false); // disable input
+        }
+
+        // Trigger animations based on result
+        var anim = GetComponent<Animation>();
+        if (anim != null)
+        {
+            if (r == RaceResult.Win)
+            {
+                anim.TriggerWinAnimation();
+            }
+            else
+            {
+                anim.TriggerLoseAnimation();
+            }
         }
 
         OnResultChanged?.Invoke(Result, Rank); // notify HUD

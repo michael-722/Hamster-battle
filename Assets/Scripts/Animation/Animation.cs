@@ -2,13 +2,15 @@ using UnityEngine;
 
 public class Animation : MonoBehaviour
 {
+    
+
     private Animator animator;
 
 
     void Start()
     {
         animator = GetComponent<Animator>();
-        TriggerWinAnimation();
+        //TriggerWinAnimation();
     }
 
     public void TriggerWinAnimation()
