@@ -264,6 +264,9 @@ public class LobbySetUp : NetworkBehaviour
         NetworkManager.Singleton.Shutdown();
         connectedPlayers = -1;
         ResetState();
+
+        Camera cam = Camera.main;
+        cam.gameObject.GetComponentInChildren<HamsterWinLoseAnimation>().ResetAnimations();
     }
 
     public void setSinglePlayer(bool state) { singlePlayer = state; }
@@ -303,6 +306,9 @@ public class LobbySetUp : NetworkBehaviour
             return;
         }
 
+        Camera cam = Camera.main;
+        cam.gameObject.GetComponentInChildren<HamsterWinLoseAnimation>().ResetAnimations();
+
         UIRootObj.SetActive(true);
         hostingUI.SetActive(true);
         syncedCountdown.instance.StopCountdown();
@@ -316,6 +322,9 @@ public class LobbySetUp : NetworkBehaviour
         if (hostLeftGameUI.activeInHierarchy) return;
         
         LobbyUI.SetActive(true);
+
+        Camera cam = Camera.main;
+        cam.gameObject.GetComponentInChildren<HamsterWinLoseAnimation>().ResetAnimations();
 
         ResetState();
     }

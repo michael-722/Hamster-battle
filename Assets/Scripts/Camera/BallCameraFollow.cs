@@ -58,14 +58,15 @@ public class BallCameraFollow : MonoBehaviour
         if (Input.GetMouseButton(1))
         {
             if (SettingsMenu.instance.isPaused) return;
+
             float senMult = Mathf.Lerp(0.5f, 2f, Mathf.Clamp01(SettingsMenu.instance.GetSenVal()));
 
-            yaw += Input.GetAxis("Mouse X") * 100f * xSensitivity * senMult * Time.deltaTime;   // left/right
-            pitch -= Input.GetAxis("Mouse Y") * 100f * ySensitivity * senMult * Time.deltaTime; // up/down
+            yaw += Input.GetAxis("Mouse X") * xSensitivity * senMult;   // left/right
+            pitch -= Input.GetAxis("Mouse Y") * ySensitivity * senMult; // up/down
             pitch = Mathf.Clamp(pitch, minPitch, maxPitch); // clamp pitch
         }
 
-        // zoom input (wheel)
+        // zoom input (wheel) - already frame-consistent via mouseScrollDelta
         distance -= Input.mouseScrollDelta.y * zoomSensitivity;
         distance = Mathf.Clamp(distance, minDistance, maxDistance); // clamp zoom
 
