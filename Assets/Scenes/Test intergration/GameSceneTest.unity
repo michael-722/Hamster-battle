@@ -257,11 +257,27 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6659065980424095273, guid: f3bcc7c3103373e44835056998947089, type: 3}
+      propertyPath: multiPlayerLayouts.Array.size
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 6659065980424095273, guid: f3bcc7c3103373e44835056998947089, type: 3}
       propertyPath: singlePlayerLayouts.Array.size
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6659065980424095273, guid: f3bcc7c3103373e44835056998947089, type: 3}
+      propertyPath: 'multiPlayerLayouts.Array.data[1]'
+      value: 
+      objectReference: {fileID: 5953145894584056162, guid: 7081ca7b8b878ba4eb60342c9f2abfb0, type: 3}
+    - target: {fileID: 6659065980424095273, guid: f3bcc7c3103373e44835056998947089, type: 3}
+      propertyPath: 'multiPlayerLayouts.Array.data[2]'
+      value: 
+      objectReference: {fileID: 5354061486959243544, guid: 461ce7a509eb4d746bdfcab86523ce40, type: 3}
+    - target: {fileID: 6659065980424095273, guid: f3bcc7c3103373e44835056998947089, type: 3}
       propertyPath: 'singlePlayerLayouts.Array.data[1]'
+      value: 
+      objectReference: {fileID: 967268332101201373, guid: 3fb56519096392646abd8378296bc602, type: 3}
+    - target: {fileID: 6659065980424095273, guid: f3bcc7c3103373e44835056998947089, type: 3}
+      propertyPath: 'singlePlayerLayouts.Array.data[2]'
       value: 
       objectReference: {fileID: 967268332101201373, guid: 3fb56519096392646abd8378296bc602, type: 3}
     - target: {fileID: 8177228917831802290, guid: f3bcc7c3103373e44835056998947089, type: 3}
