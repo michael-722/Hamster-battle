@@ -13,7 +13,7 @@ public class Animation : MonoBehaviour
 
     public void TriggerWinAnimation()
     {
-        int anim = UnityEngine.Random.Range(0, 3);
+        int anim = Random.Range(0, 3);
 
         switch (anim)
         {
@@ -31,7 +31,7 @@ public class Animation : MonoBehaviour
 
     public void TriggerLoseAnimation()
     {
-        int anim = UnityEngine.Random.Range(0, 2);
+        int anim = Random.Range(0, 2);
 
         switch (anim)
         {

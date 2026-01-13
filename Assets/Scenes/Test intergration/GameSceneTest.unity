@@ -7508,6 +7508,18 @@ PrefabInstance:
       propertyPath: InScenePlacedSourceGlobalObjectIdHash
       value: 1626587303
       objectReference: {fileID: 0}
+    - target: {fileID: 8670805958553314998, guid: c9038ef7292cb0946ba7768a50727a80, type: 3}
+      propertyPath: m_fontAsset
+      value: 
+      objectReference: {fileID: 11400000, guid: 2399407fae9a09d4eb88fac43306913c, type: 2}
+    - target: {fileID: 8670805958553314998, guid: c9038ef7292cb0946ba7768a50727a80, type: 3}
+      propertyPath: m_sharedMaterial
+      value: 
+      objectReference: {fileID: -6414730339928134731, guid: 2399407fae9a09d4eb88fac43306913c, type: 2}
+    - target: {fileID: 8670805958553314998, guid: c9038ef7292cb0946ba7768a50727a80, type: 3}
+      propertyPath: m_hasFontAssetChanged
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 8758408026003518236, guid: c9038ef7292cb0946ba7768a50727a80, type: 3}
       propertyPath: countdownTime.m_InternalValue
       value: 15
