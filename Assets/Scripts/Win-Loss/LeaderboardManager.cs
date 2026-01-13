@@ -161,8 +161,15 @@ public class LeaderboardManager : MonoBehaviour
         completedTime = time;
         int timeMS = (int)(time * 1000);
         TimeSpan timeConverted = TimeSpan.FromMilliseconds((int)(timeMS));
-        submitUI.SetActive(true);
         completeTimeTxt.GetComponent<TMPro.TextMeshProUGUI>().text = "Your time was: " + timeConverted.ToString(@"mm\:ss\.ff");
+
+        if (LobbySetUp.instance.singlePlayer)
+        {
+            submitUI.SetActive(false);
+            OnShowSinglePlayerLeave();
+        }
+        else
+            submitUI.SetActive(true);
 
         //Debug.Log("Your time was: " + timeConverted.ToString(@"mm\:ss\.ff"));
     }
