@@ -1,3 +1,4 @@
+using NUnit.Framework.Interfaces;
 using System;
 using System.Threading.Tasks;
 using TMPro;
@@ -26,10 +27,9 @@ public class LeaderboardManager : MonoBehaviour
 
     [SerializeField] private GameObject dnfUI;
 
-    private string leaderboardID = "FastestTimes";
+    private string leaderboardID;
 
     private bool isSigningIn = false;
-    private bool hasSubmittedTime = false;
     private bool refresh = true;
 
     private double completedTime;
@@ -95,6 +95,10 @@ public class LeaderboardManager : MonoBehaviour
 
         if (leaderboardUI.activeSelf && refresh)
         {
+            GameObject activeLayout = LevelLayout.instance?.GetActiveLayout();
+            leaderboardID = activeLayout.name.Replace("(Clone)", "").Trim();
+            //Debug.Log("Leaderboard ID set to: " + leaderboardID);
+
             if (!AuthenticationService.Instance.IsSignedIn) return;
             refresh = false;
             refreshLeaderboard();
@@ -131,7 +135,6 @@ public class LeaderboardManager : MonoBehaviour
     {
         //add check if username has spaces - not valid
         SubmitScore();
-        hasSubmittedTime = true;
 
         submitUI.SetActive(false);
         leaderboardUI.SetActive(true);
@@ -149,6 +152,8 @@ public class LeaderboardManager : MonoBehaviour
         AuthenticationService.Instance.SignOut();
         AuthenticationService.Instance.ClearSessionToken();
         await TrySignIn();
+
+        userEnteredName.text = "";
     }
 
     public void setTime(double time)
@@ -156,28 +161,58 @@ public class LeaderboardManager : MonoBehaviour
         completedTime = time;
         int timeMS = (int)(time * 1000);
         TimeSpan timeConverted = TimeSpan.FromMilliseconds((int)(timeMS));
-        submitUI.SetActive(true);
         completeTimeTxt.GetComponent<TMPro.TextMeshProUGUI>().text = "Your time was: " + timeConverted.ToString(@"mm\:ss\.ff");
+
+        if (LobbySetUp.instance.singlePlayer)
+        {
+            submitUI.SetActive(false);
+            OnShowSinglePlayerLeave();
+        }
+        else
+            submitUI.SetActive(true);
 
         //Debug.Log("Your time was: " + timeConverted.ToString(@"mm\:ss\.ff"));
     }
 
     public void OnLeaveGameBtnPressed()
     {
+        if (LobbySetUp.instance.singlePlayer)
+        {
+            OnLeaveSinglePlayerPressed();
+            return;
+        }
+
         LobbySetUp.instance.dissconnect();
         LobbySetUp.instance.showStartUI();
     }
 
+    
     public void OnLeaveSinglePlayerPressed() 
     {
         RaceManager.Instance.ResetRace();
         LobbySetUp.instance.showStartUI();
+
+        LobbySetUp.instance.setSinglePlayer(false);
+
         LeaveGameSinglePlayer.SetActive(false);
+
+        var hc = FindAnyObjectByType<HamsterBallController>();
+        if (hc != null) Destroy(hc.gameObject);
+
+        HideLeadboaedUI();
     }
 
     public void OnShowDNFUI()
     {
-        dnfUI.SetActive(true);
+        //dnfUI.SetActive(true);
+
+        submitUI.SetActive(false);
+        leaderboardUI.SetActive(true);
+    }
+
+    public bool IsDnfUIOpen()
+    {
+        return dnfUI.activeSelf;
     }
 
     public void OnSinglePlayerPlayAgain()
@@ -187,6 +222,12 @@ public class LeaderboardManager : MonoBehaviour
 
     public void OnPlayAgainPressed()
     {
+        if (LobbySetUp.instance.singlePlayer)
+        {
+            OnSinglePlayerPlayAgain();
+            return;
+        }
+
         if (NetworkManager.Singleton.LocalClientId == 0)
         {
             //Debug.Log("host pressed play again");
@@ -196,11 +237,32 @@ public class LeaderboardManager : MonoBehaviour
         {
             //Debug.Log("client pressed play again");
             LobbySetUp.instance.showClientPlayAgainUI();
+
+            //var hc = FindAnyObjectByType<HamsterBallController>();
+            //if (hc.IsOwner) hc.gameObject.GetComponent<HamsterBallController>().SetCanMove(false);
         }
     }
 
     public void OnShowSinglePlayerLeave()
     {
         LeaveGameSinglePlayer.SetActive(true);
+        RaceHUD.Instance.ResetHUD();
+        RaceHUD.Instance.SetFinished(true);
+    }
+
+    public bool IsLeaderboardOpen()
+    {
+        return leaderboardUI.activeSelf || submitUI.activeSelf;
+    }
+
+    public void HideLeadboaedUI()
+    {
+        leaderboardUI.SetActive(false);
+        submitUI.SetActive(false);
+    }
+
+    public bool GetLeaderboardUIState()
+    {
+        return leaderboardUI.activeSelf || submitUI.activeSelf;
     }
 }

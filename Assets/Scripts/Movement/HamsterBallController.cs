@@ -1,10 +1,6 @@
 using UnityEngine;
-
 using Unity.Netcode;
-using UnityEngine.UIElements;
-using Unity.Services.Authentication;
-using Unity.Netcode.Components;
-using System.Collections.Generic;//networking
+using System.Collections.Generic;
 
 // Slingshot: pull = power, mouse wheel = arc; 0° arc draws a flat ground line
 [RequireComponent(typeof(Rigidbody))]
@@ -32,9 +28,11 @@ public class HamsterBallController : NetworkBehaviour
     public float timeStep = 0.06f; // arc timestep
     public float flatPreviewMaxDistance = 8f; // max flat line length at 0°
 
-    [Header("Audio (optional)")]
+    [Header("Audio")]
     public AudioSource shootSfx; // sound on shoot
-    
+
+    [SerializeField] private Material trajectoryMaterial;
+
     public float spawnRadius = 7.5f;
 
     private Rigidbody rb; // ball rigidbody
@@ -50,10 +48,12 @@ public class HamsterBallController : NetworkBehaviour
     private float basePower; // original power
 
     private bool canMove = false;
-
     private bool inputEnabled = true;
 
     //rgb yellow
+
+    public string PlayerColorName { get; private set; }
+
     private List<Color> playerColors;
 
 
@@ -86,8 +86,43 @@ public class HamsterBallController : NetworkBehaviour
             new Color(player4Color.r, player4Color.g, player4Color.b, aplha)
         };
 
-        gameObject.GetComponent<MeshRenderer>().material.color = playerColors[(int)OwnerClientId];
+        int connectionIndex = 0;
+        var nm = NetworkManager.Singleton;
+
+        //try get connection order
+        if (nm != null && nm.IsListening && IsSpawned && nm.ConnectedClientsList != null)
+        {
+            var clients = nm.ConnectedClientsList;
+            for (int i = 0; i < clients.Count; i++)
+            {
+                if (clients[i].ClientId == OwnerClientId)
+                {
+                    connectionIndex = i;
+                    break;
+                }
+            }
+        }
+        else
+        {
+            connectionIndex = (int)(OwnerClientId % (ulong)playerColors.Count);
+        }
+
+        int colorIndex = connectionIndex % playerColors.Count;
+
+        var meshRend = gameObject.GetComponent<MeshRenderer>();
+        if (meshRend != null && meshRend.material != null)
+        {
+            meshRend.material.color = playerColors[colorIndex];
+        }
+
+        string[] names = { "Red", "Green", "Blue", "Purple" }; // keep in sync with inspector colors
+
+        if (colorIndex >= 0 && colorIndex < names.Length)
+            PlayerColorName = names[colorIndex];
+        else
+            PlayerColorName = $"Player {connectionIndex + 1}";
     }
+
 
     private void Update()
     {
@@ -107,7 +142,7 @@ public class HamsterBallController : NetworkBehaviour
             HandleLoftAdjust(); // wheel/Q/E adjusts loft
             HandleInput(); // drag + release
             DrawTrajectoryPreview(); // draw line
-            if (Input.GetKeyDown(KeyCode.R)) StopBall(); // dev freeze
+            if (Input.GetKeyDown(KeyCode.Alpha9)) StopBall(); // dev freeze
         }
     }
 
@@ -120,7 +155,7 @@ public class HamsterBallController : NetworkBehaviour
             rb.angularVelocity = Vector3.zero;
         }
         else
-        { 
+        {
             gameObject.GetComponent<PlayerRace>().startRaceTimerRpc(); 
         }
     }
@@ -151,8 +186,6 @@ public class HamsterBallController : NetworkBehaviour
 
     private void HandleLoftAdjust()
     {
-        float wheel = Input.mouseScrollDelta.y; // mouse wheel delta
-        if (Mathf.Abs(wheel) > 0f) loftAngleDeg += wheel * loftAdjustPerWheelStep; // wheel adjust
         if (Input.GetKey(KeyCode.Q)) loftAngleDeg -= loftAdjustSpeed * Time.deltaTime; // Q down
         if (Input.GetKey(KeyCode.E)) loftAngleDeg += loftAdjustSpeed * Time.deltaTime; // E up
         loftAngleDeg = Mathf.Clamp(loftAngleDeg, loftMin, loftMax); // clamp
@@ -213,15 +246,15 @@ public class HamsterBallController : NetworkBehaviour
         Vector3 flatDir = new Vector3(dragVec.x, 0f, dragVec.z); // ground direction
         float pullFrac = Mathf.Clamp01(dragVec.magnitude / maxDragDistance); // 0..1
 
+        SetTrajectoryColor(pullFrac);//set color of lr material
+
         // branch: flat line when loft is 0°, arc otherwise
         if (loftAngleDeg <= 0.0001f)
         {
             DrawFlatPreview(flatDir, pullFrac); // straight ground line
         }
         else
-        {
             DrawArcPreview(flatDir, pullFrac); // ballistic arc
-        }
     }
 
     private void DrawFlatPreview(Vector3 flatDir, float pullFrac)
@@ -299,5 +332,31 @@ public class HamsterBallController : NetworkBehaviour
         if (basePower <= 0.0001f) basePower = Mathf.Max(0.0001f, power); // safety
         power = basePower * Mathf.Max(0.01f, speedMult); // never zero
                                                          // size is handled by PowerupManager via transform.localScale
+    }
+
+    private void SetTrajectoryColor(float pullFrac)
+    {
+        float frac = Mathf.Clamp01(pullFrac);
+
+        Color low = new Color(0f, 1f, 0f, aplha);//green
+        Color mid = new Color(1f, 1f, 0f, aplha);//yellow
+        Color high = new Color(1f, 0f, 0f, aplha);//red
+
+        Color c;
+        if (frac <= 0.5f)
+        {
+            float t = (frac <= 0f) ? 0f : (frac / 0.5f);
+            c = Color.Lerp(low, mid, t);
+        }
+        else
+        {
+            float t = ((frac - 0.5f) <= 0f) ? 0f : ((frac - 0.5f) / 0.5f);
+            c = Color.Lerp(mid, high, t);
+        }
+
+        if (trajectoryMaterial != null)
+        {
+            trajectoryMaterial.color = c;
+        }
     }
 }

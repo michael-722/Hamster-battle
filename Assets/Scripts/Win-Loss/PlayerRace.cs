@@ -33,19 +33,17 @@ public class PlayerRace : NetworkBehaviour
         endRaceTimerRpc();//stops timer
         var nm = NetworkManager.Singleton;
         if (nm != null && nm.IsListening && IsSpawned)
+        {
             RaceManager.Instance.RegisterFinishServerRpc(OwnerClientId);
+            gameObject.transform.localScale = new Vector3(0, 0, 0);
+        }
         else
         {
+            endRaceTime();
+            LeaderboardManager.instance.setTime(completeTime);
+            //RaceManager.Instance.RegisterFinishOffline(this);
             Destroy(this.gameObject);
-            RaceManager.Instance.RegisterFinishOffline(this);
         }
-    }
-
-    
-    public void HideRaceCountDownRpc()
-    {
-        //Debug.Log("Hiding");
-        RaceHUD.Instance.SetFinished(true);
     }
 
     [Rpc(SendTo.Owner)]
@@ -65,6 +63,22 @@ public class PlayerRace : NetworkBehaviour
 
         ctrl.SetCanMove(false);
         //Debug.Log("timer ended " + endTime);
+    }
+
+
+    public void startRaceTime()
+    {
+        startTime = Time.time;
+    }
+
+    public void endRaceTime()
+    {
+        endTime = Time.time;
+        completeTime = endTime - startTime;
+        //Debug.Log("complete time was: " + completeTime);
+        LeaderboardManager.instance.setTime(completeTime);
+
+        ctrl.SetCanMove(false);
     }
 
     public void SetResultLocal(RaceResult r, int rank)
@@ -93,7 +107,13 @@ public class PlayerRace : NetworkBehaviour
     [ClientRpc]
     public void ShowPowerupActivatedClientRpc(string powerupId, float duration, ulong pickerId)
     {
-        string who = $"Player {pickerId}";
+        string who;
+
+        if (ctrl != null && !string.IsNullOrEmpty(ctrl.PlayerColorName))
+            who = $"{ctrl.PlayerColorName} player";
+        else
+            who = $"Player {pickerId}";
+
         string msg = $"{who} has activated {powerupId} for {duration:0.#} seconds";
         NotificationUI.Instance?.Show(msg, duration);
     }

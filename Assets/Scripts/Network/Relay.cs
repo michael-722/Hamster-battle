@@ -9,7 +9,6 @@ using System.Threading.Tasks;
 
 public class Relay : MonoBehaviour
 {
-
     public static Relay instance;
     [SerializeField] private string offlineTag = "OfflinePlayer"; // tag for offline ball
 
@@ -48,7 +47,7 @@ public class Relay : MonoBehaviour
         NetworkManager.Singleton.NetworkConfig.NetworkIdRecycleDelay = 0.1f;//as soon as dc can reuse networkId
     }
 
-    public async void StartHost()
+    public async Task StartHost()
     {
         try
         {
@@ -114,6 +113,18 @@ public class Relay : MonoBehaviour
         foreach (var obj in offlinePlayers)
         {
             Destroy(obj);
+        }
+    }
+
+    [Rpc(SendTo.Server)]
+    public void KickPlayerServerRpc(ulong clientId)
+    {
+        if (NetworkManager.Singleton.ConnectedClients.ContainsKey(clientId))
+        {
+            if (NetworkManager.Singleton.IsHost)
+                NetworkManager.Singleton.DisconnectClient(clientId);
+            else
+                NetworkManager.Singleton.Shutdown();
         }
     }
 }

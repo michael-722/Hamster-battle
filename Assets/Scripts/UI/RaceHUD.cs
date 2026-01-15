@@ -64,7 +64,13 @@ public class RaceHUD : MonoBehaviour
         }
 
         var rm = RaceManager.Instance;
-        if (rm != null && rm.IsWindowOpen() && !finished)
+        if (rm == null)
+        {
+            Debug.Log("racemanager is null");
+            return;
+        }
+
+        if (!LobbySetUp.instance.getUIRootObjState() && rm.HasGameBeenFinished() && !finished)
             countdownText.text = $"Time Left: {rm.TimeLeft():0.0}s";
         else
             countdownText.text = "";
@@ -111,5 +117,12 @@ public class RaceHUD : MonoBehaviour
         }
 
         finished = false;
+    }
+
+    public int GetLocalPlayerRank()
+    {
+        if (local != null)
+            return local.Rank;
+        return 0;
     }
 }

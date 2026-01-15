@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 661990941015557850}
   - component: {fileID: 8987346080858328671}
   - component: {fileID: 5205388365997288040}
+  - component: {fileID: 6659065980424095273}
   m_Layer: 0
   m_Name: RaceManager
   m_TagString: Untagged
@@ -46,7 +47,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d5a57f767e5e46a458fc5d3c628d0cbb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  GlobalObjectIdHash: 2181228966
+  GlobalObjectIdHash: 2240784832
   InScenePlacedSourceGlobalObjectIdHash: 2240784832
   DeferredDespawnTick: 0
   Ownership: 1
@@ -73,6 +74,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ShowTopMostFoldoutHeaderGroup: 1
   finishWindow: 15
+  windowOpen:
+    m_InternalValue: 0
+  windowEndServerTime:
+    m_InternalValue: 0
 --- !u!114 &5205388365997288040
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -91,3 +96,24 @@ MonoBehaviour:
   spawnPoints:
   - {fileID: 0}
   respawnDelay: 10
+--- !u!114 &6659065980424095273
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8177228917831802290}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 201b28ee8c7ac93419f5d0e2dca315e6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ShowTopMostFoldoutHeaderGroup: 1
+  currentLayoutid:
+    m_InternalValue: 0
+  singlePlayerLayouts:
+  - {fileID: 967268332101201373, guid: 3fb56519096392646abd8378296bc602, type: 3}
+  multiPlayerLayouts:
+  - {fileID: 413645149251144281, guid: 259c5f0869674ce4db17dfa57452d543, type: 3}
+  isMultiplayer:
+    m_InternalValue: 0
