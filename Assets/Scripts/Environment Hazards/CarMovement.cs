@@ -20,8 +20,6 @@ public class CarMovement : MonoBehaviour
 
     void Update()
     {
-        if (!NetworkManager.Singleton.IsServer) return;
-
         if (movingToTarget)
         {
             transform.position = Vector3.MoveTowards(transform.position, targetPosition, speed * Time.deltaTime);

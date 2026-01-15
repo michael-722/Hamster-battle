@@ -16,11 +16,12 @@ public class PlayerRace : NetworkBehaviour
     private double endTime;
     private double completeTime;
 
-    private void Awake()  
+    private void Awake()
     {
         instance = this;
 
         ctrl = GetComponent<HamsterBallController>();
+        Animation anim = GetComponent<Animation>();
     }
 
     public double GetCompleteTime()
@@ -93,6 +94,13 @@ public class PlayerRace : NetworkBehaviour
             ctrl.StopBall();             // stop motion
             ctrl.SetInputEnabled(false); // disable input
         }
+
+        Camera cam = Camera.main;
+        HamsterWinLoseAnimation anim = cam.gameObject.GetComponentInChildren<HamsterWinLoseAnimation>();
+        if (Rank == 1)
+            anim.TriggerWinAnimation();
+        else
+            anim.TriggerLoseAnimation();
 
         OnResultChanged?.Invoke(Result, Rank); // notify HUD
     }

@@ -106,14 +106,21 @@ public class SettingsMenu : MonoBehaviour
     {
         pauseMenu.SetActive(false);
 
-        PlayerRace.instance.ResetPlayer();
-        RaceHUD.Instance.ResetHUD();
+        //PlayerRace.instance.ResetPlayer();
+        //RaceHUD.Instance.ResetHUD();
 
         syncedCountdown.instance.StopCountdown();
 
         isPaused = false;
-        
-        LeaderboardManager.instance.OnLeaveSinglePlayerPressed();
+
+        if (LobbySetUp.instance.singlePlayer)
+        {
+            LeaderboardManager.instance.OnLeaveSinglePlayerPressed();
+            return;
+        }
+
+        LobbySetUp.instance.dissconnect();
+        LobbySetUp.instance.showStartUI();
     }
 
     public void SetSenVal(float val)

@@ -8,7 +8,7 @@ public class IntroCutscene : MonoBehaviour
 {
     [SerializeField] private GameObject GameUI;
     [SerializeField] private GameObject IntroCutsceneUI;
-    [SerializeField] private TMP_Text skipText;
+    [SerializeField] private GameObject skipText;
 
     [SerializeField] private float pulseSpeed = 2f;
     [SerializeField] private float pulseScaleMin = 0.95f;
@@ -20,7 +20,6 @@ public class IntroCutscene : MonoBehaviour
     [SerializeField] private GameObject unskippableScreen;
     [SerializeField] private GameObject skippableScreen;
 
-    private float currentAlpha = 1f;
     private Vector3 originalScale;
 
     private bool isActive = true;
@@ -34,7 +33,6 @@ public class IntroCutscene : MonoBehaviour
             skippableScreen.SetActive(false);
             skippableVideoPlayer.gameObject.SetActive(false);
             originalScale = skipText.transform.localScale;
-            currentAlpha = 1f;
 
             float globalScale = 0.95f;
             unskippableScreen.transform.localScale = Vector3.one * globalScale;
@@ -111,13 +109,5 @@ public class IntroCutscene : MonoBehaviour
     {
         float scale = Mathf.Lerp(pulseScaleMin, pulseScaleMax, (Mathf.Sin(Time.time * pulseSpeed) + 1f) / 2f);
         skipText.transform.localScale = originalScale * scale;
-        float minAlpha = 0.7f;
-        float maxAlpha = 0.9f;
-
-        currentAlpha = Mathf.Lerp(minAlpha, maxAlpha, (Mathf.Sin(Time.time * pulseSpeed) + 1f) / 2f);
-
-        Color c = skipText.color;
-        c.a = currentAlpha;
-        skipText.color = c;
     }
 }
